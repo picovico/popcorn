@@ -1,0 +1,200 @@
+body {
+    margin:0 auto;
+    background: #CCC
+}
+
+.navbar-default{
+    background-color: white;
+    margin-left:-15px;
+    margin-right: -15px;
+    border-radius: 0;
+}
+
+.navbar-header{
+    padding:20px;
+    background: #1A2933;
+    font-size: 35px;
+    color: white;
+}
+
+.navbar-header img{
+    background: #1A2933;
+    width: auto;
+    height: 60px;
+    text-align: center;
+    display: inline-block;
+}
+
+/* Tab Navigation */
+.nav-pills {
+    margin: 0px;
+    background-color: white;
+}
+
+.nav-pills > li{
+    height: 100px;
+    line-height: 100px; 
+    /*padding-left: 45px;*/
+    /*padding-right: 45px;*/
+}
+
+.nav-pills > li.active{
+    /*border-bottom: 2px solid black;*/
+}
+.nav-pills > li.active:after{
+    content: '';
+    width: 0; 
+    height: 0; 
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 11px solid #ccc;
+    margin-left: 50%;
+    position: absolute;
+}
+
+.nav-pills > li > a,
+.nav-pills > li > a:hover {
+    margin:0;
+    padding: 15px;
+    line-height: 60px;
+    border-radius: 0;
+    margin-right: 20px;
+    margin-left: 20px;
+    color: #adad85;
+    font-size: 20px;
+    background: white;
+}
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+    background: white;
+    color: #333;
+    font-weight: bolder;
+}
+
+
+.tab-pane {
+    background: #CCC;
+    margin-top: 0.5px;
+    border-radius: 0;
+    text-align: center;
+    padding: 10px;
+}
+
+.panel-body{
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.footer{
+    background-color: white;
+    height: 150px;
+}
+
+.btn-default,
+.btn-default:hover,
+.btn-default:focus{
+    color: white;
+    background-color: #333;
+    margin-top: 50px;
+    height: 55px;
+    width: 250px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.btn-default:active:focus{
+    background-color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.login{
+    padding-bottom: 20px;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+.modal-content{
+  margin-top: 200px;
+}
+
+.login-modal{
+    height: 100px; 
+    padding-top: 20px; 
+    padding-left: 10px;
+}
+
+.active-album{
+    background: #1366d3;
+}
+.album-name{
+    color: #6779ae;
+    font-size: 12px;
+    font-weight: bold;
+}
+.panel-footer{
+    background-color: white;
+}
+.photo-count{
+    color: #c1c1c1;
+}
+.showbtn{
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 35px;
+    margin-left: 50px;
+    margin-top: 90px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: transparent;
+}
+.showbtn:hover{
+    color: #6779ae;
+    background-color: white;
+}
+.showerror{
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 75px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    height: 150px;
+    width: 150px;
+    margin-left: 50px;
+}
+
+.share-btn{
+    margin-left: 300px;
+    font-weight: bold;
+}
+
+.share-msg{
+    margin-left: 200px;
+    font-weight: bold;
+}
