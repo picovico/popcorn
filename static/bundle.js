@@ -72,9 +72,6 @@
 
 
 	var store = (0, _configureStore2.default)();
-	console.log("store");
-	console.log(store);
-	console.log(localStorage);
 
 	(0, _reactDom.render)(_react2.default.createElement(_Root2.default, { store: store }), document.getElementById('root'));
 
@@ -21252,7 +21249,8 @@
 	                )
 	              )
 	            )
-	          )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in" })
 	        );
 	        return authenticating;
 	      }
@@ -21853,8 +21851,6 @@
 	  return function (dispatch, getState) {
 
 	    var video_id = getState().picovico.vdd.id;
-	    console.log("my video id");
-	    console.log(video_id);
 	    var pv_headers = getState().picovico.headers;
 	    return dispatch((0, _api2.default)({ url: 'me/videos/' + video_id + '/render', method: "POST", headers: pv_headers })).then(function (response) {
 	      return response.json();
@@ -21873,7 +21869,6 @@
 	    return dispatch((0, _api2.default)({ url: 'me/videos/' + video_id, method: "GET", headers: pv_headers })).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
-	      console.log("rendered video response");
 	      return response;
 	    });
 	  };
@@ -21889,7 +21884,6 @@
 	  return function (dispatch, getState) {
 
 	    return dispatch(get_rendered_video()).then(function (response) {
-	      console.log('hurray');
 	      console.log(response);
 	      console.log(response.status);
 	      if (response.status == 7102) {
