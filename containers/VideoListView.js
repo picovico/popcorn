@@ -13,10 +13,7 @@ class VideoList extends Component {
 		const {videos, history, actions} = this.props
 		if(!videos.isLoggedIn){
 			history.pushState(null, '/login')
-		}else{
-      console.log("nothing")
-      // actions.list_video()
-    }
+		}
 	}
 
   componentWillUnmount(){

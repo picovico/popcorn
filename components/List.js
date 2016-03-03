@@ -23,7 +23,7 @@ class List extends Component {
       }))
     }
     else{
-      video_list = <div> No videos yet</div>
+      video_list = <div> <h3>No videos yet</h3><p>Create #Awesome videos from your #Facebook albums.</p></div>
     }
 
     return (

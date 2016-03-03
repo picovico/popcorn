@@ -73,20 +73,16 @@ class VideoCreate extends Component {
     }
 
     handleClick(){
-      console.log("aham clicked the button")
       const {actions} = this.props
       actions.complete_share()
-      console.log("share completed")
     }
 
     handleShare(){
       const {actions, history} = this.props
       actions.handle_share(history)
-      console.log("handle share")
     }
 
     share_video_popup(){
-      console.log("props inside video share")
       var share_video;
       if(this.props.albums.frontend.share_video){
         var latest_video = this.props.albums.user_videos.videos[0].video[360]['url']
@@ -105,7 +101,7 @@ class VideoCreate extends Component {
                                   <div className={"share-msg"}>
                                   <h4>Like the video? Share it with your friends!</h4>
                                   </div>
-                                  <button type={"button"} className={"btn btn-danger share-btn"} onClick={this.handleShare.bind(this)}>SHARE</button>
+                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this)}>SHARE</button>
                                 </div>
                               </div>
                             </div>

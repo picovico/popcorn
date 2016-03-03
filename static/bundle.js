@@ -21961,17 +21961,11 @@
 	function handle_share(history) {
 	  return function (dispatch, getState) {
 	    var user_id = getState().picovico.user_info.id;
-	    console.log(user_id);
 	    var video = getState().picovico.user_videos.videos[0].video[360]['url'];
-	    console.log(video);
 
 	    var description = "Awesome video created using #Picovico";
 	    var title = "Video created using #Picovico";
-	    console.log("description");
-	    console.log(description);
 	    var access_token = JSON.parse(localStorage['pv_fb_token']);
-	    console.log("access_token");
-	    console.log(access_token);
 
 	    FB.api("/me/videos", "POST", {
 	      "file_url": video,
@@ -21986,7 +21980,11 @@
 	        /* handle the result */
 	        console.log("video upload response");
 	        console.log(response);
+	        dispatch(complete_share());
 	        history.pushState(null, '/videos');
+	      } else {
+	        dispatch(complete_share());
+	        localStorage.removeItem('pv_fb_token');
 	      }
 	    });
 	  };
@@ -28187,9 +28185,6 @@
 
 	      if (!videos.isLoggedIn) {
 	        history.pushState(null, '/login');
-	      } else {
-	        console.log("nothing");
-	        // actions.list_video()
 	      }
 	    }
 	  }, {
@@ -28305,7 +28300,17 @@
 	        video_list = _react2.default.createElement(
 	          "div",
 	          null,
-	          " No videos yet"
+	          " ",
+	          _react2.default.createElement(
+	            "h3",
+	            null,
+	            "No videos yet"
+	          ),
+	          _react2.default.createElement(
+	            "p",
+	            null,
+	            "Create #Awesome videos from your #Facebook albums."
+	          )
 	        );
 	      }
 
@@ -28571,11 +28576,9 @@
 	  }, {
 	    key: 'handleClick',
 	    value: function handleClick() {
-	      console.log("aham clicked the button");
 	      var actions = this.props.actions;
 
 	      actions.complete_share();
-	      console.log("share completed");
 	    }
 	  }, {
 	    key: 'handleShare',
@@ -28585,12 +28588,10 @@
 	      var history = _props2.history;
 
 	      actions.handle_share(history);
-	      console.log("handle share");
 	    }
 	  }, {
 	    key: 'share_video_popup',
 	    value: function share_video_popup() {
-	      console.log("props inside video share");
 	      var share_video;
 	      if (this.props.albums.frontend.share_video) {
 	        var latest_video = this.props.albums.user_videos.videos[0].video[360]['url'];
@@ -28637,7 +28638,7 @@
 	                  ),
 	                  _react2.default.createElement(
 	                    'button',
-	                    { type: "button", className: "btn btn-danger share-btn", onClick: this.handleShare.bind(this) },
+	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this) },
 	                    'SHARE'
 	                  )
 	                )
@@ -28831,35 +28832,15 @@
 	  function AlbumList(props) {
 	    _classCallCheck(this, AlbumList);
 
-	    // this.state = {'id': null, 'isMouseInsideID': null};
-
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AlbumList).call(this, props));
 
 	    _this.state = { 'isMouseInsideID': null };
 	    return _this;
 	  }
 
-	  // handleClick(id) {
-	  //   if(this.state.id){
-	  //     if(this.state.id == id){
-	  //       this.setState({'id': null})
-	  //       this.props.onUpdate(null)
-	  //     }else{
-	  //       this.setState({'id': id})
-	  //       this.props.onUpdate(id)
-	  //     }
-
-	  //   }else{
-	  //     this.setState({'id': id})
-	  //     this.props.onUpdate(id)
-	  //   }
-	  // }
-
 	  _createClass(AlbumList, [{
 	    key: 'mouseEnter',
 	    value: function mouseEnter(id) {
-	      console.log("testing this");
-	      console.log(this);
 	      this.setState({ 'isMouseInsideID': id });
 	    }
 	  }, {
@@ -28874,28 +28855,22 @@
 	      var actions = _props.actions;
 	      var history = _props.history;
 
-	      console.log("clickecd");
-	      console.log(id);
 	      actions.create_video(id, history);
 	    }
 	  }, {
 	    key: 'getBtn',
 	    value: function getBtn(length, id) {
-	      console.log("hellooww");
-	      console.log(this);
 	      var btn_value;
-	      console.log("this is length");
-	      console.log(length);
 	      if (length < 4) {
 	        btn_value = _react2.default.createElement(
 	          'div',
-	          { className: "showerror" },
+	          { className: "showerror center-block" },
 	          'NOT ENOUGH PHOTOS TO CREATE A VIDEO'
 	        );
 	      } else {
 	        btn_value = _react2.default.createElement(
 	          'button',
-	          { className: "showbtn", onClick: this.handleClick.bind(this, id) },
+	          { className: "showbtn center-block", onClick: this.handleClick.bind(this, id) },
 	          'CREATE VIDEO'
 	        );
 	      }
@@ -28919,7 +28894,7 @@
 	            { className: "col-sm-3", key: album.id, onMouseEnter: _this2.mouseEnter.bind(_this2, album.id), onMouseLeave: _this2.mouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'panel panel-default', key: album.id },
+	              { className: 'panel panel-default panel-overlay', key: album.id },
 	              _react2.default.createElement(
 	                'div',
 	                { className: "panel-body" },

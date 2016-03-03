@@ -284,17 +284,11 @@ export function complete_share(){
 export function handle_share(history){
   return (dispatch, getState) => {
     var user_id = getState().picovico.user_info.id
-    console.log(user_id)
     var video = getState().picovico.user_videos.videos[0].video[360]['url']
-    console.log(video)
     
     var description = "Awesome video created using #Picovico"
     var title = "Video created using #Picovico"
-    console.log("description")
-    console.log(description)
     var access_token = JSON.parse(localStorage['pv_fb_token'])
-    console.log("access_token")
-    console.log(access_token)
 
     FB.api(
     "/me/videos",
@@ -314,7 +308,11 @@ export function handle_share(history){
         /* handle the result */
         console.log("video upload response")
         console.log(response)
+        dispatch(complete_share())
         history.pushState(null, '/videos')
+      }else{
+        dispatch(complete_share())
+        localStorage.removeItem('pv_fb_token')
       }
     });
   }
