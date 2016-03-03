@@ -287,19 +287,23 @@ export function handle_share(history){
     console.log(user_id)
     var video = getState().picovico.user_videos.videos[0].video[360]['url']
     console.log(video)
-    var video_thumbnail = getState().picovico.user_videos.videos[0].thumbnail['360']
+    
     var description = "Awesome video created using #Picovico"
     var title = "Video created using #Picovico"
     console.log("description")
     console.log(description)
+    var access_token = JSON.parse(localStorage['pv_fb_token'])
+    console.log("access_token")
+    console.log(access_token)
+
     FB.api(
-    `/${user_id}/videos`,
+    "/me/videos",
     "POST",
     {
         "file_url": video,
         "description": description,
-        "thumb": video_thumbnail,
         "title": title,
+        "access_token": access_token,
 
 
     },
@@ -322,6 +326,7 @@ function handleLogin(router) {
     FB.login(function(response){   
     	if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken
+        localStorage['pv_fb_token'] = JSON.stringify(accessToken)
         dispatch(fetchUserInfo(router, accessToken));
        
   		} else if (response.status === 'not_authorized') {
@@ -329,7 +334,7 @@ function handleLogin(router) {
   		} else {
     		console.log("Please log in to facebook");
  	 	  }
-    }, {scope: ['user_photos', 'email', 'publish_actions', 'user_videos', 'user_actions.videos']})
+    }, {scope: ['user_photos', 'email', 'publish_actions']})
   }
 }
 

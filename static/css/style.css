@@ -86,6 +86,10 @@ body {
     overflow: hidden;
     margin-bottom: 10px;
 }
+.panel-overlay:hover{
+    background-color: red;
+    color: black;
+}
 
 .footer{
     background-color: white;
