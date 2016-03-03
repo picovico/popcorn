@@ -27932,6 +27932,7 @@
 	  _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _App2.default },
+	    _react2.default.createElement(_reactRouter.Redirect, { from: '/popcorn', to: '/' }),
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _VideoListView2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { name: 'login', path: '/login', component: _Login2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { name: 'videos', path: '/videos', component: _VideoListView2.default }),
