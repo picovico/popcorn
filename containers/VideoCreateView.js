@@ -19,9 +19,16 @@ class VideoCreate extends Component {
 		const {albums, history} = this.props
 
     let facebook_helper = new FacebookHelper()
-		if(!albums.isLoggedIn){
-			history.pushState(null, '/login')
-		  }
+    // console.log(FB)
+    // FB.getLoginStatus(function(response){
+    //   console.log(response)
+    //   if(response.status != "connected"){
+    //     history.pushState(null, '/login')
+    //   }
+    //   });
+		// if(!albums.isLoggedIn){
+		// 	history.pushState(null, '/login')
+		//   }
   	}
 
   componentWillUnmount(){
@@ -53,7 +60,7 @@ class VideoCreate extends Component {
     creating_video_message(){
       var creating_video;
       if(this.props.albums.frontend.creating_video){
-        creating_video = <div>
+        creating_video = <div className={"sharing-video"}>
                           <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
                             <div className={"modal-dialog"}>
                               <div className={"modal-content"}>
@@ -80,7 +87,7 @@ class VideoCreate extends Component {
     handleShare(){
       const {actions, history} = this.props
       actions.handle_share(history)
-      actions.complete_share()
+      // actions.complete_share()
     }
 
     share_video_popup(){
@@ -108,9 +115,33 @@ class VideoCreate extends Component {
                             </div>
                           </div>
                           <div className={"modal-backdrop fade in"}></div>
+                          {this.sharing_video_popup()}
                         </div>
         return share_video
       }
+    }
+
+    sharing_video_popup(){
+      var sharing_video;
+      if(this.props.albums.frontend.start_share_video){
+        sharing_video = <div className={"sharing-video"}>
+                          <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
+                            <div className={"modal-dialog"}>
+                              <div className={"modal-content"}>
+                                <div className={"modal-body"}>
+                                  <h3>Sharing your video ...</h3>
+                                  <div className={"progress"}>
+                                    <div className={"progress-bar progress-bar-striped active"} role={"progressbar"} style={{width: '100%'}}></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className={"modal-backdrop fade in sharing-overlay"}></div>
+                        </div>
+        return sharing_video
+      }
+
     }
 
   	onUpdate(id){

@@ -281,34 +281,36 @@ export function handle_share(history){
   return (dispatch, getState) => {
     var user_id = getState().picovico.user_info.id
     var video = getState().picovico.user_videos.videos[0].video[360]['url']
-    
     var description = "Awesome video created using #Picovico"
     var title = "Video created using #Picovico"
-    var access_token = JSON.parse(localStorage['pv_fb_token'])
 
-    FB.api(
-    "/me/videos",
-    "POST",
-    {
+    dispatch({type: types.FE_FB_VIDEO_SHARING})
+    
+    FB.getLoginStatus(function(response){
+      var accessToken = response.authResponse.accessToken;
+      FB.api(
+        "/me/videos",
+        "POST",
+      {
         "file_url": video,
         "description": description,
         "title": title,
-        "access_token": access_token,
-
-
-    },
-    function (response) {
-      console.log(response)
-      if (response && !response.error) {
-        /* handle the result */
+        "access_token": accessToken,
+      },
+      function (response) {
         console.log(response)
-        // dispatch(complete_share())
-        history.pushState(null, '/videos')
-      }else{
-        dispatch(complete_share())
-        localStorage.removeItem('pv_fb_token')
-      }
-    });
+        if (response && !response.error) {
+          /* handle the result */
+          console.log(response)
+          dispatch({type: types.FE_FB_VIDEO_SHARING_COMPLETE})
+          dispatch(complete_share())
+          history.pushState(null, '/videos')
+        }else{
+          dispatch(complete_share())
+          localStorage.removeItem('pv_fb_token')
+        }
+      });
+    })
   }
 }
 
@@ -318,7 +320,7 @@ function handleLogin(router) {
     FB.login(function(response){   
     	if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken
-        localStorage['pv_fb_token'] = JSON.stringify(accessToken)
+        // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
         dispatch(fetchUserInfo(router, accessToken));
        
   		} else if (response.status === 'not_authorized') {
