@@ -80,6 +80,7 @@ class VideoCreate extends Component {
     handleShare(){
       const {actions, history} = this.props
       actions.handle_share(history)
+      actions.complete_share()
     }
 
     share_video_popup(){

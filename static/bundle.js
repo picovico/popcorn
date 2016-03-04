@@ -21968,13 +21968,11 @@
 	      "access_token": access_token
 
 	    }, function (response) {
-	      console.log("fb response");
 	      console.log(response);
 	      if (response && !response.error) {
 	        /* handle the result */
-	        console.log("video upload response");
 	        console.log(response);
-	        dispatch(complete_share());
+	        // dispatch(complete_share())
 	        history.pushState(null, '/videos');
 	      } else {
 	        dispatch(complete_share());
@@ -27932,6 +27930,7 @@
 	  _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _App2.default },
+	    '// ',
 	    _react2.default.createElement(_reactRouter.Redirect, { from: '/popcorn', to: '/' }),
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _VideoListView2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { name: 'login', path: '/login', component: _Login2.default }),
@@ -28583,6 +28582,7 @@
 	      var history = _props2.history;
 
 	      actions.handle_share(history);
+	      actions.complete_share();
 	    }
 	  }, {
 	    key: 'share_video_popup',

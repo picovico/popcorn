@@ -5,6 +5,7 @@ var initialState;
 if(localStorage['picovico']){
   initialState = JSON.parse(localStorage['picovico'])
   initialState['frontend'] = {'authenticating': false}
+  // initialState['vdd']['assets'] = []
 }else{
   initialState = {
     isLoggedIn: false,

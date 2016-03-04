@@ -298,13 +298,11 @@ export function handle_share(history){
 
     },
     function (response) {
-      console.log("fb response")
       console.log(response)
       if (response && !response.error) {
         /* handle the result */
-        console.log("video upload response")
         console.log(response)
-        dispatch(complete_share())
+        // dispatch(complete_share())
         history.pushState(null, '/videos')
       }else{
         dispatch(complete_share())
