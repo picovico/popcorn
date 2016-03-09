@@ -5,6 +5,7 @@ import * as Actions from '../actions/Facebook'
 import Create from '../components/Create'
 import AlbumList from '../components/album_list'
 import * as message from '../constants/messages'
+import Login from '../containers/Login'
 import FacebookHelper  from '../utils/facebook'
 
 
@@ -15,22 +16,15 @@ class VideoCreate extends Component {
 		this.state = {'selected_album': null}
 	}
 
-	componentDidMount(){
-		const {albums, history} = this.props
-
-    let facebook_helper = new FacebookHelper()
-    // console.log(FB)
-    // FB.getLoginStatus(function(response){
-    //   console.log(response)
-    //   if(response.status != "connected"){
-    //     history.pushState(null, '/login')
-    //   }
-    //   });
-		// if(!albums.isLoggedIn){
-		// 	history.pushState(null, '/login')
-		//   }
-  	}
-
+	componentWillMount(){
+    const {albums, history} = this.props
+    let facebook_helper = new FacebookHelper(history)
+    facebook_helper.getLoginStatus(function(response){
+      if(response.status != "connected"){
+        history.pushState(null, '/login')
+      }
+    })
+  }
   componentWillUnmount(){
     localStorage['picovico'] = JSON.stringify(this.props.albums)
   }
@@ -124,8 +118,8 @@ class VideoCreate extends Component {
     sharing_video_popup(){
       var sharing_video;
       if(this.props.albums.frontend.start_share_video){
-        sharing_video = <div className={"sharing-video"}>
-                          <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
+        sharing_video = <div>
+                          <div className={"modal show sharing-video"} data-backdrop={"static"} data-keyboard={"false"}>
                             <div className={"modal-dialog"}>
                               <div className={"modal-content"}>
                                 <div className={"modal-body"}>
@@ -150,14 +144,22 @@ class VideoCreate extends Component {
 
   	render() {
 		const {albums, actions, history} = this.props
-		return (
-	  	<div>
-      {this.creating_video_message()}
-      {this.share_video_popup()}
-      <AlbumList albums={albums} actions={actions} history={history}/>
-	  	</div>
-		)
-  	}
+    if(albums.isLoggedIn){
+      return (
+      <div>
+        {this.creating_video_message()}
+        {this.share_video_popup()}
+        <AlbumList albums={albums} actions={actions} history={history}/>
+      </div>
+      )
+    }else{
+      return (
+          <div>
+            <Login login={albums} actions={actions} history={history}/>
+          </div>
+      )
+    }	
+  }
 }
 
 export default VideoCreate

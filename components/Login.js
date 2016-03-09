@@ -32,6 +32,25 @@ class Login extends Component{
     }
   }
 
+  email_not_found(){
+    var email_error;
+    if(this.props.login.frontend.email_not_found){
+      email_error = <div>
+                          <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
+                            <div className={"modal-dialog"}>
+                              <div className={"modal-content"}>
+                                <div className={"modal-body"}>
+                                  <h4>Sorry, we are unable to access your email.</h4>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className={"modal-backdrop fade in"}></div>
+                        </div>
+      return authenticating
+    }
+  }
+
 	render() {
 	const { login, actions, history } = this.props
     return (
@@ -40,7 +59,7 @@ class Login extends Component{
           <div className={"row"}>
             <div className={"col-sm-12"}>
               <div className={"login"}>
-                <img className={"img-responsive center-block"} src={"static/img/login.jpg"} />
+                <img className={"img-responsive center-block"} src={"static/img/login.png"} />
               </div>
             </div>
           </div>

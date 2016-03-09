@@ -222,11 +222,11 @@ body {
     text-align: center;
 }
 .sharing-video{
-    z-index: 1040;
-    top: 30;
+    z-index: 1100;
+    top: 0;
     margin-top: 100px;
-    padding-top: 100px;
+    padding-top: 10px;
 }
 .sharing-overlay{
-    z-index: 1049;
+    z-index: 1050;
 }

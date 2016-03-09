@@ -16,12 +16,15 @@ export function userInfo(response){
 }
 
 export function fetchUserInfo(router, accessToken){
+  console.log("this is router")
+  console.log(router)
   return (dispatch, getState) => {
     FB.api('/me','GET',{"fields":"id,name,email,albums{name,cover_photo{id,source},photos{id,source}}"},function(response) {
 
       var fb_info_response = response
     
       if(response && !response.email){
+        dispatch({type: types.FE_COMPLETE_AUTHENTICATING})
         return dispatch({type: types.FE_EMAIL_NOT_FOUND_ERROR})
       }
 
@@ -62,8 +65,6 @@ export function list_video(response){
               console.log("Video list error")
             }
           }).then(function(response){
-            console.log("video list response")
-            console.log(response)
             return dispatch({response, type: types.VIDEOS})
         })
   }
@@ -216,8 +217,6 @@ export function check_rendered_video(){
   return (dispatch, getState) => {
 
     return dispatch(get_rendered_video()).then(response => {
-      console.log(response)
-      console.log(response.status)
       if(response.status == 7102){
         return dispatch(list_video()).then(response => {
           dispatch(reset_vdd())
@@ -260,14 +259,10 @@ export function create_video(id, router){
             return dispatch(save_video())
           }).then(function(response){
 
-            console.log("rendering video")
             return dispatch(render_video())
           }).then(function(response){  
 
-            return dispatch(check_rendered_video()).then(response => {
-              console.log((response))
-              console.log("I am getting response")
-            })
+            return dispatch(check_rendered_video())
           })
       }
     }
@@ -287,32 +282,37 @@ export function handle_share(history){
     dispatch({type: types.FE_FB_VIDEO_SHARING})
     
     FB.getLoginStatus(function(response){
-      var accessToken = response.authResponse.accessToken;
-      FB.api(
-        "/me/videos",
-        "POST",
-      {
-        "file_url": video,
-        "description": description,
-        "title": title,
-        "access_token": accessToken,
-      },
-      function (response) {
-        console.log(response)
-        if (response && !response.error) {
-          /* handle the result */
+      console.log(response)
+      if(response.status != "connected"){
+        history.pushState(null, '/login')
+      }else{
+        var accessToken = response.authResponse.accessToken;
+        FB.api(
+          "/me/videos",
+          "POST",
+        {
+          "file_url": video,
+          "description": description,
+          "title": title,
+          "access_token": accessToken,
+        },
+        function (response) {
           console.log(response)
-          dispatch({type: types.FE_FB_VIDEO_SHARING_COMPLETE})
-          dispatch(complete_share())
-          history.pushState(null, '/videos')
-        }else{
-          dispatch(complete_share())
-          localStorage.removeItem('pv_fb_token')
-        }
-      });
+          if (response && !response.error) {
+            /* handle the result */
+            dispatch({type: types.FE_FB_VIDEO_SHARING_COMPLETE})
+            dispatch(complete_share())
+            history.pushState(null, '/videos')
+          }else{
+            dispatch(complete_share())
+            localStorage.removeItem('pv_fb_token')
+          }
+        });
+      }
     })
   }
 }
+
 
 function handleLogin(router) {
   return (dispatch, getState) => {

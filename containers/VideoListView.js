@@ -5,45 +5,44 @@ import { connect } from 'react-redux'
 import * as Actions from '../actions/Facebook'
 import cookie from 'react-cookie'
 import Pagination from '../components/pagination'
+import Login from '../components/Login'
 import FacebookHelper  from '../utils/facebook'
 
 
 class VideoList extends Component {
-  constructor(props){
-    super(props);
+ 
+  componentWillMount(){
+    const {videos, history} = this.props
+  
+    let facebook_helper = new FacebookHelper(history)
+    facebook_helper.getLoginStatus(function(response){
+      if(response.status != "connected"){
+        history.pushState(null, '/login')
+      }
+    })
   }
 
-	componentDidMount(){
-      
-    console.log(this.props.videos)
-		const {videos, history, actions} = this.props
-    // let facebook_helper = new FacebookHelper()
-    // setTimeout(function(){
-    //   console.log(FB)
-    //   FB.getLoginStatus(function(response){
-    //     if(response.status != "connected"){
-    //         history.pushState(null, '/login')
-    //     }
-    //   })
-    // }, 9000)
-		if(!videos.isLoggedIn){
-			history.pushState(null, '/login')
-		}
-	}
 
   componentWillUnmount(){
     localStorage['picovico'] = JSON.stringify(this.props.videos)
   }
 
-  	render() {
-      const {videos, actions} = this.props
 
-    	return (
-      	<div>
-        	<List videos={videos}/>
-      	</div>
-    	)
-  	}
+  render() {
+    const {videos, actions, history} = this.props
+    if(videos.isLoggedIn){
+      return (
+      <div>
+        <List videos={videos}/>
+      </div>
+      )
+    }
+    return (
+      <div>
+      <Login login={videos} actions={actions} history={history}/>
+      </div>
+    )
+  }
 }
 
 export default VideoList
