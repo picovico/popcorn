@@ -21741,6 +21741,7 @@
 	exports.create_video = create_video;
 	exports.complete_share = complete_share;
 	exports.handle_share = handle_share;
+	exports.play_video = play_video;
 	exports.album_selection_error = album_selection_error;
 
 	var _ActionTypes = __webpack_require__(186);
@@ -22038,10 +22039,10 @@
 	  return { type: types.FE_COMPLETE_SHARE_VIDEO };
 	}
 
-	function handle_share(history) {
+	function handle_share(video, history) {
 	  return function (dispatch, getState) {
 	    var user_id = getState().picovico.user_info.id;
-	    var video = getState().picovico.user_videos.videos[0].video[360]['url'];
+	    var user_video = video;
 	    var description = "Awesome video created using #Picovico";
 	    var title = "Video created using #Picovico";
 
@@ -22054,7 +22055,7 @@
 	      } else {
 	        var accessToken = response.authResponse.accessToken;
 	        FB.api("/me/videos", "POST", {
-	          "file_url": video,
+	          "file_url": user_video,
 	          "description": description,
 	          "title": title,
 	          "access_token": accessToken
@@ -22072,6 +22073,12 @@
 	        });
 	      }
 	    });
+	  };
+	}
+
+	function play_video() {
+	  return function (dispatch) {
+	    return dispatch({ type: types.FE_SHARE_VIDEO });
 	  };
 	}
 
@@ -28265,10 +28272,13 @@
 	var VideoList = function (_Component) {
 	  _inherits(VideoList, _Component);
 
-	  function VideoList() {
+	  function VideoList(props) {
 	    _classCallCheck(this, VideoList);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoList).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VideoList).call(this, props));
+
+	    _this.state = { 'play_video': null };
+	    return _this;
 	  }
 
 	  _createClass(VideoList, [{
@@ -28292,18 +28302,150 @@
 	      localStorage['picovico'] = JSON.stringify(this.props.videos);
 	    }
 	  }, {
-	    key: 'render',
-	    value: function render() {
+	    key: 'updateVideo',
+	    value: function updateVideo(id) {
+	      this.setState({ 'play_video': id });
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      var actions = this.props.actions;
+
+	      actions.complete_share();
+	    }
+	  }, {
+	    key: 'handleShare',
+	    value: function handleShare(video) {
 	      var _props2 = this.props;
-	      var videos = _props2.videos;
 	      var actions = _props2.actions;
 	      var history = _props2.history;
+
+	      actions.handle_share(video, history);
+	    }
+	  }, {
+	    key: 'share_video_popup',
+	    value: function share_video_popup() {
+	      var share_video;
+	      var video_id = this.state.play_video;
+	      if (this.props.videos.frontend.share_video) {
+	        var video_detail = this.props.videos.user_videos.videos.filter(function (video) {
+	          return video.id == video_id;
+	        }).map(function (url) {
+	          return url.video[360]['url'];
+	        })[0];
+	        share_video = _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            { className: "modal show", 'data-backdrop': "static", 'data-keyboard': "false" },
+	            _react2.default.createElement(
+	              'div',
+	              { className: "modal-dialog modal-lg" },
+	              _react2.default.createElement(
+	                'div',
+	                { className: "modal-content" },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: "modal-body" },
+	                  _react2.default.createElement(
+	                    'button',
+	                    { type: "button", className: "close", 'data-dismiss': "modal", onClick: this.handleClick.bind(this) },
+	                    '×'
+	                  ),
+	                  _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    'MY VIDEO'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
+	                    _react2.default.createElement(
+	                      'video',
+	                      { width: '800', controls: true },
+	                      _react2.default.createElement('source', { src: video_detail, type: 'video/mp4' }),
+	                      _react2.default.createElement('source', { src: video_detail, type: 'video/ogg' }),
+	                      'Your browser does not support HTML5 video.'
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: "share-msg" },
+	                    _react2.default.createElement(
+	                      'h4',
+	                      null,
+	                      'Like the video? Share it with your friends!'
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'button',
+	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, video_detail) },
+	                    'SHARE'
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in" }),
+	          this.sharing_video_popup()
+	        );
+	        return share_video;
+	      }
+	    }
+	  }, {
+	    key: 'sharing_video_popup',
+	    value: function sharing_video_popup() {
+	      var sharing_video;
+	      if (this.props.videos.frontend.start_share_video) {
+	        sharing_video = _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            { className: "modal show sharing-video", 'data-backdrop': "static", 'data-keyboard': "false" },
+	            _react2.default.createElement(
+	              'div',
+	              { className: "modal-dialog" },
+	              _react2.default.createElement(
+	                'div',
+	                { className: "modal-content" },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: "modal-body" },
+	                  _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    'Sharing your video ...'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: "progress" },
+	                    _react2.default.createElement('div', { className: "progress-bar progress-bar-striped active", role: "progressbar", style: { width: '100%' } })
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in sharing-overlay" })
+	        );
+	        return sharing_video;
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props3 = this.props;
+	      var videos = _props3.videos;
+	      var actions = _props3.actions;
+	      var history = _props3.history;
 
 	      if (videos.isLoggedIn) {
 	        return _react2.default.createElement(
 	          'div',
 	          null,
-	          _react2.default.createElement(_List2.default, { videos: videos })
+	          this.share_video_popup(),
+	          _react2.default.createElement(_List2.default, { videos: videos, actions: actions, history: history, updateVideo: this.updateVideo.bind(this) })
 	        );
 	      }
 	      return _react2.default.createElement(
@@ -28338,7 +28480,7 @@
 /* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -28361,15 +28503,49 @@
 	var List = function (_Component) {
 	  _inherits(List, _Component);
 
-	  function List() {
+	  function List(props) {
 	    _classCallCheck(this, List);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(List).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(List).call(this, props));
+
+	    _this.state = { 'isMouseInsideID': null };
+	    return _this;
 	  }
 
 	  _createClass(List, [{
-	    key: "render",
+	    key: 'mouseEnter',
+	    value: function mouseEnter(id) {
+	      this.setState({ 'isMouseInsideID': id });
+	    }
+	  }, {
+	    key: 'mouseLeave',
+	    value: function mouseLeave() {
+	      this.setState({ 'isMouseInsideID': null });
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(id) {
+	      var actions = this.props.actions;
+
+	      actions.play_video();
+	      this.props.updateVideo(id);
+	    }
+	  }, {
+	    key: 'getBtn',
+	    value: function getBtn(id) {
+	      var btn_value;
+	      btn_value = _react2.default.createElement(
+	        'button',
+	        { className: "showbtn", onClick: this.handleClick.bind(this, id) },
+	        'Play Video'
+	      );
+	      return btn_value;
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      var videos = this.props.videos;
 
 	      var video_list;
@@ -28378,25 +28554,24 @@
 	          return video.video;
 	        }).map(function (video) {
 	          return _react2.default.createElement(
-	            "div",
-	            { className: "col-sm-4", key: video.id },
+	            'div',
+	            { className: "col-sm-4", key: video.id, onMouseEnter: _this2.mouseEnter.bind(_this2, video.id), onMouseLeave: _this2.mouseLeave.bind(_this2) },
 	            _react2.default.createElement(
-	              "div",
-	              { className: "panel panel-default", key: video.id },
+	              'div',
+	              { className: "panel panel-default panel-overlay", key: video.id },
 	              _react2.default.createElement(
-	                "div",
-	                { className: "panel-heading" },
-	                video.name
+	                'div',
+	                { className: "panel-body" },
+	                _react2.default.createElement('img', { className: "img-responsive center-block", src: video.thumbnail['360'] }),
+	                _this2.state.isMouseInsideID === video.id ? _this2.getBtn(video.id) : null
 	              ),
 	              _react2.default.createElement(
-	                "div",
-	                { className: "panel-body" },
+	                'div',
+	                { className: "panel-footer" },
 	                _react2.default.createElement(
-	                  "video",
-	                  { width: "200", controls: true },
-	                  _react2.default.createElement("source", { src: video.video[360]['url'], type: "video/mp4" }),
-	                  _react2.default.createElement("source", { src: video.video[360]['url'], type: "video/ogg" }),
-	                  "Your browser does not support HTML5 video."
+	                  'div',
+	                  { className: "album-name" },
+	                  video.name
 	                )
 	              )
 	            )
@@ -28404,43 +28579,43 @@
 	        });
 	      } else {
 	        video_list = _react2.default.createElement(
-	          "div",
+	          'div',
 	          { className: "container" },
 	          _react2.default.createElement(
-	            "div",
+	            'div',
 	            { className: "no-video" },
 	            _react2.default.createElement(
-	              "h3",
+	              'h3',
 	              null,
-	              "No videos yet"
+	              'No videos yet'
 	            ),
 	            _react2.default.createElement(
-	              "p",
+	              'p',
 	              null,
-	              "Create ",
+	              'Create ',
 	              _react2.default.createElement(
-	                "span",
+	                'span',
 	                null,
-	                "#Awesome"
+	                '#Awesome'
 	              ),
-	              " videos from your ",
+	              ' videos from your ',
 	              _react2.default.createElement(
-	                "span",
+	                'span',
 	                null,
-	                "#Facebook"
+	                '#Facebook'
 	              ),
-	              " albums."
+	              ' albums.'
 	            )
 	          )
 	        );
 	      }
 
 	      return _react2.default.createElement(
-	        "div",
+	        'div',
 	        { className: "container" },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "row" },
+	          'div',
+	          { className: 'row' },
 	          video_list
 	        )
 	      );
@@ -28708,12 +28883,12 @@
 	    }
 	  }, {
 	    key: 'handleShare',
-	    value: function handleShare() {
+	    value: function handleShare(video) {
 	      var _props2 = this.props;
 	      var actions = _props2.actions;
 	      var history = _props2.history;
 
-	      actions.handle_share(history);
+	      actions.handle_share(video, history);
 	      // actions.complete_share()
 	    }
 	  }, {
@@ -28748,11 +28923,15 @@
 	                    'MY VIDEO'
 	                  ),
 	                  _react2.default.createElement(
-	                    'video',
-	                    { width: '500', controls: true },
-	                    _react2.default.createElement('source', { src: latest_video, type: 'video/mp4' }),
-	                    _react2.default.createElement('source', { src: latest_video, type: 'video/ogg' }),
-	                    'Your browser does not support HTML5 video.'
+	                    'div',
+	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
+	                    _react2.default.createElement(
+	                      'video',
+	                      { width: '800', controls: true },
+	                      _react2.default.createElement('source', { src: latest_video, type: 'video/mp4' }),
+	                      _react2.default.createElement('source', { src: latest_video, type: 'video/ogg' }),
+	                      'Your browser does not support HTML5 video.'
+	                    )
 	                  ),
 	                  _react2.default.createElement(
 	                    'div',
@@ -28765,7 +28944,7 @@
 	                  ),
 	                  _react2.default.createElement(
 	                    'button',
-	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this) },
+	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, latest_video) },
 	                    'SHARE'
 	                  )
 	                )

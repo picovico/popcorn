@@ -272,10 +272,10 @@ export function complete_share(){
   return {type: types.FE_COMPLETE_SHARE_VIDEO}
 }
 
-export function handle_share(history){
+export function handle_share(video ,history){
   return (dispatch, getState) => {
     var user_id = getState().picovico.user_info.id
-    var video = getState().picovico.user_videos.videos[0].video[360]['url']
+    var user_video = video
     var description = "Awesome video created using #Picovico"
     var title = "Video created using #Picovico"
 
@@ -291,7 +291,7 @@ export function handle_share(history){
           "/me/videos",
           "POST",
         {
-          "file_url": video,
+          "file_url": user_video,
           "description": description,
           "title": title,
           "access_token": accessToken,
@@ -313,6 +313,11 @@ export function handle_share(history){
   }
 }
 
+export function play_video(){
+  return dispatch => {
+    return dispatch({type: types.FE_SHARE_VIDEO})
+  }
+}
 
 function handleLogin(router) {
   return (dispatch, getState) => {

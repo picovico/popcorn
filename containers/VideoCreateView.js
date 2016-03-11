@@ -78,9 +78,9 @@ class VideoCreate extends Component {
       actions.complete_share()
     }
 
-    handleShare(){
+    handleShare(video){
       const {actions, history} = this.props
-      actions.handle_share(history)
+      actions.handle_share(video, history)
       // actions.complete_share()
     }
 
@@ -95,15 +95,17 @@ class VideoCreate extends Component {
                                 <div className={"modal-body"}>
                                   <button type={"button"} className={"close"} data-dismiss={"modal"} onClick={this.handleClick.bind(this)}>&times;</button>
                                   <h3>MY VIDEO</h3>
-                                  <video width="500" controls>
+                                  <div align={"center"} className={"embed-responsive embed-responsive-16by9"}>
+                                  <video width="800" controls>
                                     <source src={latest_video} type="video/mp4" />
                                     <source src={latest_video} type="video/ogg" />
                                     Your browser does not support HTML5 video.
                                   </video>
+                                  </div>
                                   <div className={"share-msg"}>
                                   <h4>Like the video? Share it with your friends!</h4>
                                   </div>
-                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this)}>SHARE</button>
+                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, latest_video)}>SHARE</button>
                                 </div>
                               </div>
                             </div>

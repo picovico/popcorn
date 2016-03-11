@@ -171,14 +171,14 @@ body {
 .showbtn{
     position: absolute;
     z-index: 10;
-    top: 0;
+    /*top: 0;*/
     right: 0;
-    left: 0;
-    bottom: 0;
+    /*left: 50%;*/
+    bottom: 40%;
+    margin: -20px -80px; width:150px; top:50%; left:50%;
     height: 35px;
-    margin-left: 25%;
     display: block;
-    margin-top: 90px;
+    margin-top: -20px;
     color: white;
     font-size: 14px;
     font-weight: bolder;
