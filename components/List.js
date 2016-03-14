@@ -8,10 +8,10 @@ class List extends Component {
     this.state = {'isMouseInsideID': null}
   }
 
-  mouseEnter(id){
+  handleMouseEnter(id){
     this.setState({'isMouseInsideID': id})
   }
-  mouseLeave(){
+  handleMouseLeave(){
     this.setState({'isMouseInsideID': null})
   }
 
@@ -33,7 +33,7 @@ class List extends Component {
   	var video_list;
     if(videos.user_videos && videos.user_videos.videos.length > 0){
       video_list = videos.user_videos.videos.filter(video => video.video).map((video =>{
-        return <div className={"col-sm-4"} key={video.id} onMouseEnter={this.mouseEnter.bind(this, video.id)} onMouseLeave={this.mouseLeave.bind(this)}>
+        return <div className={"col-sm-4"} key={video.id} onMouseEnter={this.handleMouseEnter.bind(this, video.id)} onMouseLeave={this.handleMouseLeave.bind(this)}>
                 <div className={"panel panel-default panel-overlay"} key={video.id}>
                   <div className={"panel-body"}>
                     <img className={"img-responsive center-block"} src={video.thumbnail['360']} />

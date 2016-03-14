@@ -16,8 +16,6 @@ export function userInfo(response){
 }
 
 export function fetchUserInfo(router, accessToken){
-  console.log("this is router")
-  console.log(router)
   return (dispatch, getState) => {
     FB.api('/me','GET',{"fields":"id,name,email,albums{name,cover_photo{id,source},photos{id,source}}"},function(response) {
 
@@ -61,8 +59,6 @@ export function list_video(response){
           )).then(function(response){
             if(response.status === 200){
               return response.json()
-            }else{
-              console.log("Video list error")
             }
           }).then(function(response){
             return dispatch({response, type: types.VIDEOS})
@@ -77,9 +73,6 @@ export function paginate_video(url){
       )).then(response => {
         return response.json()
     }).then(response => {
-        console.log("paginated")
-        console.log("paginated response")
-        console.log(response)
         return dispatch({response, type: types.VIDEOS})
     })
   }
@@ -133,7 +126,7 @@ export function add_photos(data){
     var start_time = 0
     var end_time = 5
 
-    var allPromises = new Array(limited_photo_data.length);
+    var allPromises = new Array(limited_photo_data.length)
 
     for(var i in limited_photo_data){
       var data = {'url': limited_photo_data[i], 'source': 'facebook', 'thumbnail_url': limited_photo_data[i]}
@@ -155,7 +148,7 @@ export function add_photos(data){
         return dispatch({photo_asset_data, type: types.ADD_PHOTO})
       })
     }
-    return Promise.all(allPromises);
+    return Promise.all(allPromises)
   }
 }
 
@@ -191,7 +184,6 @@ export function render_video(){
       )).then(response => {
         return response.json()
     }).then(response => {
-        console.log(response)
         return response
     })
   }
@@ -200,7 +192,6 @@ export function render_video(){
 export function get_rendered_video(){
   return (dispatch, getState) => {
     var video_id = getState().picovico.vdd.id
-    console.log(video_id)
     var pv_headers = getState().picovico.headers
     return dispatch(picovicoApi({url: `me/videos/${video_id}`, method: "GET", headers: pv_headers}
       )).then(response => {
@@ -211,7 +202,7 @@ export function get_rendered_video(){
   }
 }
 
-var wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+var wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export function check_rendered_video(){
   return (dispatch, getState) => {
@@ -282,11 +273,10 @@ export function handle_share(video ,history){
     dispatch({type: types.FE_FB_VIDEO_SHARING})
     
     FB.getLoginStatus(function(response){
-      console.log(response)
       if(response.status != "connected"){
         history.pushState(null, '/login')
       }else{
-        var accessToken = response.authResponse.accessToken;
+        var accessToken = response.authResponse.accessToken
         FB.api(
           "/me/videos",
           "POST",
@@ -297,7 +287,6 @@ export function handle_share(video ,history){
           "access_token": accessToken,
         },
         function (response) {
-          console.log(response)
           if (response && !response.error) {
             /* handle the result */
             dispatch({type: types.FE_FB_VIDEO_SHARING_COMPLETE})
@@ -307,7 +296,7 @@ export function handle_share(video ,history){
             dispatch(complete_share())
             localStorage.removeItem('pv_fb_token')
           }
-        });
+        })
       }
     })
   }
@@ -326,19 +315,19 @@ function handleLogin(router) {
     	if (response.status === 'connected') {
         let accessToken = response.authResponse.accessToken
         // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
-        dispatch(fetchUserInfo(router, accessToken));
+        dispatch(fetchUserInfo(router, accessToken))
        
   		} else if (response.status === 'not_authorized') {
-    		console.log("Not authorised");
+    		router.pushState(null, '/login')
   		} else {
-    		console.log("Please log in to facebook");
+    		router.pushState(null, '/login')
  	 	  }
     }, {scope: ['user_photos', 'email', 'publish_actions']})
   }
 }
 
 function handleLogout(){
-        FB.logout(function(response) {});
+        FB.logout(function(response) {})
 }
 
 

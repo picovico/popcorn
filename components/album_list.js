@@ -7,10 +7,10 @@ class AlbumList extends Component {
         this.state = {'isMouseInsideID': null}
     }
 
-  mouseEnter(id){
+  handleMouseEnter(id){
     this.setState({'isMouseInsideID': id})
   }
-  mouseLeave(){
+  handleMouseLeave(){
     this.setState({'isMouseInsideID': null})
   }
 
@@ -35,7 +35,7 @@ class AlbumList extends Component {
   	if(albums.user_info){
 
   		album_list = albums.user_info.albums.data.filter(album => album.photos).map((album => {
-        				return  <div className={"col-sm-3"} key={album.id} onMouseEnter={this.mouseEnter.bind(this, album.id)} onMouseLeave={this.mouseLeave.bind(this)}>
+        				return  <div className={"col-sm-3"} key={album.id} onMouseEnter={this.handleMouseEnter.bind(this, album.id)} onMouseLeave={this.handleMouseLeave.bind(this)}>
                           <div className={'panel panel-default panel-overlay'} key={album.id} >
                             <div className={"panel-body"}>
                               <img className={"img-responsive center-block"} src={album.photos.data[0].source} />

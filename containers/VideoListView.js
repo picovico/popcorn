@@ -61,7 +61,6 @@ class VideoList extends Component {
                                   <div align={"center"} className={"embed-responsive embed-responsive-16by9"}>
                                   <video width="800" controls>
                                     <source src={video_detail} type="video/mp4" />
-                                    <source src={video_detail} type="video/ogg" />
                                     Your browser does not support HTML5 video.
                                   </video>
                                   </div>

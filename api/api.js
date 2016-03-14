@@ -7,8 +7,6 @@ import * as Actions from '../actions/Facebook'
 export default function picovicoApi({url, method, headers, data}={}){
 	return (dispatch, getState) => {
 
-		console.log(method)
-
 		if(data){
 			var form = new FormData();
 			for(var key in data){

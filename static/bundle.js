@@ -21785,8 +21785,6 @@
 	}
 
 	function fetchUserInfo(router, accessToken) {
-	  console.log("this is router");
-	  console.log(router);
 	  return function (dispatch, getState) {
 	    FB.api('/me', 'GET', { "fields": "id,name,email,albums{name,cover_photo{id,source},photos{id,source}}" }, function (response) {
 
@@ -21828,8 +21826,6 @@
 	    return dispatch((0, _api2.default)({ url: urls.GET_VIDEOS, method: "GET", headers: pv_headers })).then(function (response) {
 	      if (response.status === 200) {
 	        return response.json();
-	      } else {
-	        console.log("Video list error");
 	      }
 	    }).then(function (response) {
 	      return dispatch({ response: response, type: types.VIDEOS });
@@ -21843,9 +21839,6 @@
 	    return dispatch((0, _api2.default)({ url: url, method: "GET", headers: pv_headers })).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
-	      console.log("paginated");
-	      console.log("paginated response");
-	      console.log(response);
 	      return dispatch({ response: response, type: types.VIDEOS });
 	    });
 	  };
@@ -21948,7 +21941,6 @@
 	    return dispatch((0, _api2.default)({ url: 'me/videos/' + video_id + '/render', method: "POST", headers: pv_headers })).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
-	      console.log(response);
 	      return response;
 	    });
 	  };
@@ -21957,7 +21949,6 @@
 	function get_rendered_video() {
 	  return function (dispatch, getState) {
 	    var video_id = getState().picovico.vdd.id;
-	    console.log(video_id);
 	    var pv_headers = getState().picovico.headers;
 	    return dispatch((0, _api2.default)({ url: 'me/videos/' + video_id, method: "GET", headers: pv_headers })).then(function (response) {
 	      return response.json();
@@ -22049,7 +22040,6 @@
 	    dispatch({ type: types.FE_FB_VIDEO_SHARING });
 
 	    FB.getLoginStatus(function (response) {
-	      console.log(response);
 	      if (response.status != "connected") {
 	        history.pushState(null, '/login');
 	      } else {
@@ -22060,7 +22050,6 @@
 	          "title": title,
 	          "access_token": accessToken
 	        }, function (response) {
-	          console.log(response);
 	          if (response && !response.error) {
 	            /* handle the result */
 	            dispatch({ type: types.FE_FB_VIDEO_SHARING_COMPLETE });
@@ -22091,9 +22080,9 @@
 	        // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
 	        dispatch(fetchUserInfo(router, accessToken));
 	      } else if (response.status === 'not_authorized') {
-	        console.log("Not authorised");
+	        router.pushState(null, '/login');
 	      } else {
-	        console.log("Please log in to facebook");
+	        router.pushState(null, '/login');
 	      }
 	    }, { scope: ['user_photos', 'email', 'publish_actions'] });
 	  };
@@ -22198,8 +22187,6 @@
 		var data = _ref.data;
 
 		return function (dispatch, getState) {
-
-			console.log(method);
 
 			if (data) {
 				var form = new FormData();
@@ -28365,7 +28352,6 @@
 	                      'video',
 	                      { width: '800', controls: true },
 	                      _react2.default.createElement('source', { src: video_detail, type: 'video/mp4' }),
-	                      _react2.default.createElement('source', { src: video_detail, type: 'video/ogg' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
 	                  ),
@@ -28513,13 +28499,13 @@
 	  }
 
 	  _createClass(List, [{
-	    key: 'mouseEnter',
-	    value: function mouseEnter(id) {
+	    key: 'handleMouseEnter',
+	    value: function handleMouseEnter(id) {
 	      this.setState({ 'isMouseInsideID': id });
 	    }
 	  }, {
-	    key: 'mouseLeave',
-	    value: function mouseLeave() {
+	    key: 'handleMouseLeave',
+	    value: function handleMouseLeave() {
 	      this.setState({ 'isMouseInsideID': null });
 	    }
 	  }, {
@@ -28555,7 +28541,7 @@
 	        }).map(function (video) {
 	          return _react2.default.createElement(
 	            'div',
-	            { className: "col-sm-4", key: video.id, onMouseEnter: _this2.mouseEnter.bind(_this2, video.id), onMouseLeave: _this2.mouseLeave.bind(_this2) },
+	            { className: "col-sm-4", key: video.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, video.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
 	              { className: "panel panel-default panel-overlay", key: video.id },
@@ -28929,7 +28915,6 @@
 	                      'video',
 	                      { width: '800', controls: true },
 	                      _react2.default.createElement('source', { src: latest_video, type: 'video/mp4' }),
-	                      _react2.default.createElement('source', { src: latest_video, type: 'video/ogg' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
 	                  ),
@@ -29193,13 +29178,13 @@
 	  }
 
 	  _createClass(AlbumList, [{
-	    key: 'mouseEnter',
-	    value: function mouseEnter(id) {
+	    key: 'handleMouseEnter',
+	    value: function handleMouseEnter(id) {
 	      this.setState({ 'isMouseInsideID': id });
 	    }
 	  }, {
-	    key: 'mouseLeave',
-	    value: function mouseLeave() {
+	    key: 'handleMouseLeave',
+	    value: function handleMouseLeave() {
 	      this.setState({ 'isMouseInsideID': null });
 	    }
 	  }, {
@@ -29245,7 +29230,7 @@
 	        }).map(function (album) {
 	          return _react2.default.createElement(
 	            'div',
-	            { className: "col-sm-3", key: album.id, onMouseEnter: _this2.mouseEnter.bind(_this2, album.id), onMouseLeave: _this2.mouseLeave.bind(_this2) },
+	            { className: "col-sm-3", key: album.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, album.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'panel panel-default panel-overlay', key: album.id },
