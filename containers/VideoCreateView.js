@@ -7,6 +7,7 @@ import AlbumList from '../components/album_list'
 import * as message from '../constants/messages'
 import Login from '../containers/Login'
 import FacebookHelper  from '../utils/facebook'
+import { URL_PREFIX } from '../constants/project'
 
 
 class VideoCreate extends Component {
@@ -21,7 +22,7 @@ class VideoCreate extends Component {
     let facebook_helper = new FacebookHelper(history)
     facebook_helper.getLoginStatus(function(response){
       if(response.status != "connected"){
-        history.pushState(null, '/login')
+        history.pushState(null, URL_PREFIX+'/login')
       }
     })
   }

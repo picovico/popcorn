@@ -5,6 +5,7 @@ import picovicoApi from '../api/api'
 import APP_ID from '../constants/social_config'
 import * as urls from '../constants/urls'
 import * as presets from '../constants/project'
+import { URL_PREFIX } from '../constants/project'
 
 
 export function loginSuccess(response){
@@ -46,7 +47,7 @@ export function fetchUserInfo(router, accessToken){
           }).then(function(response){
             dispatch(list_video())
             dispatch({type: types.FE_COMPLETE_AUTHENTICATING})
-            router.pushState(null, '/videos')
+            router.pushState(null, URL_PREFIX+'/videos')
           })
     })
   }
@@ -274,7 +275,7 @@ export function handle_share(video ,history){
     
     FB.getLoginStatus(function(response){
       if(response.status != "connected"){
-        history.pushState(null, '/login')
+        history.pushState(null, URL_PREFIX+'/login')
       }else{
         var accessToken = response.authResponse.accessToken
         FB.api(
@@ -291,7 +292,7 @@ export function handle_share(video ,history){
             /* handle the result */
             dispatch({type: types.FE_FB_VIDEO_SHARING_COMPLETE})
             dispatch(complete_share())
-            history.pushState(null, '/videos')
+            history.pushState(null, URL_PREFIX+'/videos')
           }else{
             dispatch(complete_share())
             localStorage.removeItem('pv_fb_token')
@@ -318,9 +319,9 @@ function handleLogin(router) {
         dispatch(fetchUserInfo(router, accessToken))
        
   		} else if (response.status === 'not_authorized') {
-    		router.pushState(null, '/login')
+    		router.pushState(null, URL_PREFIX+'/login')
   		} else {
-    		router.pushState(null, '/login')
+    		router.pushState(null, URL_PREFIX+'/login')
  	 	  }
     }, {scope: ['user_photos', 'email', 'publish_actions']})
   }

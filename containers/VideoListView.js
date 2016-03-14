@@ -7,6 +7,7 @@ import cookie from 'react-cookie'
 import Pagination from '../components/pagination'
 import Login from '../components/Login'
 import FacebookHelper  from '../utils/facebook'
+import { URL_PREFIX } from '../constants/project'
 
 
 class VideoList extends Component {
@@ -22,7 +23,7 @@ class VideoList extends Component {
     let facebook_helper = new FacebookHelper(history)
     facebook_helper.getLoginStatus(function(response){
       if(response.status != "connected"){
-        history.pushState(null, '/login')
+        history.pushState(null, URL_PREFIX+'/login')
       }
     })
   }

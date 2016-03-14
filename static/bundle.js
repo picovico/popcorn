@@ -21814,7 +21814,7 @@
 	      }).then(function (response) {
 	        dispatch(list_video());
 	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
-	        router.pushState(null, '/videos');
+	        router.pushState(null, _project.URL_PREFIX + '/videos');
 	      });
 	    });
 	  };
@@ -22041,7 +22041,7 @@
 
 	    FB.getLoginStatus(function (response) {
 	      if (response.status != "connected") {
-	        history.pushState(null, '/login');
+	        history.pushState(null, _project.URL_PREFIX + '/login');
 	      } else {
 	        var accessToken = response.authResponse.accessToken;
 	        FB.api("/me/videos", "POST", {
@@ -22054,7 +22054,7 @@
 	            /* handle the result */
 	            dispatch({ type: types.FE_FB_VIDEO_SHARING_COMPLETE });
 	            dispatch(complete_share());
-	            history.pushState(null, '/videos');
+	            history.pushState(null, _project.URL_PREFIX + '/videos');
 	          } else {
 	            dispatch(complete_share());
 	            localStorage.removeItem('pv_fb_token');
@@ -22080,9 +22080,9 @@
 	        // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
 	        dispatch(fetchUserInfo(router, accessToken));
 	      } else if (response.status === 'not_authorized') {
-	        router.pushState(null, '/login');
+	        router.pushState(null, _project.URL_PREFIX + '/login');
 	      } else {
-	        router.pushState(null, '/login');
+	        router.pushState(null, _project.URL_PREFIX + '/login');
 	      }
 	    }, { scope: ['user_photos', 'email', 'publish_actions'] });
 	  };
@@ -22672,6 +22672,8 @@
 	var QUALITY = exports.QUALITY = 360;
 	var STYLE = exports.STYLE = "vanilla";
 	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
+
+	var URL_PREFIX = exports.URL_PREFIX = "/popcorn";
 
 /***/ },
 /* 195 */
@@ -28011,6 +28013,8 @@
 
 	var _VideoCreateView2 = _interopRequireDefault(_VideoCreateView);
 
+	var _project = __webpack_require__(194);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var routes = _react2.default.createElement(
@@ -28018,13 +28022,11 @@
 	  { history: _reactRouter.browserHistory },
 	  _react2.default.createElement(
 	    _reactRouter.Route,
-	    { path: '/', component: _App2.default },
-	    '// ',
-	    _react2.default.createElement(_reactRouter.Redirect, { from: '/popcorn', to: '/' }),
+	    { path: _project.URL_PREFIX + "/", component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _VideoListView2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { name: 'login', path: '/login', component: _Login2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { name: 'videos', path: '/videos', component: _VideoListView2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { name: 'create', path: '/create', component: _VideoCreateView2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: _project.URL_PREFIX + "/login", component: _Login2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: _project.URL_PREFIX + "/videos", component: _VideoListView2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: _project.URL_PREFIX + "/create", component: _VideoCreateView2.default })
 	  )
 	);
 
@@ -28178,7 +28180,7 @@
 	              { className: this.state.activeClassKey == "videos" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/videos', onClick: this.handleClick.bind(this, "videos") },
+	                { to: URL_PREFIX + "/videos", onClick: this.handleClick.bind(this, "videos") },
 	                'My Videos'
 	              )
 	            ),
@@ -28187,7 +28189,7 @@
 	              { className: this.state.activeClassKey == "albums" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/create', onClick: this.handleClick.bind(this, "albums") },
+	                { to: URL_PREFIX + "/create", onClick: this.handleClick.bind(this, "albums") },
 	                'Select Album'
 	              )
 	            )
@@ -28246,6 +28248,8 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
+	var _project = __webpack_require__(194);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28279,7 +28283,7 @@
 	      var facebook_helper = new _facebook2.default(history);
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, '/login');
+	          history.pushState(null, _project.URL_PREFIX + '/login');
 	        }
 	      });
 	    }
@@ -28739,6 +28743,8 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
+	var _project = __webpack_require__(194);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28771,7 +28777,7 @@
 	      var facebook_helper = new _facebook2.default(history);
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, '/login');
+	          history.pushState(null, _project.URL_PREFIX + '/login');
 	        }
 	      });
 	    }
