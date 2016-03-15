@@ -5,6 +5,7 @@ var initialState;
 if(localStorage['picovico']){
   initialState = JSON.parse(localStorage['picovico'])
   initialState['frontend'] = {'authenticating': false}
+  initialState['vdd']['assets'] = []
 }else{
   initialState = {
     isLoggedIn: false,
@@ -57,6 +58,13 @@ export default function picovico(state = initialState, action) {
 
     case types.FE_COMPLETE_SHARE_VIDEO:
       return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {share_video: false})})
+
+    case types.FE_FB_VIDEO_SHARING:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {start_share_video: true})})
+
+    case types.FE_FB_VIDEO_SHARING_COMPLETE:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {start_share_video: false})})
+
 
 
 

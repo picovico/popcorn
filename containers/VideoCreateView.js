@@ -5,7 +5,9 @@ import * as Actions from '../actions/Facebook'
 import Create from '../components/Create'
 import AlbumList from '../components/album_list'
 import * as message from '../constants/messages'
+import Login from '../containers/Login'
 import FacebookHelper  from '../utils/facebook'
+import { URL_PREFIX } from '../constants/project'
 
 
 class VideoCreate extends Component {
@@ -15,15 +17,15 @@ class VideoCreate extends Component {
 		this.state = {'selected_album': null}
 	}
 
-	componentDidMount(){
-		const {albums, history} = this.props
-
-    let facebook_helper = new FacebookHelper()
-		if(!albums.isLoggedIn){
-			history.pushState(null, '/login')
-		  }
-  	}
-
+	componentWillMount(){
+    const {albums, history} = this.props
+    let facebook_helper = new FacebookHelper(history)
+    facebook_helper.getLoginStatus(function(response){
+      if(response.status != "connected"){
+        history.pushState(null, URL_PREFIX+'/login')
+      }
+    })
+  }
   componentWillUnmount(){
     localStorage['picovico'] = JSON.stringify(this.props.albums)
   }
@@ -53,7 +55,7 @@ class VideoCreate extends Component {
     creating_video_message(){
       var creating_video;
       if(this.props.albums.frontend.creating_video){
-        creating_video = <div>
+        creating_video = <div className={"sharing-video"}>
                           <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
                             <div className={"modal-dialog"}>
                               <div className={"modal-content"}>
@@ -77,9 +79,10 @@ class VideoCreate extends Component {
       actions.complete_share()
     }
 
-    handleShare(){
+    handleShare(video){
       const {actions, history} = this.props
-      actions.handle_share(history)
+      actions.handle_share(video, history)
+      // actions.complete_share()
     }
 
     share_video_popup(){
@@ -93,23 +96,48 @@ class VideoCreate extends Component {
                                 <div className={"modal-body"}>
                                   <button type={"button"} className={"close"} data-dismiss={"modal"} onClick={this.handleClick.bind(this)}>&times;</button>
                                   <h3>MY VIDEO</h3>
-                                  <video width="500" controls>
+                                  <div align={"center"} className={"embed-responsive embed-responsive-16by9"}>
+                                  <video width="800" controls>
                                     <source src={latest_video} type="video/mp4" />
-                                    <source src={latest_video} type="video/ogg" />
                                     Your browser does not support HTML5 video.
                                   </video>
+                                  </div>
                                   <div className={"share-msg"}>
                                   <h4>Like the video? Share it with your friends!</h4>
                                   </div>
-                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this)}>SHARE</button>
+                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, latest_video)}>SHARE</button>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className={"modal-backdrop fade in"}></div>
+                          {this.sharing_video_popup()}
                         </div>
         return share_video
       }
+    }
+
+    sharing_video_popup(){
+      var sharing_video;
+      if(this.props.albums.frontend.start_share_video){
+        sharing_video = <div>
+                          <div className={"modal show sharing-video"} data-backdrop={"static"} data-keyboard={"false"}>
+                            <div className={"modal-dialog"}>
+                              <div className={"modal-content"}>
+                                <div className={"modal-body"}>
+                                  <h3>Sharing your video ...</h3>
+                                  <div className={"progress"}>
+                                    <div className={"progress-bar progress-bar-striped active"} role={"progressbar"} style={{width: '100%'}}></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className={"modal-backdrop fade in sharing-overlay"}></div>
+                        </div>
+        return sharing_video
+      }
+
     }
 
   	onUpdate(id){
@@ -118,14 +146,22 @@ class VideoCreate extends Component {
 
   	render() {
 		const {albums, actions, history} = this.props
-		return (
-	  	<div>
-      {this.creating_video_message()}
-      {this.share_video_popup()}
-      <AlbumList albums={albums} actions={actions} history={history}/>
-	  	</div>
-		)
-  	}
+    if(albums.isLoggedIn){
+      return (
+      <div>
+        {this.creating_video_message()}
+        {this.share_video_popup()}
+        <AlbumList albums={albums} actions={actions} history={history}/>
+      </div>
+      )
+    }else{
+      return (
+          <div>
+            <Login login={albums} actions={actions} history={history}/>
+          </div>
+      )
+    }	
+  }
 }
 
 export default VideoCreate

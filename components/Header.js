@@ -20,8 +20,8 @@ class Header extends Component {
       				<img className={"img-responsive center-block"} src={"static/img/picovico.png"} />
     			</div>
     			<ul className={"nav nav-pills"}>
-      				<li className={(this.state.activeClassKey == "videos") ? "active" : ""}><Link to="/videos" onClick={this.handleClick.bind(this, "videos")}>My Videos</Link></li>
-      				<li className={(this.state.activeClassKey == "albums") ? "active" : ""}><Link to="/create" onClick={this.handleClick.bind(this, "albums")}>Select Album</Link></li>
+      				<li className={(this.state.activeClassKey == "videos") ? "active" : ""}><Link to={URL_PREFIX+"/videos"} onClick={this.handleClick.bind(this, "videos")}>My Videos</Link></li>
+      				<li className={(this.state.activeClassKey == "albums") ? "active" : ""}><Link to={URL_PREFIX+"/create"} onClick={this.handleClick.bind(this, "albums")}>Select Album</Link></li>
     			</ul>
   			</div>
 		</nav>

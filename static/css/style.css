@@ -92,11 +92,11 @@ body {
     cursor: pointer;
 }
 .panel-overlay:hover img{
-    filter: contrast(0.3);
-    -webkit-filter: contrast(0.3);
-    -moz-filter: contrast(0.3);
-    -o-filter: contrast(0.3);
-    -ms-filter: contrast(0.3);
+    filter: contrast(0.1);
+    -webkit-filter: contrast(0.1);
+    -moz-filter: contrast(0.1);
+    -o-filter: contrast(0.1);
+    -ms-filter: contrast(0.1);
     transform: scale(1.5, 1.5);
     margin-top: 5px;
 }
@@ -125,7 +125,8 @@ body {
 }
 
 .login{
-    padding-bottom: 20px;
+    margin-top: -20px;
+    padding: 0;
 }
 
 .glyphicon-refresh-animate {
@@ -170,19 +171,21 @@ body {
 .showbtn{
     position: absolute;
     z-index: 10;
-    top: 0;
+    /*top: 0;*/
     right: 0;
-    left: 0;
-    bottom: 0;
+    /*left: 50%;*/
+    bottom: 40%;
+    margin: -20px -80px; width:150px; top:50%; left:50%;
     height: 35px;
-    margin-left: 25%;
     display: block;
-    margin-top: 90px;
+    margin-top: -20px;
     color: white;
     font-size: 14px;
     font-weight: bolder;
+    border: 2px solid;
     border-radius: 8px;
     background-color: transparent;
+    border-color: white;
 }
 .showbtn:hover{
     color: #6779ae;
@@ -213,4 +216,17 @@ body {
     /*margin-left: 200px;*/
     text-align: center;
     font-weight: bold;
+}
+.no-video{
+    margin-top: 100px;
+    text-align: center;
+}
+.sharing-video{
+    z-index: 1100;
+    top: 0;
+    margin-top: 100px;
+    padding-top: 10px;
+}
+.sharing-overlay{
+    z-index: 1050;
 }

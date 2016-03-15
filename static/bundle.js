@@ -72,9 +72,6 @@
 
 
 	var store = (0, _configureStore2.default)();
-	console.log("store");
-	console.log(store);
-	console.log(localStorage);
 
 	(0, _reactDom.render)(_react2.default.createElement(_Root2.default, { store: store }), document.getElementById('root'));
 
@@ -21252,7 +21249,42 @@
 	                )
 	              )
 	            )
-	          )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in" })
+	        );
+	        return authenticating;
+	      }
+	    }
+	  }, {
+	    key: 'email_not_found',
+	    value: function email_not_found() {
+	      var email_error;
+	      if (this.props.login.frontend.email_not_found) {
+	        email_error = _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            { className: "modal show", 'data-backdrop': "static", 'data-keyboard': "false" },
+	            _react2.default.createElement(
+	              'div',
+	              { className: "modal-dialog" },
+	              _react2.default.createElement(
+	                'div',
+	                { className: "modal-content" },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: "modal-body" },
+	                  _react2.default.createElement(
+	                    'h4',
+	                    null,
+	                    'Sorry, we are unable to access your email.'
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in" })
 	        );
 	        return authenticating;
 	      }
@@ -21270,7 +21302,7 @@
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: "container" },
+	          { className: "container-fluid" },
 	          _react2.default.createElement(
 	            'div',
 	            { className: "row" },
@@ -21280,7 +21312,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: "login" },
-	                _react2.default.createElement('img', { className: "img-responsive center-block", src: "static/img/login.jpg" })
+	                _react2.default.createElement('img', { className: "img-responsive center-block", src: "static/img/login.png" })
 	              )
 	            )
 	          )
@@ -21335,34 +21367,91 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var FacebookHelper = function FacebookHelper() {
-	    _classCallCheck(this, FacebookHelper);
+	// class FacebookHelper{
+	//     constructor(history){
+	//         window.fbAsyncInit = () => {
+	//                 FB.init({
+	//                     appId      : '1003470959709853',
+	//                     cookie     : true,
+	//                     xfbml      : true,
+	//                     version    : 'v2.5'
+	//                 });
 
-	    window.fbAsyncInit = function () {
-	        FB.init({
-	            appId: '1003470959709853',
-	            cookie: true,
-	            xfbml: true,
-	            version: 'v2.5'
+	//                 FB.getLoginStatus(function(response){
+	//                   if(response.status != "connected"){
+	//                     history.pushState(null, "/login")
+	//                   }
+	//                 })
+
+	//             }
+	//         if (typeof(FB) == 'undefined') {
+	//             ((d, s, id) => {
+	//               let js, fjs = d.getElementsByTagName(s)[0];
+	//               if (d.getElementById(id)) return;
+	//               js = d.createElement(s);
+	//               js.id = id;
+	//               js.src = "//connect.facebook.net/en_US/sdk.js";
+	//               fjs.parentNode.insertBefore(js, fjs);
+	//             })(document, 'script', 'facebook-jssdk');
+	//         }
+	//     }
+	// }
+
+	// export default FacebookHelper
+
+	var FacebookHelper = function () {
+	  function FacebookHelper() {
+	    _classCallCheck(this, FacebookHelper);
+	  }
+
+	  _createClass(FacebookHelper, [{
+	    key: 'initFbScript',
+	    value: function initFbScript() {
+	      if (!this.scriptPromise) {
+	        this.scriptPromise = new Promise(function (resolve, reject) {
+	          window.fbAsyncInit = function () {
+	            FB.init({
+	              appId: '1003470959709853',
+	              cookie: true,
+	              xfbml: true,
+	              version: 'v2.5'
+	            });
+
+	            resolve();
+	          };
+	          if (typeof FB == 'undefined') {
+	            (function (d, s, id) {
+	              var js = undefined,
+	                  fjs = d.getElementsByTagName(s)[0];
+	              if (d.getElementById(id)) return;
+	              js = d.createElement(s);
+	              js.id = id;
+	              js.src = "//connect.facebook.net/en_US/sdk.js";
+	              fjs.parentNode.insertBefore(js, fjs);
+	            })(document, 'script', 'facebook-jssdk');
+	          }
 	        });
-	    };
-	    if (typeof FB == 'undefined') {
-	        (function (d, s, id) {
-	            var js = undefined,
-	                fjs = d.getElementsByTagName(s)[0];
-	            if (d.getElementById(id)) return;
-	            js = d.createElement(s);
-	            js.id = id;
-	            js.src = "//connect.facebook.net/en_US/sdk.js";
-	            fjs.parentNode.insertBefore(js, fjs);
-	        })(document, 'script', 'facebook-jssdk');
+	      }
+	      return this.scriptPromise;
 	    }
-	};
+	  }, {
+	    key: 'getLoginStatus',
+	    value: function getLoginStatus(callback) {
+	      return this.initFbScript().then(function () {
+	        return FB.getLoginStatus(callback);
+	      });
+	    }
+	  }]);
+
+	  return FacebookHelper;
+	}();
 
 	exports.default = FacebookHelper;
 
@@ -21652,6 +21741,7 @@
 	exports.create_video = create_video;
 	exports.complete_share = complete_share;
 	exports.handle_share = handle_share;
+	exports.play_video = play_video;
 	exports.album_selection_error = album_selection_error;
 
 	var _ActionTypes = __webpack_require__(186);
@@ -21701,6 +21791,7 @@
 	      var fb_info_response = response;
 
 	      if (response && !response.email) {
+	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
 	        return dispatch({ type: types.FE_EMAIL_NOT_FOUND_ERROR });
 	      }
 
@@ -21723,7 +21814,7 @@
 	      }).then(function (response) {
 	        dispatch(list_video());
 	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
-	        router.pushState(null, '/videos');
+	        router.pushState(null, _project.URL_PREFIX + '/videos');
 	      });
 	    });
 	  };
@@ -21735,12 +21826,8 @@
 	    return dispatch((0, _api2.default)({ url: urls.GET_VIDEOS, method: "GET", headers: pv_headers })).then(function (response) {
 	      if (response.status === 200) {
 	        return response.json();
-	      } else {
-	        console.log("Video list error");
 	      }
 	    }).then(function (response) {
-	      console.log("video list response");
-	      console.log(response);
 	      return dispatch({ response: response, type: types.VIDEOS });
 	    });
 	  };
@@ -21752,9 +21839,6 @@
 	    return dispatch((0, _api2.default)({ url: url, method: "GET", headers: pv_headers })).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
-	      console.log("paginated");
-	      console.log("paginated response");
-	      console.log(response);
 	      return dispatch({ response: response, type: types.VIDEOS });
 	    });
 	  };
@@ -21853,13 +21937,10 @@
 	  return function (dispatch, getState) {
 
 	    var video_id = getState().picovico.vdd.id;
-	    console.log("my video id");
-	    console.log(video_id);
 	    var pv_headers = getState().picovico.headers;
 	    return dispatch((0, _api2.default)({ url: 'me/videos/' + video_id + '/render', method: "POST", headers: pv_headers })).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
-	      console.log(response);
 	      return response;
 	    });
 	  };
@@ -21868,12 +21949,10 @@
 	function get_rendered_video() {
 	  return function (dispatch, getState) {
 	    var video_id = getState().picovico.vdd.id;
-	    console.log(video_id);
 	    var pv_headers = getState().picovico.headers;
 	    return dispatch((0, _api2.default)({ url: 'me/videos/' + video_id, method: "GET", headers: pv_headers })).then(function (response) {
 	      return response.json();
 	    }).then(function (response) {
-	      console.log("rendered video response");
 	      return response;
 	    });
 	  };
@@ -21889,9 +21968,6 @@
 	  return function (dispatch, getState) {
 
 	    return dispatch(get_rendered_video()).then(function (response) {
-	      console.log('hurray');
-	      console.log(response);
-	      console.log(response.status);
 	      if (response.status == 7102) {
 	        return dispatch(list_video()).then(function (response) {
 	          dispatch(reset_vdd());
@@ -21941,14 +22017,10 @@
 	        return dispatch(save_video());
 	      }).then(function (response) {
 
-	        console.log("rendering video");
 	        return dispatch(render_video());
 	      }).then(function (response) {
 
-	        return dispatch(check_rendered_video()).then(function (response) {
-	          console.log(response);
-	          console.log("I am getting response");
-	        });
+	        return dispatch(check_rendered_video());
 	      });
 	    }
 	  };
@@ -21958,35 +22030,44 @@
 	  return { type: types.FE_COMPLETE_SHARE_VIDEO };
 	}
 
-	function handle_share(history) {
+	function handle_share(video, history) {
 	  return function (dispatch, getState) {
 	    var user_id = getState().picovico.user_info.id;
-	    var video = getState().picovico.user_videos.videos[0].video[360]['url'];
-
+	    var user_video = video;
 	    var description = "Awesome video created using #Picovico";
 	    var title = "Video created using #Picovico";
-	    var access_token = JSON.parse(localStorage['pv_fb_token']);
 
-	    FB.api("/me/videos", "POST", {
-	      "file_url": video,
-	      "description": description,
-	      "title": title,
-	      "access_token": access_token
+	    dispatch({ type: types.FE_FB_VIDEO_SHARING });
 
-	    }, function (response) {
-	      console.log("fb response");
-	      console.log(response);
-	      if (response && !response.error) {
-	        /* handle the result */
-	        console.log("video upload response");
-	        console.log(response);
-	        dispatch(complete_share());
-	        history.pushState(null, '/videos');
+	    FB.getLoginStatus(function (response) {
+	      if (response.status != "connected") {
+	        history.pushState(null, _project.URL_PREFIX + '/login');
 	      } else {
-	        dispatch(complete_share());
-	        localStorage.removeItem('pv_fb_token');
+	        var accessToken = response.authResponse.accessToken;
+	        FB.api("/me/videos", "POST", {
+	          "file_url": user_video,
+	          "description": description,
+	          "title": title,
+	          "access_token": accessToken
+	        }, function (response) {
+	          if (response && !response.error) {
+	            /* handle the result */
+	            dispatch({ type: types.FE_FB_VIDEO_SHARING_COMPLETE });
+	            dispatch(complete_share());
+	            history.pushState(null, _project.URL_PREFIX + '/videos');
+	          } else {
+	            dispatch(complete_share());
+	            localStorage.removeItem('pv_fb_token');
+	          }
+	        });
 	      }
 	    });
+	  };
+	}
+
+	function play_video() {
+	  return function (dispatch) {
+	    return dispatch({ type: types.FE_SHARE_VIDEO });
 	  };
 	}
 
@@ -21996,12 +22077,12 @@
 	    FB.login(function (response) {
 	      if (response.status === 'connected') {
 	        var accessToken = response.authResponse.accessToken;
-	        localStorage['pv_fb_token'] = JSON.stringify(accessToken);
+	        // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
 	        dispatch(fetchUserInfo(router, accessToken));
 	      } else if (response.status === 'not_authorized') {
-	        console.log("Not authorised");
+	        router.pushState(null, _project.URL_PREFIX + '/login');
 	      } else {
-	        console.log("Please log in to facebook");
+	        router.pushState(null, _project.URL_PREFIX + '/login');
 	      }
 	    }, { scope: ['user_photos', 'email', 'publish_actions'] });
 	  };
@@ -22050,6 +22131,8 @@
 	var FE_COMPLETE_CREATING_VIDEO = exports.FE_COMPLETE_CREATING_VIDEO = "FE_COMPLETE_CREATING_VIDEO";
 	var FE_SHARE_VIDEO = exports.FE_SHARE_VIDEO = "FE_SHARE_VIDEO";
 	var FE_COMPLETE_SHARE_VIDEO = exports.FE_COMPLETE_SHARE_VIDEO = "FE_COMPLETE_SHARE_VIDEO";
+	var FE_FB_VIDEO_SHARING = exports.FE_FB_VIDEO_SHARING = "FE_FB_VIDEO_SHARING";
+	var FE_FB_VIDEO_SHARING_COMPLETE = exports.FE_FB_VIDEO_SHARING_COMPLETE = "FE_FB_VIDEO_SHARING_COMPLETE";
 
 /***/ },
 /* 187 */
@@ -22104,8 +22187,6 @@
 		var data = _ref.data;
 
 		return function (dispatch, getState) {
-
-			console.log(method);
 
 			if (data) {
 				var form = new FormData();
@@ -22591,6 +22672,8 @@
 	var QUALITY = exports.QUALITY = 360;
 	var STYLE = exports.STYLE = "vanilla";
 	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
+
+	var URL_PREFIX = exports.URL_PREFIX = "/popcorn";
 
 /***/ },
 /* 195 */
@@ -27930,6 +28013,8 @@
 
 	var _VideoCreateView2 = _interopRequireDefault(_VideoCreateView);
 
+	var _project = __webpack_require__(194);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var routes = _react2.default.createElement(
@@ -27937,11 +28022,11 @@
 	  { history: _reactRouter.browserHistory },
 	  _react2.default.createElement(
 	    _reactRouter.Route,
-	    { path: '/', component: _App2.default },
+	    { path: _project.URL_PREFIX + "/", component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _VideoListView2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { name: 'login', path: '/login', component: _Login2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { name: 'videos', path: '/videos', component: _VideoListView2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { name: 'create', path: '/create', component: _VideoCreateView2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: _project.URL_PREFIX + "/login", component: _Login2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: _project.URL_PREFIX + "/videos", component: _VideoListView2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: _project.URL_PREFIX + "/create", component: _VideoCreateView2.default })
 	  )
 	);
 
@@ -28095,7 +28180,7 @@
 	              { className: this.state.activeClassKey == "videos" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/videos', onClick: this.handleClick.bind(this, "videos") },
+	                { to: URL_PREFIX + "/videos", onClick: this.handleClick.bind(this, "videos") },
 	                'My Videos'
 	              )
 	            ),
@@ -28104,7 +28189,7 @@
 	              { className: this.state.activeClassKey == "albums" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: '/create', onClick: this.handleClick.bind(this, "albums") },
+	                { to: URL_PREFIX + "/create", onClick: this.handleClick.bind(this, "albums") },
 	                'Select Album'
 	              )
 	            )
@@ -28155,6 +28240,16 @@
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
+	var _Login = __webpack_require__(181);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
+	var _facebook = __webpack_require__(182);
+
+	var _facebook2 = _interopRequireDefault(_facebook);
+
+	var _project = __webpack_require__(194);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28168,24 +28263,29 @@
 	var VideoList = function (_Component) {
 	  _inherits(VideoList, _Component);
 
-	  function VideoList() {
+	  function VideoList(props) {
 	    _classCallCheck(this, VideoList);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(VideoList).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VideoList).call(this, props));
+
+	    _this.state = { 'play_video': null };
+	    return _this;
 	  }
 
 	  _createClass(VideoList, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      console.log(this.props.videos);
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
 	      var _props = this.props;
 	      var videos = _props.videos;
 	      var history = _props.history;
-	      var actions = _props.actions;
 
-	      if (!videos.isLoggedIn) {
-	        history.pushState(null, '/login');
-	      }
+
+	      var facebook_helper = new _facebook2.default(history);
+	      facebook_helper.getLoginStatus(function (response) {
+	        if (response.status != "connected") {
+	          history.pushState(null, _project.URL_PREFIX + '/login');
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -28193,17 +28293,155 @@
 	      localStorage['picovico'] = JSON.stringify(this.props.videos);
 	    }
 	  }, {
+	    key: 'updateVideo',
+	    value: function updateVideo(id) {
+	      this.setState({ 'play_video': id });
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      var actions = this.props.actions;
+
+	      actions.complete_share();
+	    }
+	  }, {
+	    key: 'handleShare',
+	    value: function handleShare(video) {
+	      var _props2 = this.props;
+	      var actions = _props2.actions;
+	      var history = _props2.history;
+
+	      actions.handle_share(video, history);
+	    }
+	  }, {
+	    key: 'share_video_popup',
+	    value: function share_video_popup() {
+	      var share_video;
+	      var video_id = this.state.play_video;
+	      if (this.props.videos.frontend.share_video) {
+	        var video_detail = this.props.videos.user_videos.videos.filter(function (video) {
+	          return video.id == video_id;
+	        }).map(function (url) {
+	          return url.video[360]['url'];
+	        })[0];
+	        share_video = _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            { className: "modal show", 'data-backdrop': "static", 'data-keyboard': "false" },
+	            _react2.default.createElement(
+	              'div',
+	              { className: "modal-dialog modal-lg" },
+	              _react2.default.createElement(
+	                'div',
+	                { className: "modal-content" },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: "modal-body" },
+	                  _react2.default.createElement(
+	                    'button',
+	                    { type: "button", className: "close", 'data-dismiss': "modal", onClick: this.handleClick.bind(this) },
+	                    '×'
+	                  ),
+	                  _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    'MY VIDEO'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
+	                    _react2.default.createElement(
+	                      'video',
+	                      { width: '800', controls: true },
+	                      _react2.default.createElement('source', { src: video_detail, type: 'video/mp4' }),
+	                      'Your browser does not support HTML5 video.'
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: "share-msg" },
+	                    _react2.default.createElement(
+	                      'h4',
+	                      null,
+	                      'Like the video? Share it with your friends!'
+	                    )
+	                  ),
+	                  _react2.default.createElement(
+	                    'button',
+	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, video_detail) },
+	                    'SHARE'
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in" }),
+	          this.sharing_video_popup()
+	        );
+	        return share_video;
+	      }
+	    }
+	  }, {
+	    key: 'sharing_video_popup',
+	    value: function sharing_video_popup() {
+	      var sharing_video;
+	      if (this.props.videos.frontend.start_share_video) {
+	        sharing_video = _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            { className: "modal show sharing-video", 'data-backdrop': "static", 'data-keyboard': "false" },
+	            _react2.default.createElement(
+	              'div',
+	              { className: "modal-dialog" },
+	              _react2.default.createElement(
+	                'div',
+	                { className: "modal-content" },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: "modal-body" },
+	                  _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    'Sharing your video ...'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: "progress" },
+	                    _react2.default.createElement('div', { className: "progress-bar progress-bar-striped active", role: "progressbar", style: { width: '100%' } })
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in sharing-overlay" })
+	        );
+	        return sharing_video;
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _props2 = this.props;
-	      var videos = _props2.videos;
-	      var actions = _props2.actions;
+	      var _props3 = this.props;
+	      var videos = _props3.videos;
+	      var actions = _props3.actions;
+	      var history = _props3.history;
 
-
+	      if (videos.isLoggedIn) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          this.share_video_popup(),
+	          _react2.default.createElement(_List2.default, { videos: videos, actions: actions, history: history, updateVideo: this.updateVideo.bind(this) })
+	        );
+	      }
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_List2.default, { videos: videos })
+	        _react2.default.createElement(_Login2.default, { login: videos, actions: actions, history: history })
 	      );
 	    }
 	  }]);
@@ -28232,7 +28470,7 @@
 /* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -28255,15 +28493,49 @@
 	var List = function (_Component) {
 	  _inherits(List, _Component);
 
-	  function List() {
+	  function List(props) {
 	    _classCallCheck(this, List);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(List).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(List).call(this, props));
+
+	    _this.state = { 'isMouseInsideID': null };
+	    return _this;
 	  }
 
 	  _createClass(List, [{
-	    key: "render",
+	    key: 'handleMouseEnter',
+	    value: function handleMouseEnter(id) {
+	      this.setState({ 'isMouseInsideID': id });
+	    }
+	  }, {
+	    key: 'handleMouseLeave',
+	    value: function handleMouseLeave() {
+	      this.setState({ 'isMouseInsideID': null });
+	    }
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick(id) {
+	      var actions = this.props.actions;
+
+	      actions.play_video();
+	      this.props.updateVideo(id);
+	    }
+	  }, {
+	    key: 'getBtn',
+	    value: function getBtn(id) {
+	      var btn_value;
+	      btn_value = _react2.default.createElement(
+	        'button',
+	        { className: "showbtn", onClick: this.handleClick.bind(this, id) },
+	        'Play Video'
+	      );
+	      return btn_value;
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      var videos = this.props.videos;
 
 	      var video_list;
@@ -28272,25 +28544,24 @@
 	          return video.video;
 	        }).map(function (video) {
 	          return _react2.default.createElement(
-	            "div",
-	            { className: "col-sm-4", key: video.id },
+	            'div',
+	            { className: "col-sm-4", key: video.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, video.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
-	              "div",
-	              { className: "panel panel-default", key: video.id },
+	              'div',
+	              { className: "panel panel-default panel-overlay", key: video.id },
 	              _react2.default.createElement(
-	                "div",
-	                { className: "panel-heading" },
-	                video.name
+	                'div',
+	                { className: "panel-body" },
+	                _react2.default.createElement('img', { className: "img-responsive center-block", src: video.thumbnail['360'] }),
+	                _this2.state.isMouseInsideID === video.id ? _this2.getBtn(video.id) : null
 	              ),
 	              _react2.default.createElement(
-	                "div",
-	                { className: "panel-body" },
+	                'div',
+	                { className: "panel-footer" },
 	                _react2.default.createElement(
-	                  "video",
-	                  { width: "200", controls: true },
-	                  _react2.default.createElement("source", { src: video.video[360]['url'], type: "video/mp4" }),
-	                  _react2.default.createElement("source", { src: video.video[360]['url'], type: "video/ogg" }),
-	                  "Your browser does not support HTML5 video."
+	                  'div',
+	                  { className: "album-name" },
+	                  video.name
 	                )
 	              )
 	            )
@@ -28298,28 +28569,43 @@
 	        });
 	      } else {
 	        video_list = _react2.default.createElement(
-	          "div",
-	          null,
-	          " ",
+	          'div',
+	          { className: "container" },
 	          _react2.default.createElement(
-	            "h3",
-	            null,
-	            "No videos yet"
-	          ),
-	          _react2.default.createElement(
-	            "p",
-	            null,
-	            "Create #Awesome videos from your #Facebook albums."
+	            'div',
+	            { className: "no-video" },
+	            _react2.default.createElement(
+	              'h3',
+	              null,
+	              'No videos yet'
+	            ),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Create ',
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                '#Awesome'
+	              ),
+	              ' videos from your ',
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                '#Facebook'
+	              ),
+	              ' albums.'
+	            )
 	          )
 	        );
 	      }
 
 	      return _react2.default.createElement(
-	        "div",
+	        'div',
 	        { className: "container" },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "row" },
+	          'div',
+	          { className: 'row' },
 	          video_list
 	        )
 	      );
@@ -28449,9 +28735,15 @@
 
 	var message = _interopRequireWildcard(_messages);
 
+	var _Login = __webpack_require__(180);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
 	var _facebook = __webpack_require__(182);
 
 	var _facebook2 = _interopRequireDefault(_facebook);
+
+	var _project = __webpack_require__(194);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -28476,17 +28768,18 @@
 	  }
 
 	  _createClass(VideoCreate, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
 	      var _props = this.props;
 	      var albums = _props.albums;
 	      var history = _props.history;
 
-
-	      var facebook_helper = new _facebook2.default();
-	      if (!albums.isLoggedIn) {
-	        history.pushState(null, '/login');
-	      }
+	      var facebook_helper = new _facebook2.default(history);
+	      facebook_helper.getLoginStatus(function (response) {
+	        if (response.status != "connected") {
+	          history.pushState(null, _project.URL_PREFIX + '/login');
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -28541,7 +28834,7 @@
 	      if (this.props.albums.frontend.creating_video) {
 	        creating_video = _react2.default.createElement(
 	          'div',
-	          null,
+	          { className: "sharing-video" },
 	          _react2.default.createElement(
 	            'div',
 	            { className: "modal show", 'data-backdrop': "static", 'data-keyboard': "false" },
@@ -28582,12 +28875,13 @@
 	    }
 	  }, {
 	    key: 'handleShare',
-	    value: function handleShare() {
+	    value: function handleShare(video) {
 	      var _props2 = this.props;
 	      var actions = _props2.actions;
 	      var history = _props2.history;
 
-	      actions.handle_share(history);
+	      actions.handle_share(video, history);
+	      // actions.complete_share()
 	    }
 	  }, {
 	    key: 'share_video_popup',
@@ -28621,11 +28915,14 @@
 	                    'MY VIDEO'
 	                  ),
 	                  _react2.default.createElement(
-	                    'video',
-	                    { width: '500', controls: true },
-	                    _react2.default.createElement('source', { src: latest_video, type: 'video/mp4' }),
-	                    _react2.default.createElement('source', { src: latest_video, type: 'video/ogg' }),
-	                    'Your browser does not support HTML5 video.'
+	                    'div',
+	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
+	                    _react2.default.createElement(
+	                      'video',
+	                      { width: '800', controls: true },
+	                      _react2.default.createElement('source', { src: latest_video, type: 'video/mp4' }),
+	                      'Your browser does not support HTML5 video.'
+	                    )
 	                  ),
 	                  _react2.default.createElement(
 	                    'div',
@@ -28638,16 +28935,56 @@
 	                  ),
 	                  _react2.default.createElement(
 	                    'button',
-	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this) },
+	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, latest_video) },
 	                    'SHARE'
 	                  )
 	                )
 	              )
 	            )
 	          ),
-	          _react2.default.createElement('div', { className: "modal-backdrop fade in" })
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in" }),
+	          this.sharing_video_popup()
 	        );
 	        return share_video;
+	      }
+	    }
+	  }, {
+	    key: 'sharing_video_popup',
+	    value: function sharing_video_popup() {
+	      var sharing_video;
+	      if (this.props.albums.frontend.start_share_video) {
+	        sharing_video = _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'div',
+	            { className: "modal show sharing-video", 'data-backdrop': "static", 'data-keyboard': "false" },
+	            _react2.default.createElement(
+	              'div',
+	              { className: "modal-dialog" },
+	              _react2.default.createElement(
+	                'div',
+	                { className: "modal-content" },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: "modal-body" },
+	                  _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    'Sharing your video ...'
+	                  ),
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: "progress" },
+	                    _react2.default.createElement('div', { className: "progress-bar progress-bar-striped active", role: "progressbar", style: { width: '100%' } })
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('div', { className: "modal-backdrop fade in sharing-overlay" })
+	        );
+	        return sharing_video;
 	      }
 	    }
 	  }, {
@@ -28663,13 +29000,21 @@
 	      var actions = _props3.actions;
 	      var history = _props3.history;
 
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        this.creating_video_message(),
-	        this.share_video_popup(),
-	        _react2.default.createElement(_album_list2.default, { albums: albums, actions: actions, history: history })
-	      );
+	      if (albums.isLoggedIn) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          this.creating_video_message(),
+	          this.share_video_popup(),
+	          _react2.default.createElement(_album_list2.default, { albums: albums, actions: actions, history: history })
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_Login2.default, { login: albums, actions: actions, history: history })
+	        );
+	      }
 	    }
 	  }]);
 
@@ -28839,13 +29184,13 @@
 	  }
 
 	  _createClass(AlbumList, [{
-	    key: 'mouseEnter',
-	    value: function mouseEnter(id) {
+	    key: 'handleMouseEnter',
+	    value: function handleMouseEnter(id) {
 	      this.setState({ 'isMouseInsideID': id });
 	    }
 	  }, {
-	    key: 'mouseLeave',
-	    value: function mouseLeave() {
+	    key: 'handleMouseLeave',
+	    value: function handleMouseLeave() {
 	      this.setState({ 'isMouseInsideID': null });
 	    }
 	  }, {
@@ -28891,7 +29236,7 @@
 	        }).map(function (album) {
 	          return _react2.default.createElement(
 	            'div',
-	            { className: "col-sm-3", key: album.id, onMouseEnter: _this2.mouseEnter.bind(_this2, album.id), onMouseLeave: _this2.mouseLeave.bind(_this2) },
+	            { className: "col-sm-3", key: album.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, album.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'panel panel-default panel-overlay', key: album.id },
@@ -28987,6 +29332,7 @@
 	if (localStorage['picovico']) {
 	  initialState = JSON.parse(localStorage['picovico']);
 	  initialState['frontend'] = { 'authenticating': false };
+	  initialState['vdd']['assets'] = [];
 	} else {
 	  initialState = {
 	    isLoggedIn: false,
@@ -29041,6 +29387,12 @@
 
 	    case types.FE_COMPLETE_SHARE_VIDEO:
 	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { share_video: false }) });
+
+	    case types.FE_FB_VIDEO_SHARING:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { start_share_video: true }) });
+
+	    case types.FE_FB_VIDEO_SHARING_COMPLETE:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { start_share_video: false }) });
 
 	    case types.USER_INFO:
 	      return Object.assign({}, state, { user_info: action.response });
