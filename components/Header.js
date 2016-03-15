@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 import { Router, Route, Link } from 'react-router'
+import { URL_PREFIX } from '../constants/project'
 
 
 class Header extends Component {
