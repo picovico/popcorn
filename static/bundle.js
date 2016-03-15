@@ -28133,6 +28133,8 @@
 
 	var _reactRouter = __webpack_require__(200);
 
+	var _project = __webpack_require__(194);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28180,7 +28182,7 @@
 	              { className: this.state.activeClassKey == "videos" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: URL_PREFIX + "/videos", onClick: this.handleClick.bind(this, "videos") },
+	                { to: _project.URL_PREFIX + "/videos", onClick: this.handleClick.bind(this, "videos") },
 	                'My Videos'
 	              )
 	            ),
@@ -28189,7 +28191,7 @@
 	              { className: this.state.activeClassKey == "albums" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: URL_PREFIX + "/create", onClick: this.handleClick.bind(this, "albums") },
+	                { to: _project.URL_PREFIX + "/create", onClick: this.handleClick.bind(this, "albums") },
 	                'Select Album'
 	              )
 	            )
