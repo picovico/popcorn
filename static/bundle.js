@@ -62,7 +62,7 @@
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
-	var _Root = __webpack_require__(268);
+	var _Root = __webpack_require__(269);
 
 	var _Root2 = _interopRequireDefault(_Root);
 
@@ -21428,7 +21428,7 @@
 	          };
 	          if (typeof FB == 'undefined') {
 	            (function (d, s, id) {
-	              var js = undefined,
+	              var js = void 0,
 	                  fjs = d.getElementsByTagName(s)[0];
 	              if (d.getElementById(id)) return;
 	              js = d.createElement(s);
@@ -22702,7 +22702,7 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reducers = __webpack_require__(266);
+	var _reducers = __webpack_require__(267);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -28005,11 +28005,11 @@
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _VideoListView = __webpack_require__(260);
+	var _VideoListView = __webpack_require__(261);
 
 	var _VideoListView2 = _interopRequireDefault(_VideoListView);
 
-	var _VideoCreateView = __webpack_require__(263);
+	var _VideoCreateView = __webpack_require__(264);
 
 	var _VideoCreateView2 = _interopRequireDefault(_VideoCreateView);
 
@@ -28064,6 +28064,10 @@
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
+	var _reactHttpsRedirect = __webpack_require__(260);
+
+	var _reactHttpsRedirect2 = _interopRequireDefault(_reactHttpsRedirect);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28089,8 +28093,12 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_Header2.default, null),
-	        this.props.children
+	        _react2.default.createElement(
+	          _reactHttpsRedirect2.default,
+	          null,
+	          _react2.default.createElement(_Header2.default, null),
+	          this.props.children
+	        )
 	      );
 	    }
 	  }]);
@@ -28218,7 +28226,69 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _List = __webpack_require__(261);
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HttpsRedirect = function (_React$Component) {
+	  _inherits(HttpsRedirect, _React$Component);
+
+	  function HttpsRedirect() {
+	    _classCallCheck(this, HttpsRedirect);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(HttpsRedirect).apply(this, arguments));
+	  }
+
+	  _createClass(HttpsRedirect, [{
+	    key: 'isLocalHost',
+	    value: function isLocalHost(hostname) {
+	      return !!(hostname === 'localhost' || hostname === '[::1]' || hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/));
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (window.location.protocol === 'http:' && !this.isLocalHost(window.location.hostname)) {
+	        window.location.protocol = 'https:';
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.props.children
+	      );
+	    }
+	  }]);
+
+	  return HttpsRedirect;
+	}(_react2.default.Component);
+
+	HttpsRedirect.propTypes = {
+	  children: _react2.default.PropTypes.array
+	};
+
+	exports.default = HttpsRedirect;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _List = __webpack_require__(262);
 
 	var _List2 = _interopRequireDefault(_List);
 
@@ -28238,7 +28308,7 @@
 
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 
-	var _pagination = __webpack_require__(262);
+	var _pagination = __webpack_require__(263);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -28469,7 +28539,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(VideoList);
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28620,7 +28690,7 @@
 	exports.default = List;
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28702,7 +28772,7 @@
 	exports.default = Pagination;
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28725,11 +28795,11 @@
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
-	var _Create = __webpack_require__(264);
+	var _Create = __webpack_require__(265);
 
 	var _Create2 = _interopRequireDefault(_Create);
 
-	var _album_list = __webpack_require__(265);
+	var _album_list = __webpack_require__(266);
 
 	var _album_list2 = _interopRequireDefault(_album_list);
 
@@ -29047,7 +29117,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(VideoCreate);
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29150,7 +29220,7 @@
 	exports.default = Create;
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29286,7 +29356,7 @@
 	exports.default = AlbumList;
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29295,7 +29365,7 @@
 	  value: true
 	});
 
-	var _picovico = __webpack_require__(267);
+	var _picovico = __webpack_require__(268);
 
 	var _picovico2 = _interopRequireDefault(_picovico);
 
@@ -29313,7 +29383,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29420,7 +29490,7 @@
 	}
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

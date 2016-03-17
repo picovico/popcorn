@@ -7,14 +7,17 @@ import { RouteHandler } from 'react-router'
 import Header from '../components/Header'
 import * as Actions from '../actions/Facebook'
 
+import HttpsRedirect from 'react-https-redirect'
 
 class App extends Component {
 
   render() {
     return (
       <div>
-        <Header />
-        {this.props.children}
+        <HttpsRedirect>
+          <Header />
+          {this.props.children}
+        </HttpsRedirect>
       </div>
     )
   }
