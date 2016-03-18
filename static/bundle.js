@@ -22652,9 +22652,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	// export const APP_ID = '1003470959709853'; // Picovico
-	var APP_ID = exports.APP_ID = '583842195104446'; // Picovico Popcorn Live
-	// export const APP_ID = '583842195104446'; // Picovico Popcorn Test
+	var APP_ID = exports.APP_ID = '150333628356928'; // Picovico
 
 /***/ },
 /* 194 */
