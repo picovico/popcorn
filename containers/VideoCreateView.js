@@ -101,7 +101,7 @@ class VideoCreate extends Component {
                                   <button type={"button"} className={"close"} data-dismiss={"modal"} onClick={this.handleClick.bind(this)}>&times;</button>
                                   <h3>MY VIDEO</h3>
                                   <div align={"center"} className={"embed-responsive embed-responsive-16by9"}>
-                                  <video width="650" controls>
+                                  <video width="500" controls>
                                     <source src={last_video_url} type="video/mp4" />
                                     Your browser does not support HTML5 video.
                                   </video>
