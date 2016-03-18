@@ -28427,7 +28427,7 @@
 	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
 	                    _react2.default.createElement(
 	                      'video',
-	                      { width: '800', controls: true },
+	                      { width: '650', controls: true },
 	                      _react2.default.createElement('source', { src: video_detail, type: 'video/mp4' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
@@ -29006,7 +29006,7 @@
 	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
 	                    _react2.default.createElement(
 	                      'video',
-	                      { width: '800', controls: true },
+	                      { width: '650', controls: true },
 	                      _react2.default.createElement('source', { src: last_video_url, type: 'video/mp4' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
