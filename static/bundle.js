@@ -21966,12 +21966,12 @@
 
 	function check_rendered_video() {
 	  return function (dispatch, getState) {
-
+	    var last_video_created = getState().picovico.vdd.id;
 	    return dispatch(get_rendered_video()).then(function (response) {
 	      if (response.status == 7102) {
 	        return dispatch(list_video()).then(function (response) {
 	          dispatch(reset_vdd());
-	          dispatch({ type: types.FE_COMPLETE_CREATING_VIDEO });
+	          dispatch({ last_video_created: last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO });
 	          dispatch({ type: types.FE_SHARE_VIDEO });
 	        });
 	      } else {
@@ -22652,7 +22652,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var APP_ID = exports.APP_ID = '1003470959709853';
+	// export const APP_ID = '1003470959709853'; // Picovico
+	var APP_ID = exports.APP_ID = '583842195104446'; // Picovico Popcorn Live
+	// export const APP_ID = '583842195104446'; // Picovico Popcorn Test
 
 /***/ },
 /* 194 */
@@ -28391,11 +28393,12 @@
 	      var share_video;
 	      var video_id = this.state.play_video;
 	      if (this.props.videos.frontend.share_video) {
-	        var video_detail = this.props.videos.user_videos.videos.filter(function (video) {
+	        window.x = this.props.videos.user_videos;
+	        var filtered_video = this.props.videos.user_videos.videos.filter(function (video) {
 	          return video.id == video_id;
-	        }).map(function (url) {
-	          return url.video[360]['url'];
-	        })[0];
+	        });
+	        var available_quality = Object.keys(filtered_video[0].video)[0];
+	        var video_detail = filtered_video[0].video[available_quality]['url'];
 	        share_video = _react2.default.createElement(
 	          'div',
 	          null,
@@ -28604,6 +28607,14 @@
 	      return btn_value;
 	    }
 	  }, {
+	    key: 'getInlineStyle',
+	    value: function getInlineStyle(video) {
+	      var inlineStyle = {
+	        backgroundImage: 'url(' + video.thumbnail['360'] + ')'
+	      };
+	      return inlineStyle;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -28620,11 +28631,11 @@
 	            { className: "col-sm-4", key: video.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, video.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
-	              { className: "panel panel-default panel-overlay", key: video.id },
+	              { className: "panel panel-default panel-overlay panel-video", key: video.id },
 	              _react2.default.createElement(
 	                'div',
 	                { className: "panel-body" },
-	                _react2.default.createElement('img', { className: "img-responsive center-block", src: video.thumbnail['360'] }),
+	                _react2.default.createElement('div', { className: "panel-bg", style: _this2.getInlineStyle(video) }),
 	                _this2.state.isMouseInsideID === video.id ? _this2.getBtn(video.id) : null
 	              ),
 	              _react2.default.createElement(
@@ -28960,7 +28971,13 @@
 	    value: function share_video_popup() {
 	      var share_video;
 	      if (this.props.albums.frontend.share_video) {
-	        var latest_video = this.props.albums.user_videos.videos[0].video[360]['url'];
+	        var last_video_id = this.props.albums.frontend.last_video_created;
+	        var last_video = this.props.albums.user_videos.videos.filter(function (video) {
+	          return video.id === last_video_id;
+	        })[0];
+	        var available_quality = Object.keys(last_video.video)[0];
+	        var last_video_url = last_video.video[available_quality]['url'];
+
 	        share_video = _react2.default.createElement(
 	          'div',
 	          null,
@@ -28992,7 +29009,7 @@
 	                    _react2.default.createElement(
 	                      'video',
 	                      { width: '800', controls: true },
-	                      _react2.default.createElement('source', { src: latest_video, type: 'video/mp4' }),
+	                      _react2.default.createElement('source', { src: last_video_url, type: 'video/mp4' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
 	                  ),
@@ -29007,7 +29024,7 @@
 	                  ),
 	                  _react2.default.createElement(
 	                    'button',
-	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, latest_video) },
+	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, last_video_url) },
 	                    'SHARE'
 	                  )
 	                )
@@ -29294,6 +29311,13 @@
 	      return btn_value;
 	    }
 	  }, {
+	    key: 'getInlineStyle',
+	    value: function getInlineStyle(album) {
+	      return {
+	        backgroundImage: 'url(' + album.photos.data[0].source + ')'
+	      };
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -29311,11 +29335,11 @@
 	            { className: "col-sm-3", key: album.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, album.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'panel panel-default panel-overlay', key: album.id },
+	              { className: 'panel panel-default panel-overlay panel-fb-album', key: album.id },
 	              _react2.default.createElement(
 	                'div',
 	                { className: "panel-body" },
-	                _react2.default.createElement('img', { className: "img-responsive center-block", src: album.photos.data[0].source }),
+	                _react2.default.createElement('div', { className: "panel-bg", style: _this2.getInlineStyle(album) }),
 	                _this2.state.isMouseInsideID === album.id ? _this2.getBtn(album.photos.data.length, album.id) : null
 	              ),
 	              _react2.default.createElement(
@@ -29452,7 +29476,7 @@
 	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { creating_video: true }) });
 
 	    case types.FE_COMPLETE_CREATING_VIDEO:
-	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { creating_video: false }) });
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { creating_video: false, last_video_created: action.last_video_created }) });
 
 	    case types.FE_SHARE_VIDEO:
 	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { share_video: true }) });

@@ -207,12 +207,12 @@ var wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export function check_rendered_video(){
   return (dispatch, getState) => {
-
+    var last_video_created = getState().picovico.vdd.id
     return dispatch(get_rendered_video()).then(response => {
       if(response.status == 7102){
         return dispatch(list_video()).then(response => {
           dispatch(reset_vdd())
-          dispatch({type: types.FE_COMPLETE_CREATING_VIDEO})
+          dispatch({last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO})
           dispatch({type: types.FE_SHARE_VIDEO})
         })
       }else{

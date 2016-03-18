@@ -88,7 +88,11 @@ class VideoCreate extends Component {
     share_video_popup(){
       var share_video;
       if(this.props.albums.frontend.share_video){
-        var latest_video = this.props.albums.user_videos.videos[0].video[360]['url']
+        var last_video_id = this.props.albums.frontend.last_video_created
+        var last_video = this.props.albums.user_videos.videos.filter(video => video.id===last_video_id)[0]
+        var available_quality = Object.keys(last_video.video)[0]
+        var last_video_url = last_video.video[available_quality]['url']
+
         share_video = <div>
                           <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
                             <div className={"modal-dialog modal-lg"}>
@@ -98,14 +102,14 @@ class VideoCreate extends Component {
                                   <h3>MY VIDEO</h3>
                                   <div align={"center"} className={"embed-responsive embed-responsive-16by9"}>
                                   <video width="800" controls>
-                                    <source src={latest_video} type="video/mp4" />
+                                    <source src={last_video_url} type="video/mp4" />
                                     Your browser does not support HTML5 video.
                                   </video>
                                   </div>
                                   <div className={"share-msg"}>
                                   <h4>Like the video? Share it with your friends!</h4>
                                   </div>
-                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, latest_video)}>SHARE</button>
+                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, last_video_url)}>SHARE</button>
                                 </div>
                               </div>
                             </div>

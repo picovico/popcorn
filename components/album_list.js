@@ -29,6 +29,12 @@ class AlbumList extends Component {
     return btn_value
   }
 
+  getInlineStyle(album){
+    return {
+      backgroundImage: 'url(' + album.photos.data[0].source +')'
+    }
+  }
+
   render() {
   	var album_list;
   	const {albums} = this.props
@@ -36,9 +42,10 @@ class AlbumList extends Component {
 
   		album_list = albums.user_info.albums.data.filter(album => album.photos).map((album => {
         				return  <div className={"col-sm-3"} key={album.id} onMouseEnter={this.handleMouseEnter.bind(this, album.id)} onMouseLeave={this.handleMouseLeave.bind(this)}>
-                          <div className={'panel panel-default panel-overlay'} key={album.id} >
+                          <div className={'panel panel-default panel-overlay panel-fb-album'} key={album.id} >
                             <div className={"panel-body"}>
-                              <img className={"img-responsive center-block"} src={album.photos.data[0].source} />
+                              <div className={"panel-bg"} style={this.getInlineStyle(album)}>
+                              </div>
                               {(this.state.isMouseInsideID === album.id) ?  this.getBtn(album.photos.data.length, album.id): null}
                             </div>
                             <div className={"panel-footer"}>

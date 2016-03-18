@@ -51,7 +51,10 @@ class VideoList extends Component {
       var share_video;
       var video_id = this.state.play_video
       if(this.props.videos.frontend.share_video){
-        var video_detail = this.props.videos.user_videos.videos.filter(video => video.id==video_id).map(url => url.video[360]['url'])[0]
+        window.x = this.props.videos.user_videos
+        var filtered_video = this.props.videos.user_videos.videos.filter(video => video.id==video_id)
+        var available_quality = Object.keys(filtered_video[0].video)[0]
+        var video_detail = filtered_video[0].video[available_quality]['url']
         share_video = <div>
                           <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
                             <div className={"modal-dialog modal-lg"}>

@@ -51,7 +51,7 @@ export default function picovico(state = initialState, action) {
       return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {creating_video: true})})
 
     case types.FE_COMPLETE_CREATING_VIDEO:
-      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {creating_video: false})})
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {creating_video: false, last_video_created: action.last_video_created})})
 
     case types.FE_SHARE_VIDEO:
       return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {share_video: true})})
