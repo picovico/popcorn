@@ -185,8 +185,6 @@ export function render_video(){
   return (dispatch, getState) => {
 
     var video_id = getState().picovico.vdd.id
-    console.log("my video id")
-    console.log(video_id)
     var pv_headers = getState().picovico.headers
     return dispatch(picovicoApi({url: `me/videos/${video_id}/render`, method: "POST", headers: pv_headers}
       )).then(response => {
@@ -207,7 +205,6 @@ export function get_rendered_video(){
       )).then(response => {
         return response.json()
     }).then(response => {
-      console.log("rendered video response")
       return response
     })
   }
@@ -219,7 +216,6 @@ export function check_rendered_video(){
   return (dispatch, getState) => {
 
     return dispatch(get_rendered_video()).then(response => {
-      console.log('hurray')
       console.log(response)
       console.log(response.status)
       if(response.status == 7102){

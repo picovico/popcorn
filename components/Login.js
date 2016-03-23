@@ -26,6 +26,7 @@ class Login extends Component{
                               </div>
                             </div>
                           </div>
+                          <div className={"modal-backdrop fade in"}></div>
                         </div>
       return authenticating
     }

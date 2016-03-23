@@ -8,9 +8,6 @@ import Root from './containers/Root'
 
 
 const store = configureStore()
-console.log("store")
-console.log(store)
-console.log(localStorage)
 
 render(
   	<Root store={store} />,
