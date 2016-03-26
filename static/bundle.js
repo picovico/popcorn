@@ -21147,7 +21147,7 @@
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -21189,7 +21189,7 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _reactCookie = __webpack_require__(183);
+	var _reactCookie = __webpack_require__(184);
 
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 
@@ -21362,7 +21362,7 @@
 
 /***/ },
 /* 182 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -21372,39 +21372,9 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _social_config = __webpack_require__(183);
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	// class FacebookHelper{
-	//     constructor(history){
-	//         window.fbAsyncInit = () => {
-	//                 FB.init({
-	//                     appId      : '1003470959709853',
-	//                     cookie     : true,
-	//                     xfbml      : true,
-	//                     version    : 'v2.5'
-	//                 });
-
-	//                 FB.getLoginStatus(function(response){
-	//                   if(response.status != "connected"){
-	//                     history.pushState(null, "/login")
-	//                   }
-	//                 })
-
-	//             }
-	//         if (typeof(FB) == 'undefined') {
-	//             ((d, s, id) => {
-	//               let js, fjs = d.getElementsByTagName(s)[0];
-	//               if (d.getElementById(id)) return;
-	//               js = d.createElement(s);
-	//               js.id = id;
-	//               js.src = "//connect.facebook.net/en_US/sdk.js";
-	//               fjs.parentNode.insertBefore(js, fjs);
-	//             })(document, 'script', 'facebook-jssdk');
-	//         }
-	//     }
-	// }
-
-	// export default FacebookHelper
 
 	var FacebookHelper = function () {
 	  function FacebookHelper() {
@@ -21418,7 +21388,8 @@
 	        this.scriptPromise = new Promise(function (resolve, reject) {
 	          window.fbAsyncInit = function () {
 	            FB.init({
-	              appId: '1003470959709853',
+	              // appId      : '1003470959709853',
+	              appId: _social_config.APP_ID,
 	              cookie: true,
 	              xfbml: true,
 	              version: 'v2.5'
@@ -21457,9 +21428,20 @@
 
 /***/ },
 /* 183 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var APP_ID = exports.APP_ID = '150333628356928'; // Picovico
+
+/***/ },
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var cookie = __webpack_require__(184);
+	var cookie = __webpack_require__(185);
 
 	var _rawCookie = {};
 	var _res = undefined;
@@ -21553,7 +21535,7 @@
 
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports) {
 
 	/*!
@@ -21715,7 +21697,7 @@
 
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21744,11 +21726,11 @@
 	exports.play_video = play_video;
 	exports.album_selection_error = album_selection_error;
 
-	var _ActionTypes = __webpack_require__(186);
+	var _ActionTypes = __webpack_require__(187);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
-	var _messages = __webpack_require__(187);
+	var _messages = __webpack_require__(188);
 
 	var message = _interopRequireWildcard(_messages);
 
@@ -21756,15 +21738,13 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _api = __webpack_require__(188);
+	var _api = __webpack_require__(189);
 
 	var _api2 = _interopRequireDefault(_api);
 
-	var _social_config = __webpack_require__(193);
+	var _social_config = __webpack_require__(183);
 
-	var _social_config2 = _interopRequireDefault(_social_config);
-
-	var _urls = __webpack_require__(192);
+	var _urls = __webpack_require__(193);
 
 	var urls = _interopRequireWildcard(_urls);
 
@@ -22102,7 +22082,7 @@
 	exports.handleLogout = handleLogout;
 
 /***/ },
-/* 186 */
+/* 187 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22135,7 +22115,7 @@
 	var FE_FB_VIDEO_SHARING_COMPLETE = exports.FE_FB_VIDEO_SHARING_COMPLETE = "FE_FB_VIDEO_SHARING_COMPLETE";
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22150,7 +22130,7 @@
 	var CREATING_VIDEO_MESSAGE = exports.CREATING_VIDEO_MESSAGE = "Your video is being created. You will be redirected to video page after video is created";
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22160,17 +22140,17 @@
 	});
 	exports.default = picovicoApi;
 
-	__webpack_require__(189);
+	__webpack_require__(190);
 
-	var _isomorphicFetch = __webpack_require__(190);
+	var _isomorphicFetch = __webpack_require__(191);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _urls = __webpack_require__(192);
+	var _urls = __webpack_require__(193);
 
 	var urls = _interopRequireWildcard(_urls);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -22213,25 +22193,25 @@
 	}
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports) {
 
 	module.exports = FormData;
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(191);
+	__webpack_require__(192);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -22626,7 +22606,7 @@
 
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22642,17 +22622,6 @@
 	var ADD_MUSIC = exports.ADD_MUSIC = "me/musics";
 	var GET_VIDEOS = exports.GET_VIDEOS = "me/videos";
 	var CREATE_VIDEO = exports.CREATE_VIDEO = "me/videos/{video_id}/render";
-
-/***/ },
-/* 193 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var APP_ID = exports.APP_ID = '150333628356928'; // Picovico
 
 /***/ },
 /* 194 */
@@ -28060,7 +28029,7 @@
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -28300,11 +28269,11 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
-	var _reactCookie = __webpack_require__(183);
+	var _reactCookie = __webpack_require__(184);
 
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 
@@ -28427,7 +28396,7 @@
 	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
 	                    _react2.default.createElement(
 	                      'video',
-	                      { width: '650', controls: true },
+	                      { width: '500', controls: true },
 	                      _react2.default.createElement('source', { src: video_detail, type: 'video/mp4' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
@@ -28800,7 +28769,7 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -28812,7 +28781,7 @@
 
 	var _album_list2 = _interopRequireDefault(_album_list);
 
-	var _messages = __webpack_require__(187);
+	var _messages = __webpack_require__(188);
 
 	var message = _interopRequireWildcard(_messages);
 
@@ -29006,7 +28975,7 @@
 	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
 	                    _react2.default.createElement(
 	                      'video',
-	                      { width: '650', controls: true },
+	                      { width: '500', controls: true },
 	                      _react2.default.createElement('source', { src: last_video_url, type: 'video/mp4' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
@@ -29151,7 +29120,7 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -29415,7 +29384,7 @@
 	});
 	exports.default = picovico;
 
-	var _ActionTypes = __webpack_require__(186);
+	var _ActionTypes = __webpack_require__(187);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 

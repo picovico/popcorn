@@ -2,11 +2,10 @@ import * as types from '../constants/ActionTypes'
 import * as message from '../constants/messages'
 import FacebookHelper from '../utils/facebook'
 import picovicoApi from '../api/api'
-import APP_ID from '../constants/social_config'
+import { APP_ID } from '../constants/social_config'
 import * as urls from '../constants/urls'
 import * as presets from '../constants/project'
 import { URL_PREFIX } from '../constants/project'
-
 
 export function loginSuccess(response){
       return { response, type: types.LOGIN }
