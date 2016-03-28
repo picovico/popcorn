@@ -22091,7 +22091,7 @@
 	      value: true
 	});
 	var PV_APP_ID = exports.PV_APP_ID = 'd00a43278fd91ca2f3e39d70a984b94c6e7fb502eb6421abe28a0d5ae862a6e4';
-	var PV_DEVICE_ID = exports.PV_DEVICE_ID = 'com.facebook.apps.picovico';
+	var PV_DEVICE_ID = exports.PV_DEVICE_ID = 'com.facebook.apps.picovico.genie';
 
 	var PRESETS = exports.PRESETS = {
 	      'style': 'vanilla',
