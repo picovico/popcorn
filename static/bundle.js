@@ -21794,7 +21794,6 @@
 	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
 	        return dispatch({ type: types.FE_EMAIL_NOT_FOUND_ERROR });
 	      }
-	      console.log(accessToken);
 
 	      var data = { "token": accessToken,
 	        "service": "facebook",
@@ -22675,7 +22674,7 @@
 	var STYLE = exports.STYLE = "vanilla";
 	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
 
-	var URL_PREFIX = exports.URL_PREFIX = "/";
+	var URL_PREFIX = exports.URL_PREFIX = "/popcorn/";
 
 /***/ },
 /* 195 */
@@ -28781,7 +28780,7 @@
 	      var facebook_helper = new _facebook2.default(history);
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, _project.URL_PREFIX + '/login');
+	          history.pushState(null, _project.URL_PREFIX + 'login');
 	        }
 	      });
 	    }
