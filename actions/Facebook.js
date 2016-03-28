@@ -41,13 +41,14 @@ export function fetchUserInfo(router, accessToken){
               return dispatch({type: types.FE_LOGIN_ERROR})
             }
           }).then(function(response){
+            console.log(response)
             return dispatch(loginSuccess(response))
           }).then(function(response){
             return dispatch(userInfo(fb_info_response))
           }).then(function(response){
             dispatch(list_video())
             dispatch({type: types.FE_COMPLETE_AUTHENTICATING})
-            router.pushState(null, URL_PREFIX+'/videos')
+            router.pushState(null, URL_PREFIX+'videos')
           })
     })
   }
@@ -275,7 +276,7 @@ export function handle_share(video ,history){
     
     FB.getLoginStatus(function(response){
       if(response.status != "connected"){
-        history.pushState(null, URL_PREFIX+'/login')
+        history.pushState(null, URL_PREFIX+'login')
       }else{
         var accessToken = response.authResponse.accessToken
         FB.api(
@@ -292,7 +293,7 @@ export function handle_share(video ,history){
             /* handle the result */
             dispatch({type: types.FE_FB_VIDEO_SHARING_COMPLETE})
             dispatch(complete_share())
-            history.pushState(null, URL_PREFIX+'/videos')
+            history.pushState(null, URL_PREFIX+'videos')
           }else{
             dispatch(complete_share())
             localStorage.removeItem('pv_fb_token')
@@ -319,9 +320,9 @@ function handleLogin(router) {
         dispatch(fetchUserInfo(router, accessToken))
        
   		} else if (response.status === 'not_authorized') {
-    		router.pushState(null, URL_PREFIX+'/login')
+    		router.pushState(null, URL_PREFIX+'login')
   		} else {
-    		router.pushState(null, URL_PREFIX+'/login')
+    		router.pushState(null, URL_PREFIX+'login')
  	 	  }
     }, {scope: ['user_photos', 'email', 'publish_actions']})
   }

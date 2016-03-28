@@ -23,7 +23,7 @@ class VideoList extends Component {
     let facebook_helper = new FacebookHelper(history)
     facebook_helper.getLoginStatus(function(response){
       if(response.status != "connected"){
-        history.pushState(null, URL_PREFIX+'/login')
+        history.pushState(null, URL_PREFIX+'login')
       }
     })
   }

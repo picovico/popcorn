@@ -21794,6 +21794,7 @@
 	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
 	        return dispatch({ type: types.FE_EMAIL_NOT_FOUND_ERROR });
 	      }
+	      console.log(accessToken);
 
 	      var data = { "token": accessToken,
 	        "service": "facebook",
@@ -21808,13 +21809,14 @@
 	          return dispatch({ type: types.FE_LOGIN_ERROR });
 	        }
 	      }).then(function (response) {
+	        console.log(response);
 	        return dispatch(loginSuccess(response));
 	      }).then(function (response) {
 	        return dispatch(userInfo(fb_info_response));
 	      }).then(function (response) {
 	        dispatch(list_video());
 	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
-	        router.pushState(null, _project.URL_PREFIX + '/videos');
+	        router.pushState(null, _project.URL_PREFIX + 'videos');
 	      });
 	    });
 	  };
@@ -22041,7 +22043,7 @@
 
 	    FB.getLoginStatus(function (response) {
 	      if (response.status != "connected") {
-	        history.pushState(null, _project.URL_PREFIX + '/login');
+	        history.pushState(null, _project.URL_PREFIX + 'login');
 	      } else {
 	        var accessToken = response.authResponse.accessToken;
 	        FB.api("/me/videos", "POST", {
@@ -22054,7 +22056,7 @@
 	            /* handle the result */
 	            dispatch({ type: types.FE_FB_VIDEO_SHARING_COMPLETE });
 	            dispatch(complete_share());
-	            history.pushState(null, _project.URL_PREFIX + '/videos');
+	            history.pushState(null, _project.URL_PREFIX + 'videos');
 	          } else {
 	            dispatch(complete_share());
 	            localStorage.removeItem('pv_fb_token');
@@ -22080,9 +22082,9 @@
 	        // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
 	        dispatch(fetchUserInfo(router, accessToken));
 	      } else if (response.status === 'not_authorized') {
-	        router.pushState(null, _project.URL_PREFIX + '/login');
+	        router.pushState(null, _project.URL_PREFIX + 'login');
 	      } else {
-	        router.pushState(null, _project.URL_PREFIX + '/login');
+	        router.pushState(null, _project.URL_PREFIX + 'login');
 	      }
 	    }, { scope: ['user_photos', 'email', 'publish_actions'] });
 	  };
@@ -22673,7 +22675,7 @@
 	var STYLE = exports.STYLE = "vanilla";
 	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
 
-	var URL_PREFIX = exports.URL_PREFIX = "/popcorn";
+	var URL_PREFIX = exports.URL_PREFIX = "/";
 
 /***/ },
 /* 195 */
@@ -28182,7 +28184,7 @@
 	              { className: this.state.activeClassKey == "videos" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: _project.URL_PREFIX + "/videos", onClick: this.handleClick.bind(this, "videos") },
+	                { to: _project.URL_PREFIX + "videos", onClick: this.handleClick.bind(this, "videos") },
 	                'My Videos'
 	              )
 	            ),
@@ -28191,7 +28193,7 @@
 	              { className: this.state.activeClassKey == "albums" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: _project.URL_PREFIX + "/create", onClick: this.handleClick.bind(this, "albums") },
+	                { to: _project.URL_PREFIX + "create", onClick: this.handleClick.bind(this, "albums") },
 	                'Select Album'
 	              )
 	            )
@@ -28285,7 +28287,7 @@
 	      var facebook_helper = new _facebook2.default(history);
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, _project.URL_PREFIX + '/login');
+	          history.pushState(null, _project.URL_PREFIX + 'login');
 	        }
 	      });
 	    }
@@ -28534,17 +28536,6 @@
 	      return btn_value;
 	    }
 	  }, {
-	    key: 'getVideoName',
-	    value: function getVideoName(name) {
-	      var sliced_name;
-	      if (name.length > 12) {
-	        sliced_name = name.slice(0, 13) + '...';
-	      } else {
-	        sliced_name = name;
-	      }
-	      return sliced_name;
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -28574,7 +28565,7 @@
 	                _react2.default.createElement(
 	                  'div',
 	                  { className: "album-name" },
-	                  _this2.getVideoName(video.name)
+	                  video.name
 	                )
 	              )
 	            )
@@ -29235,17 +29226,6 @@
 	      return btn_value;
 	    }
 	  }, {
-	    key: 'getAlbumName',
-	    value: function getAlbumName(name) {
-	      var sliced_name;
-	      if (name.length > 12) {
-	        sliced_name = name.slice(0, 13) + '...';
-	      } else {
-	        sliced_name = name;
-	      }
-	      return sliced_name;
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -29276,7 +29256,7 @@
 	                _react2.default.createElement(
 	                  'div',
 	                  { className: "album-name" },
-	                  _this2.getAlbumName(album.name)
+	                  album.name
 	                ),
 	                _react2.default.createElement(
 	                  'div',
