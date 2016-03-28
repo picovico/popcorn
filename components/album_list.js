@@ -10,6 +10,7 @@ class AlbumList extends Component {
   handleMouseEnter(id){
     this.setState({'isMouseInsideID': id})
   }
+  
   handleMouseLeave(){
     this.setState({'isMouseInsideID': null})
   }
@@ -42,7 +43,7 @@ class AlbumList extends Component {
                               {(this.state.isMouseInsideID === album.id) ?  this.getBtn(album.photos.data.length, album.id): null}
                             </div>
                             <div className={"panel-footer"}>
-                              <div className={"album-name"}>{ album.name }</div>
+                              <div className={"album-name"}>{album.name}</div>
                               <div className={"photo-count"}>{album.photos.data.length} photo(s)</div>
                             </div>
         				          </div>

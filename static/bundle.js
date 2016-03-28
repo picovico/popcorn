@@ -28534,6 +28534,17 @@
 	      return btn_value;
 	    }
 	  }, {
+	    key: 'getVideoName',
+	    value: function getVideoName(name) {
+	      var sliced_name;
+	      if (name.length > 12) {
+	        sliced_name = name.slice(0, 13) + '...';
+	      } else {
+	        sliced_name = name;
+	      }
+	      return sliced_name;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -28563,7 +28574,7 @@
 	                _react2.default.createElement(
 	                  'div',
 	                  { className: "album-name" },
-	                  video.name
+	                  _this2.getVideoName(video.name)
 	                )
 	              )
 	            )
@@ -29224,6 +29235,17 @@
 	      return btn_value;
 	    }
 	  }, {
+	    key: 'getAlbumName',
+	    value: function getAlbumName(name) {
+	      var sliced_name;
+	      if (name.length > 12) {
+	        sliced_name = name.slice(0, 13) + '...';
+	      } else {
+	        sliced_name = name;
+	      }
+	      return sliced_name;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -29254,7 +29276,7 @@
 	                _react2.default.createElement(
 	                  'div',
 	                  { className: "album-name" },
-	                  album.name
+	                  _this2.getAlbumName(album.name)
 	                ),
 	                _react2.default.createElement(
 	                  'div',
