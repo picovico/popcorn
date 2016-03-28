@@ -21726,31 +21726,31 @@
 	exports.play_video = play_video;
 	exports.album_selection_error = album_selection_error;
 
-	var _ActionTypes = __webpack_require__(187);
+	var _project = __webpack_require__(187);
+
+	var presets = _interopRequireWildcard(_project);
+
+	var _social_config = __webpack_require__(183);
+
+	var _ActionTypes = __webpack_require__(188);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
-	var _messages = __webpack_require__(188);
+	var _messages = __webpack_require__(189);
 
 	var message = _interopRequireWildcard(_messages);
+
+	var _urls = __webpack_require__(190);
+
+	var urls = _interopRequireWildcard(_urls);
 
 	var _facebook = __webpack_require__(182);
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _api = __webpack_require__(189);
+	var _api = __webpack_require__(191);
 
 	var _api2 = _interopRequireDefault(_api);
-
-	var _social_config = __webpack_require__(183);
-
-	var _urls = __webpack_require__(193);
-
-	var urls = _interopRequireWildcard(_urls);
-
-	var _project = __webpack_require__(194);
-
-	var presets = _interopRequireWildcard(_project);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21777,8 +21777,8 @@
 
 	      var data = { "token": accessToken,
 	        "service": "facebook",
-	        "app_id": '277a723c32b3578a549e5aaaf8e79c7f7f3a64a91e12e1e219c6c50db4496a93',
-	        "device_id": "com.facebook.apps.picovico"
+	        "app_id": _project.PV_APP_ID,
+	        "device_id": _project.PV_DEVICE_ID
 	      };
 
 	      return dispatch((0, _api2.default)({ url: urls.LOGIN_EXTERNAL, method: "POST", data: data })).then(function (response) {
@@ -22085,6 +22085,30 @@
 /* 187 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	      value: true
+	});
+	var PV_APP_ID = exports.PV_APP_ID = 'd00a43278fd91ca2f3e39d70a984b94c6e7fb502eb6421abe28a0d5ae862a6e4';
+	var PV_DEVICE_ID = exports.PV_DEVICE_ID = 'com.facebook.apps.picovico';
+
+	var PRESETS = exports.PRESETS = {
+	      'style': 'vanilla',
+	      'quality': '360',
+	      'music': "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3"
+	};
+
+	var QUALITY = exports.QUALITY = 360;
+	var STYLE = exports.STYLE = "vanilla";
+	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
+
+	var URL_PREFIX = exports.URL_PREFIX = "/popcorn";
+
+/***/ },
+/* 188 */
+/***/ function(module, exports) {
+
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -22115,7 +22139,7 @@
 	var FE_FB_VIDEO_SHARING_COMPLETE = exports.FE_FB_VIDEO_SHARING_COMPLETE = "FE_FB_VIDEO_SHARING_COMPLETE";
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22130,7 +22154,25 @@
 	var CREATING_VIDEO_MESSAGE = exports.CREATING_VIDEO_MESSAGE = "Your video is being created. You will be redirected to video page after video is created";
 
 /***/ },
-/* 189 */
+/* 190 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var PICOVICO_API_ENDPOINT = exports.PICOVICO_API_ENDPOINT = "https://api.picovico.com/v2.1/";
+
+	var LOGIN_EXTERNAL = exports.LOGIN_EXTERNAL = "login/external";
+	var BEGIN_PROJECT = exports.BEGIN_PROJECT = "me/videos";
+	var ADD_PHOTO = exports.ADD_PHOTO = "me/photos";
+	var ADD_MUSIC = exports.ADD_MUSIC = "me/musics";
+	var GET_VIDEOS = exports.GET_VIDEOS = "me/videos";
+	var CREATE_VIDEO = exports.CREATE_VIDEO = "me/videos/{video_id}/render";
+
+/***/ },
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22140,13 +22182,13 @@
 	});
 	exports.default = picovicoApi;
 
-	__webpack_require__(190);
+	__webpack_require__(192);
 
-	var _isomorphicFetch = __webpack_require__(191);
+	var _isomorphicFetch = __webpack_require__(193);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _urls = __webpack_require__(193);
+	var _urls = __webpack_require__(190);
 
 	var urls = _interopRequireWildcard(_urls);
 
@@ -22193,25 +22235,25 @@
 	}
 
 /***/ },
-/* 190 */
+/* 192 */
 /***/ function(module, exports) {
 
 	module.exports = FormData;
 
 /***/ },
-/* 191 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(192);
+	__webpack_require__(194);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 192 */
+/* 194 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -22604,45 +22646,6 @@
 	  self.fetch.polyfill = true
 	})(typeof self !== 'undefined' ? self : this);
 
-
-/***/ },
-/* 193 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var PICOVICO_API_ENDPOINT = exports.PICOVICO_API_ENDPOINT = "https://api.picovico.com/v2.1/";
-
-	var LOGIN_EXTERNAL = exports.LOGIN_EXTERNAL = "login/external";
-	var BEGIN_PROJECT = exports.BEGIN_PROJECT = "me/videos";
-	var ADD_PHOTO = exports.ADD_PHOTO = "me/photos";
-	var ADD_MUSIC = exports.ADD_MUSIC = "me/musics";
-	var GET_VIDEOS = exports.GET_VIDEOS = "me/videos";
-	var CREATE_VIDEO = exports.CREATE_VIDEO = "me/videos/{video_id}/render";
-
-/***/ },
-/* 194 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	      value: true
-	});
-	var PRESETS = exports.PRESETS = {
-	      'style': 'vanilla',
-	      'quality': '360',
-	      'music': "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3"
-	};
-
-	var QUALITY = exports.QUALITY = 360;
-	var STYLE = exports.STYLE = "vanilla";
-	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
-
-	var URL_PREFIX = exports.URL_PREFIX = "/popcorn";
 
 /***/ },
 /* 195 */
@@ -27982,7 +27985,7 @@
 
 	var _VideoCreateView2 = _interopRequireDefault(_VideoCreateView);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28110,7 +28113,7 @@
 
 	var _reactRouter = __webpack_require__(200);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28289,7 +28292,7 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -28781,7 +28784,7 @@
 
 	var _album_list2 = _interopRequireDefault(_album_list);
 
-	var _messages = __webpack_require__(188);
+	var _messages = __webpack_require__(189);
 
 	var message = _interopRequireWildcard(_messages);
 
@@ -28793,7 +28796,7 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -29384,7 +29387,7 @@
 	});
 	exports.default = picovico;
 
-	var _ActionTypes = __webpack_require__(187);
+	var _ActionTypes = __webpack_require__(188);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 

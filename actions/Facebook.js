@@ -1,11 +1,14 @@
-import * as types from '../constants/ActionTypes'
-import * as message from '../constants/messages'
+import { PV_APP_ID }    from '../constants/project'
+import { PV_DEVICE_ID } from '../constants/project'
+import { APP_ID }       from '../constants/social_config'
+import { URL_PREFIX }   from '../constants/project'
+import * as types       from '../constants/ActionTypes'
+import * as message     from '../constants/messages'
+import * as urls        from '../constants/urls'
+import * as presets     from '../constants/project'
+
 import FacebookHelper from '../utils/facebook'
-import picovicoApi from '../api/api'
-import { APP_ID } from '../constants/social_config'
-import * as urls from '../constants/urls'
-import * as presets from '../constants/project'
-import { URL_PREFIX } from '../constants/project'
+import picovicoApi    from '../api/api'
 
 export function loginSuccess(response){
       return { response, type: types.LOGIN }
@@ -28,8 +31,8 @@ export function fetchUserInfo(router, accessToken){
 
       let data = {"token": accessToken,
                   "service": "facebook",
-                  "app_id": '277a723c32b3578a549e5aaaf8e79c7f7f3a64a91e12e1e219c6c50db4496a93',
-                  "device_id": "com.facebook.apps.picovico"
+                  "app_id": PV_APP_ID,
+                  "device_id": PV_DEVICE_ID
       }
 
       return dispatch(picovicoApi({url: urls.LOGIN_EXTERNAL, method: "POST", data: data}
