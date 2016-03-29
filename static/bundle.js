@@ -62,7 +62,7 @@
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
-	var _Root = __webpack_require__(268);
+	var _Root = __webpack_require__(269);
 
 	var _Root2 = _interopRequireDefault(_Root);
 
@@ -21147,7 +21147,7 @@
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -21189,7 +21189,7 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _reactCookie = __webpack_require__(183);
+	var _reactCookie = __webpack_require__(184);
 
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 
@@ -21362,7 +21362,7 @@
 
 /***/ },
 /* 182 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -21372,39 +21372,9 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _social_config = __webpack_require__(183);
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	// class FacebookHelper{
-	//     constructor(history){
-	//         window.fbAsyncInit = () => {
-	//                 FB.init({
-	//                     appId      : '1003470959709853',
-	//                     cookie     : true,
-	//                     xfbml      : true,
-	//                     version    : 'v2.5'
-	//                 });
-
-	//                 FB.getLoginStatus(function(response){
-	//                   if(response.status != "connected"){
-	//                     history.pushState(null, "/login")
-	//                   }
-	//                 })
-
-	//             }
-	//         if (typeof(FB) == 'undefined') {
-	//             ((d, s, id) => {
-	//               let js, fjs = d.getElementsByTagName(s)[0];
-	//               if (d.getElementById(id)) return;
-	//               js = d.createElement(s);
-	//               js.id = id;
-	//               js.src = "//connect.facebook.net/en_US/sdk.js";
-	//               fjs.parentNode.insertBefore(js, fjs);
-	//             })(document, 'script', 'facebook-jssdk');
-	//         }
-	//     }
-	// }
-
-	// export default FacebookHelper
 
 	var FacebookHelper = function () {
 	  function FacebookHelper() {
@@ -21418,7 +21388,8 @@
 	        this.scriptPromise = new Promise(function (resolve, reject) {
 	          window.fbAsyncInit = function () {
 	            FB.init({
-	              appId: '1003470959709853',
+	              // appId      : '1003470959709853',
+	              appId: _social_config.APP_ID,
 	              cookie: true,
 	              xfbml: true,
 	              version: 'v2.5'
@@ -21428,7 +21399,7 @@
 	          };
 	          if (typeof FB == 'undefined') {
 	            (function (d, s, id) {
-	              var js = undefined,
+	              var js = void 0,
 	                  fjs = d.getElementsByTagName(s)[0];
 	              if (d.getElementById(id)) return;
 	              js = d.createElement(s);
@@ -21457,9 +21428,20 @@
 
 /***/ },
 /* 183 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var APP_ID = exports.APP_ID = '150333628356928'; // Picovico
+
+/***/ },
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var cookie = __webpack_require__(184);
+	var cookie = __webpack_require__(185);
 
 	var _rawCookie = {};
 	var _res = undefined;
@@ -21553,7 +21535,7 @@
 
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports) {
 
 	/*!
@@ -21715,7 +21697,7 @@
 
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21744,33 +21726,31 @@
 	exports.play_video = play_video;
 	exports.album_selection_error = album_selection_error;
 
-	var _ActionTypes = __webpack_require__(186);
+	var _project = __webpack_require__(187);
+
+	var presets = _interopRequireWildcard(_project);
+
+	var _social_config = __webpack_require__(183);
+
+	var _ActionTypes = __webpack_require__(188);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
-	var _messages = __webpack_require__(187);
+	var _messages = __webpack_require__(189);
 
 	var message = _interopRequireWildcard(_messages);
+
+	var _urls = __webpack_require__(190);
+
+	var urls = _interopRequireWildcard(_urls);
 
 	var _facebook = __webpack_require__(182);
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _api = __webpack_require__(188);
+	var _api = __webpack_require__(191);
 
 	var _api2 = _interopRequireDefault(_api);
-
-	var _social_config = __webpack_require__(193);
-
-	var _social_config2 = _interopRequireDefault(_social_config);
-
-	var _urls = __webpack_require__(192);
-
-	var urls = _interopRequireWildcard(_urls);
-
-	var _project = __webpack_require__(194);
-
-	var presets = _interopRequireWildcard(_project);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21797,8 +21777,8 @@
 
 	      var data = { "token": accessToken,
 	        "service": "facebook",
-	        "app_id": '277a723c32b3578a549e5aaaf8e79c7f7f3a64a91e12e1e219c6c50db4496a93',
-	        "device_id": "com.facebook.apps.picovico"
+	        "app_id": _project.PV_APP_ID,
+	        "device_id": _project.PV_DEVICE_ID
 	      };
 
 	      return dispatch((0, _api2.default)({ url: urls.LOGIN_EXTERNAL, method: "POST", data: data })).then(function (response) {
@@ -21808,14 +21788,13 @@
 	          return dispatch({ type: types.FE_LOGIN_ERROR });
 	        }
 	      }).then(function (response) {
-	        console.log(response);
 	        return dispatch(loginSuccess(response));
 	      }).then(function (response) {
 	        return dispatch(userInfo(fb_info_response));
 	      }).then(function (response) {
 	        dispatch(list_video());
 	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
-	        router.pushState(null, _project.URL_PREFIX + 'videos');
+	        router.pushState(null, _project.URL_PREFIX + '/videos');
 	      });
 	    });
 	  };
@@ -21967,12 +21946,12 @@
 
 	function check_rendered_video() {
 	  return function (dispatch, getState) {
-
+	    var last_video_created = getState().picovico.vdd.id;
 	    return dispatch(get_rendered_video()).then(function (response) {
 	      if (response.status == 7102) {
 	        return dispatch(list_video()).then(function (response) {
 	          dispatch(reset_vdd());
-	          dispatch({ type: types.FE_COMPLETE_CREATING_VIDEO });
+	          dispatch({ last_video_created: last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO });
 	          dispatch({ type: types.FE_SHARE_VIDEO });
 	        });
 	      } else {
@@ -22042,7 +22021,7 @@
 
 	    FB.getLoginStatus(function (response) {
 	      if (response.status != "connected") {
-	        history.pushState(null, _project.URL_PREFIX + 'login');
+	        history.pushState(null, _project.URL_PREFIX + '/login');
 	      } else {
 	        var accessToken = response.authResponse.accessToken;
 	        FB.api("/me/videos", "POST", {
@@ -22055,7 +22034,7 @@
 	            /* handle the result */
 	            dispatch({ type: types.FE_FB_VIDEO_SHARING_COMPLETE });
 	            dispatch(complete_share());
-	            history.pushState(null, _project.URL_PREFIX + 'videos');
+	            history.pushState(null, _project.URL_PREFIX + '/videos');
 	          } else {
 	            dispatch(complete_share());
 	            localStorage.removeItem('pv_fb_token');
@@ -22081,9 +22060,9 @@
 	        // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
 	        dispatch(fetchUserInfo(router, accessToken));
 	      } else if (response.status === 'not_authorized') {
-	        router.pushState(null, _project.URL_PREFIX + 'login');
+	        router.pushState(null, _project.URL_PREFIX + '/login');
 	      } else {
-	        router.pushState(null, _project.URL_PREFIX + 'login');
+	        router.pushState(null, _project.URL_PREFIX + '/login');
 	      }
 	    }, { scope: ['user_photos', 'email', 'publish_actions'] });
 	  };
@@ -22103,7 +22082,31 @@
 	exports.handleLogout = handleLogout;
 
 /***/ },
-/* 186 */
+/* 187 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	      value: true
+	});
+	var PV_APP_ID = exports.PV_APP_ID = 'd00a43278fd91ca2f3e39d70a984b94c6e7fb502eb6421abe28a0d5ae862a6e4';
+	var PV_DEVICE_ID = exports.PV_DEVICE_ID = 'com.facebook.apps.picovico.genie';
+
+	var PRESETS = exports.PRESETS = {
+	      'style': 'vanilla',
+	      'quality': '360',
+	      'music': "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3"
+	};
+
+	var QUALITY = exports.QUALITY = 360;
+	var STYLE = exports.STYLE = "vanilla";
+	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
+
+	var URL_PREFIX = exports.URL_PREFIX = "/popcorn";
+
+/***/ },
+/* 188 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22136,7 +22139,7 @@
 	var FE_FB_VIDEO_SHARING_COMPLETE = exports.FE_FB_VIDEO_SHARING_COMPLETE = "FE_FB_VIDEO_SHARING_COMPLETE";
 
 /***/ },
-/* 187 */
+/* 189 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22151,7 +22154,25 @@
 	var CREATING_VIDEO_MESSAGE = exports.CREATING_VIDEO_MESSAGE = "Your video is being created. You will be redirected to video page after video is created";
 
 /***/ },
-/* 188 */
+/* 190 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var PICOVICO_API_ENDPOINT = exports.PICOVICO_API_ENDPOINT = "https://api.picovico.com/v2.1/";
+
+	var LOGIN_EXTERNAL = exports.LOGIN_EXTERNAL = "login/external";
+	var BEGIN_PROJECT = exports.BEGIN_PROJECT = "me/videos";
+	var ADD_PHOTO = exports.ADD_PHOTO = "me/photos";
+	var ADD_MUSIC = exports.ADD_MUSIC = "me/musics";
+	var GET_VIDEOS = exports.GET_VIDEOS = "me/videos";
+	var CREATE_VIDEO = exports.CREATE_VIDEO = "me/videos/{video_id}/render";
+
+/***/ },
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22161,17 +22182,17 @@
 	});
 	exports.default = picovicoApi;
 
-	__webpack_require__(189);
+	__webpack_require__(192);
 
-	var _isomorphicFetch = __webpack_require__(190);
+	var _isomorphicFetch = __webpack_require__(193);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _urls = __webpack_require__(192);
+	var _urls = __webpack_require__(190);
 
 	var urls = _interopRequireWildcard(_urls);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -22214,25 +22235,25 @@
 	}
 
 /***/ },
-/* 189 */
+/* 192 */
 /***/ function(module, exports) {
 
 	module.exports = FormData;
 
 /***/ },
-/* 190 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(191);
+	__webpack_require__(194);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 191 */
+/* 194 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -22627,56 +22648,6 @@
 
 
 /***/ },
-/* 192 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var PICOVICO_API_ENDPOINT = exports.PICOVICO_API_ENDPOINT = "https://api.picovico.com/v2.1/";
-
-	var LOGIN_EXTERNAL = exports.LOGIN_EXTERNAL = "login/external";
-	var BEGIN_PROJECT = exports.BEGIN_PROJECT = "me/videos";
-	var ADD_PHOTO = exports.ADD_PHOTO = "me/photos";
-	var ADD_MUSIC = exports.ADD_MUSIC = "me/musics";
-	var GET_VIDEOS = exports.GET_VIDEOS = "me/videos";
-	var CREATE_VIDEO = exports.CREATE_VIDEO = "me/videos/{video_id}/render";
-
-/***/ },
-/* 193 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var APP_ID = exports.APP_ID = '1003470959709853';
-
-/***/ },
-/* 194 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	      value: true
-	});
-	var PRESETS = exports.PRESETS = {
-	      'style': 'vanilla',
-	      'quality': '360',
-	      'music': "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3"
-	};
-
-	var QUALITY = exports.QUALITY = 360;
-	var STYLE = exports.STYLE = "vanilla";
-	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
-
-	var URL_PREFIX = exports.URL_PREFIX = "/popcorn/";
-
-/***/ },
 /* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22703,7 +22674,7 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reducers = __webpack_require__(266);
+	var _reducers = __webpack_require__(267);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -28006,15 +27977,15 @@
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _VideoListView = __webpack_require__(260);
+	var _VideoListView = __webpack_require__(261);
 
 	var _VideoListView2 = _interopRequireDefault(_VideoListView);
 
-	var _VideoCreateView = __webpack_require__(263);
+	var _VideoCreateView = __webpack_require__(264);
 
 	var _VideoCreateView2 = _interopRequireDefault(_VideoCreateView);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28061,9 +28032,13 @@
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
+
+	var _reactHttpsRedirect = __webpack_require__(260);
+
+	var _reactHttpsRedirect2 = _interopRequireDefault(_reactHttpsRedirect);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -28090,8 +28065,12 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_Header2.default, null),
-	        this.props.children
+	        _react2.default.createElement(
+	          _reactHttpsRedirect2.default,
+	          null,
+	          _react2.default.createElement(_Header2.default, null),
+	          this.props.children
+	        )
 	      );
 	    }
 	  }]);
@@ -28134,7 +28113,7 @@
 
 	var _reactRouter = __webpack_require__(200);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28183,7 +28162,7 @@
 	              { className: this.state.activeClassKey == "videos" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: _project.URL_PREFIX + "videos", onClick: this.handleClick.bind(this, "videos") },
+	                { to: _project.URL_PREFIX + "/videos", onClick: this.handleClick.bind(this, "videos") },
 	                'My Videos'
 	              )
 	            ),
@@ -28192,7 +28171,7 @@
 	              { className: this.state.activeClassKey == "albums" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: _project.URL_PREFIX + "create", onClick: this.handleClick.bind(this, "albums") },
+	                { to: _project.URL_PREFIX + "/create", onClick: this.handleClick.bind(this, "albums") },
 	                'Select Album'
 	              )
 	            )
@@ -28219,7 +28198,69 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _List = __webpack_require__(261);
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HttpsRedirect = function (_React$Component) {
+	  _inherits(HttpsRedirect, _React$Component);
+
+	  function HttpsRedirect() {
+	    _classCallCheck(this, HttpsRedirect);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(HttpsRedirect).apply(this, arguments));
+	  }
+
+	  _createClass(HttpsRedirect, [{
+	    key: 'isLocalHost',
+	    value: function isLocalHost(hostname) {
+	      return !!(hostname === 'localhost' || hostname === '[::1]' || hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/));
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (window.location.protocol === 'http:' && !this.isLocalHost(window.location.hostname)) {
+	        window.location.protocol = 'https:';
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.props.children
+	      );
+	    }
+	  }]);
+
+	  return HttpsRedirect;
+	}(_react2.default.Component);
+
+	HttpsRedirect.propTypes = {
+	  children: _react2.default.PropTypes.array
+	};
+
+	exports.default = HttpsRedirect;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _List = __webpack_require__(262);
 
 	var _List2 = _interopRequireDefault(_List);
 
@@ -28231,15 +28272,15 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
-	var _reactCookie = __webpack_require__(183);
+	var _reactCookie = __webpack_require__(184);
 
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 
-	var _pagination = __webpack_require__(262);
+	var _pagination = __webpack_require__(263);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -28251,7 +28292,7 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -28286,7 +28327,7 @@
 	      var facebook_helper = new _facebook2.default(history);
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, _project.URL_PREFIX + 'login');
+	          history.pushState(null, _project.URL_PREFIX + '/login');
 	        }
 	      });
 	    }
@@ -28322,11 +28363,12 @@
 	      var share_video;
 	      var video_id = this.state.play_video;
 	      if (this.props.videos.frontend.share_video) {
-	        var video_detail = this.props.videos.user_videos.videos.filter(function (video) {
+	        window.x = this.props.videos.user_videos;
+	        var filtered_video = this.props.videos.user_videos.videos.filter(function (video) {
 	          return video.id == video_id;
-	        }).map(function (url) {
-	          return url.video[360]['url'];
-	        })[0];
+	        });
+	        var available_quality = Object.keys(filtered_video[0].video)[0];
+	        var video_detail = filtered_video[0].video[available_quality]['url'];
 	        share_video = _react2.default.createElement(
 	          'div',
 	          null,
@@ -28357,7 +28399,7 @@
 	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
 	                    _react2.default.createElement(
 	                      'video',
-	                      { width: '800', controls: true },
+	                      { width: '500', controls: true },
 	                      _react2.default.createElement('source', { src: video_detail, type: 'video/mp4' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
@@ -28470,7 +28512,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(VideoList);
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28535,6 +28577,14 @@
 	      return btn_value;
 	    }
 	  }, {
+	    key: 'getInlineStyle',
+	    value: function getInlineStyle(video) {
+	      var inlineStyle = {
+	        backgroundImage: 'url(' + video.thumbnail['360'] + ')'
+	      };
+	      return inlineStyle;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -28551,11 +28601,11 @@
 	            { className: "col-sm-4", key: video.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, video.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
-	              { className: "panel panel-default panel-overlay", key: video.id },
+	              { className: "panel panel-default panel-overlay panel-video", key: video.id },
 	              _react2.default.createElement(
 	                'div',
 	                { className: "panel-body" },
-	                _react2.default.createElement('img', { className: "img-responsive center-block", src: video.thumbnail['360'] }),
+	                _react2.default.createElement('div', { className: "panel-bg", style: _this2.getInlineStyle(video) }),
 	                _this2.state.isMouseInsideID === video.id ? _this2.getBtn(video.id) : null
 	              ),
 	              _react2.default.createElement(
@@ -28621,7 +28671,7 @@
 	exports.default = List;
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28703,7 +28753,7 @@
 	exports.default = Pagination;
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28722,19 +28772,19 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
-	var _Create = __webpack_require__(264);
+	var _Create = __webpack_require__(265);
 
 	var _Create2 = _interopRequireDefault(_Create);
 
-	var _album_list = __webpack_require__(265);
+	var _album_list = __webpack_require__(266);
 
 	var _album_list2 = _interopRequireDefault(_album_list);
 
-	var _messages = __webpack_require__(187);
+	var _messages = __webpack_require__(189);
 
 	var message = _interopRequireWildcard(_messages);
 
@@ -28746,7 +28796,7 @@
 
 	var _facebook2 = _interopRequireDefault(_facebook);
 
-	var _project = __webpack_require__(194);
+	var _project = __webpack_require__(187);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -28780,7 +28830,7 @@
 	      var facebook_helper = new _facebook2.default(history);
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, _project.URL_PREFIX + 'login');
+	          history.pushState(null, _project.URL_PREFIX + '/login');
 	        }
 	      });
 	    }
@@ -28891,7 +28941,13 @@
 	    value: function share_video_popup() {
 	      var share_video;
 	      if (this.props.albums.frontend.share_video) {
-	        var latest_video = this.props.albums.user_videos.videos[0].video[360]['url'];
+	        var last_video_id = this.props.albums.frontend.last_video_created;
+	        var last_video = this.props.albums.user_videos.videos.filter(function (video) {
+	          return video.id === last_video_id;
+	        })[0];
+	        var available_quality = Object.keys(last_video.video)[0];
+	        var last_video_url = last_video.video[available_quality]['url'];
+
 	        share_video = _react2.default.createElement(
 	          'div',
 	          null,
@@ -28922,8 +28978,8 @@
 	                    { align: "center", className: "embed-responsive embed-responsive-16by9" },
 	                    _react2.default.createElement(
 	                      'video',
-	                      { width: '800', controls: true },
-	                      _react2.default.createElement('source', { src: latest_video, type: 'video/mp4' }),
+	                      { width: '500', controls: true },
+	                      _react2.default.createElement('source', { src: last_video_url, type: 'video/mp4' }),
 	                      'Your browser does not support HTML5 video.'
 	                    )
 	                  ),
@@ -28938,7 +28994,7 @@
 	                  ),
 	                  _react2.default.createElement(
 	                    'button',
-	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, latest_video) },
+	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, last_video_url) },
 	                    'SHARE'
 	                  )
 	                )
@@ -29048,7 +29104,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(VideoCreate);
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29067,7 +29123,7 @@
 
 	var _reactRedux = __webpack_require__(159);
 
-	var _Facebook = __webpack_require__(185);
+	var _Facebook = __webpack_require__(186);
 
 	var Actions = _interopRequireWildcard(_Facebook);
 
@@ -29151,7 +29207,7 @@
 	exports.default = Create;
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29225,6 +29281,13 @@
 	      return btn_value;
 	    }
 	  }, {
+	    key: 'getInlineStyle',
+	    value: function getInlineStyle(album) {
+	      return {
+	        backgroundImage: 'url(' + album.photos.data[0].source + ')'
+	      };
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -29242,11 +29305,11 @@
 	            { className: "col-sm-3", key: album.id, onMouseEnter: _this2.handleMouseEnter.bind(_this2, album.id), onMouseLeave: _this2.handleMouseLeave.bind(_this2) },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'panel panel-default panel-overlay', key: album.id },
+	              { className: 'panel panel-default panel-overlay panel-fb-album', key: album.id },
 	              _react2.default.createElement(
 	                'div',
 	                { className: "panel-body" },
-	                _react2.default.createElement('img', { className: "img-responsive center-block", src: album.photos.data[0].source }),
+	                _react2.default.createElement('div', { className: "panel-bg", style: _this2.getInlineStyle(album) }),
 	                _this2.state.isMouseInsideID === album.id ? _this2.getBtn(album.photos.data.length, album.id) : null
 	              ),
 	              _react2.default.createElement(
@@ -29287,7 +29350,7 @@
 	exports.default = AlbumList;
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29296,7 +29359,7 @@
 	  value: true
 	});
 
-	var _picovico = __webpack_require__(267);
+	var _picovico = __webpack_require__(268);
 
 	var _picovico2 = _interopRequireDefault(_picovico);
 
@@ -29314,7 +29377,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29324,7 +29387,7 @@
 	});
 	exports.default = picovico;
 
-	var _ActionTypes = __webpack_require__(186);
+	var _ActionTypes = __webpack_require__(188);
 
 	var types = _interopRequireWildcard(_ActionTypes);
 
@@ -29383,7 +29446,7 @@
 	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { creating_video: true }) });
 
 	    case types.FE_COMPLETE_CREATING_VIDEO:
-	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { creating_video: false }) });
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { creating_video: false, last_video_created: action.last_video_created }) });
 
 	    case types.FE_SHARE_VIDEO:
 	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { share_video: true }) });
@@ -29421,7 +29484,7 @@
 	}
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
