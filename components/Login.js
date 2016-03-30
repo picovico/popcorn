@@ -5,10 +5,20 @@ import cookie from 'react-cookie'
 
 class Login extends Component{
 
-  componentDidMount(){
-    let facebook_helper = new FacebookHelper();
+  constructor(props){
+    super(props)
+    this.state = {'show_login_button': false}
   }
 
+  componentDidMount(){
+    let self = this
+    let facebook_helper = new FacebookHelper()
+    facebook_helper.getLoginStatus(function(response){
+      self.setState({'show_login_button': true})
+      localStorage.removeItem('picovico')
+    })
+
+  }
   componentWillUnmount(){
     localStorage['picovico'] = JSON.stringify(this.props.login)
   }
@@ -51,6 +61,21 @@ class Login extends Component{
     }
   }
 
+  show_login_button(actions){
+    var show_btn;
+    if (this.state.show_login_button){
+      show_btn = <div className={"col-sm-12 text-center"}>
+                    <a><img className={"img-responsive center-block"} src={"static/img/facebook.png"} style={{marginTop: '50px',}} onClick={() => actions.handleLogin(history)} /></a>
+                </div>
+      return show_btn
+    }else{
+      show_btn = <div className={"col-sm-12 text-center"}>
+                    <span className={"glyphicon glyphicon-refresh glyphicon-refresh-animate"} style={{marginTop: '50px',}}></span>&nbsp;Loading ..
+                  </div>
+      return show_btn
+    }
+  }
+
 	render() {
 	const { login, actions, history } = this.props
     return (
@@ -69,9 +94,7 @@ class Login extends Component{
           <div className={"footer"}>
             <div className={"container-fluid"}>
               <div className={"row"}>
-                <div className={"col-sm-12 text-center"}>
-                    <a><img className={"img-responsive center-block"} src={"static/img/facebook.png"} style={{marginTop: '50px',}} onClick={() => actions.handleLogin(history)} /></a>
-                </div>
+                {this.show_login_button(actions)}
               </div>
             </div>
           </div>

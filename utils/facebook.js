@@ -4,6 +4,7 @@ class FacebookHelper {
 
   initFbScript() {
     if(!this.scriptPromise) {
+
       this.scriptPromise = new Promise((resolve, reject) => {
         window.fbAsyncInit = () => {
           FB.init({
@@ -16,7 +17,6 @@ class FacebookHelper {
 
           resolve();
         };
-        if (typeof(FB) == 'undefined') {
             ((d, s, id) => {
               let js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
@@ -25,14 +25,19 @@ class FacebookHelper {
               js.src = "//connect.facebook.net/en_US/sdk.js";
               fjs.parentNode.insertBefore(js, fjs);
             })(document, 'script', 'facebook-jssdk');
-        }
       })
     }
     return this.scriptPromise;
   }
 
   getLoginStatus(callback) {
-    return this.initFbScript().then(() => FB.getLoginStatus(callback));
+
+    if (typeof(FB) == 'undefined') {
+      return this.initFbScript().then(() => FB.getLoginStatus(callback));
+    }else{
+      return FB.getLoginStatus(callback)
+    }
+
   }
 }
 

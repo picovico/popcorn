@@ -43,7 +43,6 @@ export function fetchUserInfo(router, accessToken){
               return dispatch({type: types.FE_LOGIN_ERROR})
             }
           }).then(function(response){
-            console.log(response)
             return dispatch(loginSuccess(response))
           }).then(function(response){
             return dispatch(userInfo(fb_info_response))

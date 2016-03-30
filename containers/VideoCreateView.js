@@ -19,13 +19,14 @@ class VideoCreate extends Component {
 
 	componentWillMount(){
     const {albums, history} = this.props
-    let facebook_helper = new FacebookHelper(history)
+    let facebook_helper = new FacebookHelper()
     facebook_helper.getLoginStatus(function(response){
       if(response.status != "connected"){
         history.pushState(null, URL_PREFIX+'login')
       }
     })
   }
+
   componentWillUnmount(){
     localStorage['picovico'] = JSON.stringify(this.props.albums)
   }
