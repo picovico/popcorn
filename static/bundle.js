@@ -21204,16 +21204,24 @@
 	var Login = function (_Component) {
 	  _inherits(Login, _Component);
 
-	  function Login() {
+	  function Login(props) {
 	    _classCallCheck(this, Login);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Login).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Login).call(this, props));
+
+	    _this.state = { 'show_login_button': false };
+	    return _this;
 	  }
 
 	  _createClass(Login, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var self = this;
 	      var facebook_helper = new _facebook2.default();
+	      facebook_helper.getLoginStatus(function (response) {
+	        self.setState({ 'show_login_button': true });
+	        localStorage.removeItem('picovico');
+	      });
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -21290,6 +21298,33 @@
 	      }
 	    }
 	  }, {
+	    key: 'show_login_button',
+	    value: function show_login_button(actions) {
+	      var show_btn;
+	      if (this.state.show_login_button) {
+	        show_btn = _react2.default.createElement(
+	          'div',
+	          { className: "col-sm-12 text-center" },
+	          _react2.default.createElement(
+	            'a',
+	            null,
+	            _react2.default.createElement('img', { className: "img-responsive center-block", src: "static/img/facebook.png", style: { marginTop: '50px' }, onClick: function onClick() {
+	                return actions.handleLogin(history);
+	              } })
+	          )
+	        );
+	        return show_btn;
+	      } else {
+	        show_btn = _react2.default.createElement(
+	          'div',
+	          { className: "col-sm-12 text-center" },
+	          _react2.default.createElement('span', { className: "glyphicon glyphicon-refresh glyphicon-refresh-animate", style: { marginTop: '50px' } }),
+	          ' Loading ..'
+	        );
+	        return show_btn;
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _props = this.props;
@@ -21329,17 +21364,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: "row" },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: "col-sm-12 text-center" },
-	                  _react2.default.createElement(
-	                    'a',
-	                    null,
-	                    _react2.default.createElement('img', { className: "img-responsive center-block", src: "static/img/facebook.png", style: { marginTop: '50px' }, onClick: function onClick() {
-	                        return actions.handleLogin(history);
-	                      } })
-	                  )
-	                )
+	                this.show_login_button(actions)
 	              )
 	            )
 	          )
@@ -21385,6 +21410,7 @@
 	    key: 'initFbScript',
 	    value: function initFbScript() {
 	      if (!this.scriptPromise) {
+
 	        this.scriptPromise = new Promise(function (resolve, reject) {
 	          window.fbAsyncInit = function () {
 	            FB.init({
@@ -21397,17 +21423,15 @@
 
 	            resolve();
 	          };
-	          if (typeof FB == 'undefined') {
-	            (function (d, s, id) {
-	              var js = void 0,
-	                  fjs = d.getElementsByTagName(s)[0];
-	              if (d.getElementById(id)) return;
-	              js = d.createElement(s);
-	              js.id = id;
-	              js.src = "//connect.facebook.net/en_US/sdk.js";
-	              fjs.parentNode.insertBefore(js, fjs);
-	            })(document, 'script', 'facebook-jssdk');
-	          }
+	          (function (d, s, id) {
+	            var js = undefined,
+	                fjs = d.getElementsByTagName(s)[0];
+	            if (d.getElementById(id)) return;
+	            js = d.createElement(s);
+	            js.id = id;
+	            js.src = "//connect.facebook.net/en_US/sdk.js";
+	            fjs.parentNode.insertBefore(js, fjs);
+	          })(document, 'script', 'facebook-jssdk');
 	        });
 	      }
 	      return this.scriptPromise;
@@ -21415,9 +21439,14 @@
 	  }, {
 	    key: 'getLoginStatus',
 	    value: function getLoginStatus(callback) {
-	      return this.initFbScript().then(function () {
+
+	      if (typeof FB == 'undefined') {
+	        return this.initFbScript().then(function () {
+	          return FB.getLoginStatus(callback);
+	        });
+	      } else {
 	        return FB.getLoginStatus(callback);
-	      });
+	      }
 	    }
 	  }]);
 
@@ -21794,7 +21823,7 @@
 	      }).then(function (response) {
 	        dispatch(list_video());
 	        dispatch({ type: types.FE_COMPLETE_AUTHENTICATING });
-	        router.pushState(null, _project.URL_PREFIX + '/videos');
+	        router.pushState(null, _project.URL_PREFIX + 'videos');
 	      });
 	    });
 	  };
@@ -22021,7 +22050,7 @@
 
 	    FB.getLoginStatus(function (response) {
 	      if (response.status != "connected") {
-	        history.pushState(null, _project.URL_PREFIX + '/login');
+	        history.pushState(null, _project.URL_PREFIX + 'login');
 	      } else {
 	        var accessToken = response.authResponse.accessToken;
 	        FB.api("/me/videos", "POST", {
@@ -22034,7 +22063,7 @@
 	            /* handle the result */
 	            dispatch({ type: types.FE_FB_VIDEO_SHARING_COMPLETE });
 	            dispatch(complete_share());
-	            history.pushState(null, _project.URL_PREFIX + '/videos');
+	            history.pushState(null, _project.URL_PREFIX + 'videos');
 	          } else {
 	            dispatch(complete_share());
 	            localStorage.removeItem('pv_fb_token');
@@ -22060,9 +22089,9 @@
 	        // localStorage['pv_fb_token'] = JSON.stringify(accessToken)
 	        dispatch(fetchUserInfo(router, accessToken));
 	      } else if (response.status === 'not_authorized') {
-	        router.pushState(null, _project.URL_PREFIX + '/login');
+	        router.pushState(null, _project.URL_PREFIX + 'login');
 	      } else {
-	        router.pushState(null, _project.URL_PREFIX + '/login');
+	        router.pushState(null, _project.URL_PREFIX + 'login');
 	      }
 	    }, { scope: ['user_photos', 'email', 'publish_actions'] });
 	  };
@@ -22103,7 +22132,8 @@
 	var STYLE = exports.STYLE = "vanilla";
 	var MUSIC = exports.MUSIC = "https://s3-us-west-2.amazonaws.com/pv-audio-library/free-music/preview/Christmas/Kevin-MacLeod-Christmas-Rap.mp3";
 
-	var URL_PREFIX = exports.URL_PREFIX = "/popcorn";
+	var URL_PREFIX = exports.URL_PREFIX = "/popcorn/";
+	// export const URL_PREFIX = "/"
 
 /***/ },
 /* 188 */
@@ -28162,7 +28192,7 @@
 	              { className: this.state.activeClassKey == "videos" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: _project.URL_PREFIX + "/videos", onClick: this.handleClick.bind(this, "videos") },
+	                { to: _project.URL_PREFIX + "videos", onClick: this.handleClick.bind(this, "videos") },
 	                'My Videos'
 	              )
 	            ),
@@ -28171,7 +28201,7 @@
 	              { className: this.state.activeClassKey == "albums" ? "active" : "" },
 	              _react2.default.createElement(
 	                _reactRouter.Link,
-	                { to: _project.URL_PREFIX + "/create", onClick: this.handleClick.bind(this, "albums") },
+	                { to: _project.URL_PREFIX + "create", onClick: this.handleClick.bind(this, "albums") },
 	                'Select Album'
 	              )
 	            )
@@ -28317,17 +28347,17 @@
 	  }
 
 	  _createClass(VideoList, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
 	      var _props = this.props;
 	      var videos = _props.videos;
 	      var history = _props.history;
 
 
-	      var facebook_helper = new _facebook2.default(history);
+	      var facebook_helper = new _facebook2.default();
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, _project.URL_PREFIX + '/login');
+	          history.pushState(null, _project.URL_PREFIX + 'login');
 	        }
 	      });
 	    }
@@ -28827,10 +28857,10 @@
 	      var albums = _props.albums;
 	      var history = _props.history;
 
-	      var facebook_helper = new _facebook2.default(history);
+	      var facebook_helper = new _facebook2.default();
 	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
-	          history.pushState(null, _project.URL_PREFIX + '/login');
+	          history.pushState(null, _project.URL_PREFIX + 'login');
 	        }
 	      });
 	    }

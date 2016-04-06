@@ -11,6 +11,7 @@ class List extends Component {
   handleMouseEnter(id){
     this.setState({'isMouseInsideID': id})
   }
+  
   handleMouseLeave(){
     this.setState({'isMouseInsideID': null})
   }
@@ -48,7 +49,7 @@ class List extends Component {
                     {(this.state.isMouseInsideID === video.id) ?  this.getBtn(video.id): null}
                   </div>
                   <div className={"panel-footer"}>
-                    <div className={"album-name"}>{ video.name }</div>
+                    <div className={"album-name"}>{video.name}</div>
                   </div>
                 </div>
               </div>

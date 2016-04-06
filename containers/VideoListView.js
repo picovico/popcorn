@@ -17,13 +17,13 @@ class VideoList extends Component {
     this.state = {'play_video': null}
   }
  
-  componentWillMount(){
+  componentDidMount(){
     const {videos, history} = this.props
-  
-    let facebook_helper = new FacebookHelper(history)
+    
+    let facebook_helper = new FacebookHelper()
     facebook_helper.getLoginStatus(function(response){
       if(response.status != "connected"){
-        history.pushState(null, URL_PREFIX+'/login')
+        history.pushState(null, URL_PREFIX+'login')
       }
     })
   }
