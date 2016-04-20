@@ -7,6 +7,7 @@
     "test": "mocha --compilers js:babel-register --recursive tests/*.js",
     "test:watch": "npm test -- --watch",
     "build": "webpack --progress --profile --colors",
+    "build:watch": "webpack --progress --profile --colors --watch",
     "dev": "webpack-dev-server --progress --profile --colors --hot"
   },
   "keywords": [],

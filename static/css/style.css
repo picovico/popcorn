@@ -6,7 +6,6 @@ body {
 .navbar-default{
     background-color: white;
     margin-left:-15px;
-    margin-right: -15px;
     border-radius: 0;
 }
 
@@ -84,23 +83,35 @@ body {
 .panel-body{
     height: 200px;
     overflow: hidden;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
 }
-.panel-overlay img{
-    position: relative;
-    transition: 0.3s ease;
+.panel-overlay .panel-bg{
+    margin:0;
+    height: 100%;
+    width: 100%;
+    background-size: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition: all .5s ease-in-out;
     cursor: pointer;
 }
-.panel-overlay:hover img{
-    filter: contrast(0.3);
-    -webkit-filter: contrast(0.3);
-    -moz-filter: contrast(0.3);
-    -o-filter: contrast(0.3);
-    -ms-filter: contrast(0.3);
-    transform: scale(1.5, 1.5);
-    margin-top: 5px;
+.panel-overlay:hover .panel-bg{
+    background-size: 150%;
+    -webkit-filter: contrast(0.1);
+    -moz-filter: contrast(0.1);
+    -o-filter: contrast(0.1);
+    -ms-filter: contrast(0.1);
+    margin:-5%;
+    height: 110%;
+    width: 110%;
+    overflow: hidden;
 }
-
+.panel-overlay.panel-fb-album .panel-bg{
+    background-size: 125% !important;
+}
+.panel-overlay.panel-fb-album:hover .panel-bg{
+    background-size: 175% !important;
+}
 .footer{
     background-color: white;
     height: 150px;
@@ -125,7 +136,8 @@ body {
 }
 
 .login{
-    padding-bottom: 20px;
+    margin-top: -20px;
+    padding: 0;
 }
 
 .glyphicon-refresh-animate {
@@ -144,7 +156,7 @@ body {
 }
 
 .modal-content{
-  margin-top: 200px;
+  /*margin-top: 200px;*/
 }
 
 .login-modal{
@@ -160,6 +172,11 @@ body {
     color: #6779ae;
     font-size: 12px;
     font-weight: bold;
+    height: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
 }
 .panel-footer{
     background-color: white;
@@ -170,19 +187,20 @@ body {
 .showbtn{
     position: absolute;
     z-index: 10;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    height: 35px;
-    margin-left: 25%;
+    min-height: 35px;
     display: block;
-    margin-top: 90px;
     color: white;
     font-size: 14px;
     font-weight: bolder;
+    border: 2px solid;
     border-radius: 8px;
     background-color: transparent;
+    border-color: white;
+    top: 50%;
+    left: 50%;
+    margin-left: -25%;
+    margin-top: -45px;
+    width: 50%;
 }
 .showbtn:hover{
     color: #6779ae;
@@ -213,4 +231,17 @@ body {
     /*margin-left: 200px;*/
     text-align: center;
     font-weight: bold;
+}
+.no-video{
+    margin-top: 100px;
+    text-align: center;
+}
+.sharing-video{
+    z-index: 1100;
+    top: 0;
+    margin-top: 100px;
+    padding-top: 10px;
+}
+.sharing-overlay{
+    z-index: 1050;
 }

@@ -7,21 +7,17 @@ import { RouteHandler } from 'react-router'
 import Header from '../components/Header'
 import * as Actions from '../actions/Facebook'
 
+import HttpsRedirect from 'react-https-redirect'
 
 class App extends Component {
 
   render() {
     return (
       <div>
-<<<<<<< Updated upstream
-        <Header />
-        {this.props.children}
-=======
         // <HttpsRedirect>
           <Header />
           {this.props.children}
         // </HttpsRedirect>
->>>>>>> Stashed changes
       </div>
     )
   }
@@ -30,16 +26,15 @@ class App extends Component {
 export default App
 
 function mapStateToProps(state) {
-	return {
-		app: state.picovico
-	}
+  return {
+    app: state.picovico
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  	return {
-		actions: bindActionCreators(Actions, dispatch)
-	}
+    return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
 }
 
 export default connect(mapStateToProps ,mapDispatchToProps)(App)
-
