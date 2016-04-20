@@ -5,6 +5,7 @@ var initialState;
 if(localStorage['picovico']){
   initialState = JSON.parse(localStorage['picovico'])
   initialState['frontend'] = {'authenticating': false}
+  initialState['vdd']['assets'] = []
 }else{
   initialState = {
     isLoggedIn: false,
@@ -50,13 +51,43 @@ export default function picovico(state = initialState, action) {
       return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {creating_video: true})})
 
     case types.FE_COMPLETE_CREATING_VIDEO:
-      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {creating_video: false})})
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {creating_video: false, last_video_created: action.last_video_created})})
 
     case types.FE_SHARE_VIDEO:
       return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {share_video: true})})
 
     case types.FE_COMPLETE_SHARE_VIDEO:
       return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {share_video: false})})
+
+    case types.FE_FB_VIDEO_SHARING:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {start_share_video: true})})
+
+    case types.FE_FB_VIDEO_SHARING_COMPLETE:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {start_share_video: false})})
+
+    case types.FE_PREPARING_CREATE_VIDEO:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {preparing_create_video: true})})
+
+    case types.FE_COMPLETE_PREPARING_CREATE_VIDEO:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {preparing_create_video: false})})
+
+    case types.FE_UPLOAD_PHOTO:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {photo_count: action.photo_count, total_photo: action.total_photo, photo_percentage: action.photo_percentage})})
+
+    case types.FE_START_ADD_PHOTO:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {start_add_photo: true})})
+
+    case types.FE_COMPLETE_ADD_PHOTO:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {start_add_photo: false})})
+
+    case types.FE_FINALIZE_CREATING_VIDEO:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {finalize_create_video: true})})
+
+    case types.FE_FINALIZE_PROGRESS:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {finalize_progress: action.finalize_progress})})
+
+    case types.FE_COMPLETE_FINALIZE_CREATING_VIDEO:
+      return Object.assign({}, state, {frontend: Object.assign({}, state.frontend, {finalize_create_video: false})})
 
 
 

@@ -13,8 +13,15 @@ class App extends Component {
   render() {
     return (
       <div>
+<<<<<<< Updated upstream
         <Header />
         {this.props.children}
+=======
+        // <HttpsRedirect>
+          <Header />
+          {this.props.children}
+        // </HttpsRedirect>
+>>>>>>> Stashed changes
       </div>
     )
   }
