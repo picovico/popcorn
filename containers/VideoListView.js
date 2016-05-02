@@ -19,7 +19,7 @@ class VideoList extends Component {
  
   componentDidMount(){
     const {videos, history} = this.props
-    
+ 
     let facebook_helper = new FacebookHelper()
     facebook_helper.getLoginStatus(function(response){
       if(response.status != "connected" || videos.isLoggedIn != true){

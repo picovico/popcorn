@@ -9,11 +9,11 @@ import { URL_PREFIX } from './constants/project'
 
 const routes =  (
 	<Router history={browserHistory}>
-  		<Route path={URL_PREFIX+"/"} component={App}>
-  		<IndexRoute component={VideoList} />
-  		<Route path={URL_PREFIX+"/login"} component={Login} />
-  		<Route path={URL_PREFIX+"/videos"} component={VideoList} />
-  		<Route path={URL_PREFIX+"/create"} component={VideoCreate} />
+  		<Route path={URL_PREFIX} component={App}>
+  			<IndexRoute component={VideoList} />
+  			<Route path="login" component={Login} />
+  			<Route path="videos" component={VideoList} />
+  			<Route path="create" component={VideoCreate} />
   		</Route>
   </Router>
 )
