@@ -21424,7 +21424,7 @@
 	            resolve();
 	          };
 	          (function (d, s, id) {
-	            var js = undefined,
+	            var js = void 0,
 	                fjs = d.getElementsByTagName(s)[0];
 	            if (d.getElementById(id)) return;
 	            js = d.createElement(s);
@@ -28129,13 +28129,11 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        '// ',
 	        _react2.default.createElement(
 	          _reactHttpsRedirect2.default,
 	          null,
 	          _react2.default.createElement(_Header2.default, null),
-	          this.props.children,
-	          '// '
+	          this.props.children
 	        )
 	      );
 	    }
