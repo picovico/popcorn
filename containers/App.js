@@ -14,10 +14,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        // <HttpsRedirect>
+        <HttpsRedirect>
           <Header />
           {this.props.children}
-        // </HttpsRedirect>
+        </HttpsRedirect>
       </div>
     )
   }

@@ -1,3 +1,4 @@
+import { push } from 'redux-router';
 import { PV_APP_ID }    from '../constants/project'
 import { PV_DEVICE_ID } from '../constants/project'
 import { APP_ID }       from '../constants/social_config'
@@ -49,7 +50,9 @@ export function fetchUserInfo(router, accessToken){
           }).then(function(response){
             dispatch(list_video())
             dispatch({type: types.FE_COMPLETE_AUTHENTICATING})
-            router.pushState(null, URL_PREFIX+'videos')
+            console.log("router")
+            console.log(router)
+            dispatch(push(URL_PREFIX+'videos'))
           })
     })
   }
