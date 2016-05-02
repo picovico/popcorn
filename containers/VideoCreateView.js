@@ -21,7 +21,7 @@ class VideoCreate extends Component {
     const {albums, history} = this.props
     let facebook_helper = new FacebookHelper()
     facebook_helper.getLoginStatus(function(response){
-      if(response.status != "connected"){
+      if(response.status != "connected" || albums.isLoggedIn != true){
         history.pushState(null, URL_PREFIX+'login')
       }
     })
@@ -53,6 +53,54 @@ class VideoCreate extends Component {
   		}
   	}
 
+    display_popup_content(){
+      if(this.props.albums.frontend.preparing_create_video){
+        var popup_content = <div className={"modal-body"}>
+                                  <h3>Preparing</h3>
+                                  <div className={"progress"}>
+                                    <div className={"progress-bar progress-bar-striped active"} role={"progressbar"} style={{width: '15%'}}>
+                                    </div>
+                                  </div>
+                                </div>
+        return popup_content
+      }
+
+      if(this.props.albums.frontend.start_add_photo){
+        var photo_percentage = this.props.albums.frontend.photo_percentage
+        if(photo_percentage){
+          var upload_data = ((photo_percentage / 2) + 15).toFixed()
+          var upload_percentage = upload_data.toString() + '%'
+        }else{
+          var upload_percentage = '16%'
+        }
+
+        var popup_content = <div className={"modal-body"}>
+                                  <h3>Fetching photos..</h3>
+                                  <div className={"progress"}>
+                                    <div className={"progress-bar progress-bar-striped active"} role={"progressbar"} style={{width: upload_percentage}}></div>
+                                  </div>
+                                  <p>Uploading {this.props.albums.frontend.photo_count} of {this.props.albums.frontend.total_photo}</p>
+                               </div>
+        return popup_content
+      }
+      if(this.props.albums.frontend.finalize_create_video){
+        if(this.props.albums.frontend.finalize_progress){
+          var finalize_progress = this.props.albums.frontend.finalize_progress.toString() + '%'
+        }else{
+          var finalize_progress = '65%'
+        }
+
+        var popup_content = <div className={"modal-body"}>
+                                  <h3>Creating Your Video</h3>
+                                  <div className={"progress"}>
+                                    <div className={"progress-bar progress-bar-striped active"} role={"progressbar"} style={{width: finalize_progress}}>
+                                    </div>
+                                  </div>
+                                </div>
+        return popup_content
+      }
+    }
+
     creating_video_message(){
       var creating_video;
       if(this.props.albums.frontend.creating_video){
@@ -60,12 +108,7 @@ class VideoCreate extends Component {
                           <div className={"modal show"} data-backdrop={"static"} data-keyboard={"false"}>
                             <div className={"modal-dialog"}>
                               <div className={"modal-content"}>
-                                <div className={"modal-body"}>
-                                  <h3>Processing</h3>
-                                  <div className={"progress"}>
-                                    <div className={"progress-bar progress-bar-striped active"} role={"progressbar"} style={{width: '100%'}}></div>
-                                  </div>
-                                </div>
+                               {this.display_popup_content()}
                               </div>
                             </div>
                           </div>
@@ -110,7 +153,7 @@ class VideoCreate extends Component {
                                   <div className={"share-msg"}>
                                   <h4>Like the video? Share it with your friends!</h4>
                                   </div>
-                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, last_video_url)}>SHARE</button>
+                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, last_video_url)}>SHARE ON FACEBOOK</button>
                                 </div>
                               </div>
                             </div>

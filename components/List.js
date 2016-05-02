@@ -37,8 +37,8 @@ class List extends Component {
 
   render() {
 
-  	const {videos} = this.props
-  	var video_list;
+    const {videos} = this.props
+    var video_list;
     if(videos.user_videos && videos.user_videos.videos.length > 0){
       video_list = videos.user_videos.videos.filter(video => video.video).map((video =>{
         return <div className={"col-sm-4"} key={video.id} onMouseEnter={this.handleMouseEnter.bind(this, video.id)} onMouseLeave={this.handleMouseLeave.bind(this)}>

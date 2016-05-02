@@ -37,12 +37,12 @@ class AlbumList extends Component {
   }
 
   render() {
-  	var album_list;
-  	const {albums} = this.props
-  	if(albums.user_info){
+    var album_list;
+    const {albums} = this.props
+    if(albums.user_info){
 
-  		album_list = albums.user_info.albums.data.filter(album => album.photos).map((album => {
-        				return  <div className={"col-sm-3"} key={album.id} onMouseEnter={this.handleMouseEnter.bind(this, album.id)} onMouseLeave={this.handleMouseLeave.bind(this)}>
+      album_list = albums.user_info.albums.data.filter(album => album.photos).map((album => {
+                return  <div className={"col-sm-3"} key={album.id} onMouseEnter={this.handleMouseEnter.bind(this, album.id)} onMouseLeave={this.handleMouseLeave.bind(this)}>
                           <div className={'panel panel-default panel-overlay panel-fb-album'} key={album.id} >
                             <div className={"panel-body"}>
                               <div className={"panel-bg"} style={this.getInlineStyle(album)}>
@@ -53,11 +53,11 @@ class AlbumList extends Component {
                               <div className={"album-name"}>{album.name}</div>
                               <div className={"photo-count"}>{album.photos.data.length} photo(s)</div>
                             </div>
-        				          </div>
+                          </div>
                         </div>
-        			     }))
-  	             }
-  	
+                   }))
+                 }
+    
     return (
       <div className={"container"}>
         <div className="row">

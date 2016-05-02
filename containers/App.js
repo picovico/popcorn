@@ -26,16 +26,15 @@ class App extends Component {
 export default App
 
 function mapStateToProps(state) {
-	return {
-		app: state.picovico
-	}
+  return {
+    app: state.picovico
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-  	return {
-		actions: bindActionCreators(Actions, dispatch)
-	}
+    return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
 }
 
 export default connect(mapStateToProps ,mapDispatchToProps)(App)
-

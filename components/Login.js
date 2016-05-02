@@ -76,8 +76,8 @@ class Login extends Component{
     }
   }
 
-	render() {
-	const { login, actions, history } = this.props
+  render() {
+  const { login, actions, history } = this.props
     return (
       <div>
         <div className={"container-fluid"}>

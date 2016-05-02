@@ -21895,6 +21895,7 @@
 	    var pv_headers = getState().picovico.headers;
 	    var start_time = 0;
 	    var end_time = 5;
+	    var photo_count = 0;
 
 	    var allPromises = new Array(limited_photo_data.length);
 
@@ -21914,6 +21915,12 @@
 	        };
 	        start_time += 5;
 	        end_time += 5;
+	        photo_count += 1;
+
+	        var total_photo = limited_photo_data.length;
+	        var photo_percentage = (photo_count / total_photo * 100).toFixed();
+	        dispatch({ photo_count: photo_count, total_photo: total_photo, photo_percentage: photo_percentage, type: types.FE_UPLOAD_PHOTO });
+
 	        return dispatch({ photo_asset_data: photo_asset_data, type: types.ADD_PHOTO });
 	      });
 	    }
@@ -21972,6 +21979,7 @@
 	    return setTimeout(resolve, ms);
 	  });
 	};
+	var finalize_progress = 65;
 
 	function check_rendered_video() {
 	  return function (dispatch, getState) {
@@ -21980,14 +21988,26 @@
 	      if (response.status == 7102) {
 	        return dispatch(list_video()).then(function (response) {
 	          dispatch(reset_vdd());
-	          dispatch({ last_video_created: last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO });
-	          dispatch({ type: types.FE_SHARE_VIDEO });
+	          var finalize_progress = 100;
+	          dispatch({ finalize_progress: finalize_progress, type: types.FE_FINALIZE_PROGRESS });
+	          setTimeout(function () {
+	            dispatch({ type: types.FE_COMPLETE_FINALIZE_CREATING_VIDEO });
+	            dispatch({ last_video_created: last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO });
+	            dispatch({ type: types.FE_SHARE_VIDEO });
+	          }, 1500);
+	          // dispatch({type: types.FE_COMPLETE_FINALIZE_CREATING_VIDEO})
+	          // dispatch({last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO})
+	          // dispatch({type: types.FE_SHARE_VIDEO})
 	        });
 	      } else {
-	        wait(7000).then(function () {
-	          return dispatch(check_rendered_video());
-	        });
-	      }
+	          if (finalize_progress < 92) {
+	            finalize_progress += 7;
+	            dispatch({ finalize_progress: finalize_progress, type: types.FE_FINALIZE_PROGRESS });
+	          }
+	          wait(7000).then(function () {
+	            return dispatch(check_rendered_video());
+	          });
+	        }
 	    });
 	  };
 	}
@@ -22016,10 +22036,16 @@
 	      });
 	      var project_data = { 'name': album[0].name, 'quality': presets.PRESETS['quality'] };
 	      dispatch({ type: types.FE_CREATING_VIDEO });
+	      dispatch({ type: types.FE_PREPARING_CREATE_VIDEO });
 	      return dispatch(begin_project(project_data)).then(function (response) {
+
+	        dispatch({ type: types.FE_COMPLETE_PREPARING_CREATE_VIDEO });
+	        dispatch({ type: types.FE_START_ADD_PHOTO });
 	        return dispatch(add_photos(photo_data));
 	      }).then(function (response) {
 
+	        dispatch({ type: types.FE_COMPLETE_ADD_PHOTO });
+	        dispatch({ type: types.FE_FINALIZE_CREATING_VIDEO });
 	        return dispatch(set_music());
 	      }).then(function (response) {
 
@@ -22167,6 +22193,14 @@
 	var FE_COMPLETE_SHARE_VIDEO = exports.FE_COMPLETE_SHARE_VIDEO = "FE_COMPLETE_SHARE_VIDEO";
 	var FE_FB_VIDEO_SHARING = exports.FE_FB_VIDEO_SHARING = "FE_FB_VIDEO_SHARING";
 	var FE_FB_VIDEO_SHARING_COMPLETE = exports.FE_FB_VIDEO_SHARING_COMPLETE = "FE_FB_VIDEO_SHARING_COMPLETE";
+	var FE_UPLOAD_PHOTO = exports.FE_UPLOAD_PHOTO = "FE_UPLOAD_PHOTO";
+	var FE_PREPARING_CREATE_VIDEO = exports.FE_PREPARING_CREATE_VIDEO = "FE_PREPARING_CREATE_VIDEO";
+	var FE_COMPLETE_PREPARING_CREATE_VIDEO = exports.FE_COMPLETE_PREPARING_CREATE_VIDEO = "FE_COMPLETE_PREPARING_CREATE_VIDEO";
+	var FE_START_ADD_PHOTO = exports.FE_START_ADD_PHOTO = "FE_START_ADD_PHOTO";
+	var FE_COMPLETE_ADD_PHOTO = exports.FE_COMPLETE_ADD_PHOTO = "FE_COMPLETE_ADD_PHOTO";
+	var FE_FINALIZE_CREATING_VIDEO = exports.FE_FINALIZE_CREATING_VIDEO = "FE_FINALIZE_CREATING_VIDEO";
+	var FE_FINALIZE_PROGRESS = exports.FE_FINALIZE_PROGRESS = "FE_FINALIZE_PROGRESS";
+	var FE_COMPLETE_FINALIZE_CREATING_VIDEO = exports.FE_COMPLETE_FINALIZE_CREATING_VIDEO = "FE_COMPLETE_FINALIZE_CREATING_VIDEO";
 
 /***/ },
 /* 189 */
@@ -28356,6 +28390,113 @@
 
 	      var facebook_helper = new _facebook2.default();
 	      facebook_helper.getLoginStatus(function (response) {
+	        if (response.status != "connected" || videos.isLoggedIn != true) {
+	          history.pushState(null, _project.URL_PREFIX + 'login');
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (window.location.protocol === 'http:' && !this.isLocalHost(window.location.hostname)) {
+	        window.location.protocol = 'https:';
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.props.children
+	      );
+	    }
+	  }]);
+
+	  return HttpsRedirect;
+	}(_react2.default.Component);
+
+	HttpsRedirect.propTypes = {
+	  children: _react2.default.PropTypes.array
+	};
+
+	exports.default = HttpsRedirect;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _List = __webpack_require__(262);
+
+	var _List2 = _interopRequireDefault(_List);
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _redux = __webpack_require__(165);
+
+	var _reactRedux = __webpack_require__(159);
+
+	var _Facebook = __webpack_require__(186);
+
+	var Actions = _interopRequireWildcard(_Facebook);
+
+	var _reactCookie = __webpack_require__(184);
+
+	var _reactCookie2 = _interopRequireDefault(_reactCookie);
+
+	var _pagination = __webpack_require__(263);
+
+	var _pagination2 = _interopRequireDefault(_pagination);
+
+	var _Login = __webpack_require__(181);
+
+	var _Login2 = _interopRequireDefault(_Login);
+
+	var _facebook = __webpack_require__(182);
+
+	var _facebook2 = _interopRequireDefault(_facebook);
+
+	var _project = __webpack_require__(187);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var VideoList = function (_Component) {
+	  _inherits(VideoList, _Component);
+
+	  function VideoList(props) {
+	    _classCallCheck(this, VideoList);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VideoList).call(this, props));
+
+	    _this.state = { 'play_video': null };
+	    return _this;
+	  }
+
+	  _createClass(VideoList, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _props = this.props;
+	      var videos = _props.videos;
+	      var history = _props.history;
+
+
+	      var facebook_helper = new _facebook2.default();
+	      facebook_helper.getLoginStatus(function (response) {
 	        if (response.status != "connected") {
 	          history.pushState(null, _project.URL_PREFIX + 'login');
 	        }
@@ -28446,7 +28587,7 @@
 	                  _react2.default.createElement(
 	                    'button',
 	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, video_detail) },
-	                    'SHARE'
+	                    'SHARE ON FACEBOOK'
 	                  )
 	                )
 	              )
@@ -28859,7 +29000,7 @@
 
 	      var facebook_helper = new _facebook2.default();
 	      facebook_helper.getLoginStatus(function (response) {
-	        if (response.status != "connected") {
+	        if (response.status != "connected" || albums.isLoggedIn != true) {
 	          history.pushState(null, _project.URL_PREFIX + 'login');
 	        }
 	      });
@@ -28911,6 +29052,84 @@
 	      }
 	    }
 	  }, {
+	    key: 'display_popup_content',
+	    value: function display_popup_content() {
+	      if (this.props.albums.frontend.preparing_create_video) {
+	        var popup_content = _react2.default.createElement(
+	          'div',
+	          { className: "modal-body" },
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            'Preparing'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: "progress" },
+	            _react2.default.createElement('div', { className: "progress-bar progress-bar-striped active", role: "progressbar", style: { width: '15%' } })
+	          )
+	        );
+	        return popup_content;
+	      }
+
+	      if (this.props.albums.frontend.start_add_photo) {
+	        var photo_percentage = this.props.albums.frontend.photo_percentage;
+	        if (photo_percentage) {
+	          var upload_data = (photo_percentage / 2 + 15).toFixed();
+	          var upload_percentage = upload_data.toString() + '%';
+	        } else {
+	          var upload_percentage = '16%';
+	        }
+
+	        var popup_content = _react2.default.createElement(
+	          'div',
+	          { className: "modal-body" },
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            'Fetching photos..'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: "progress" },
+	            _react2.default.createElement('div', { className: "progress-bar progress-bar-striped active", role: "progressbar", style: { width: upload_percentage } })
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Uploading ',
+	            this.props.albums.frontend.photo_count,
+	            ' of ',
+	            this.props.albums.frontend.total_photo
+	          )
+	        );
+	        return popup_content;
+	      }
+	      if (this.props.albums.frontend.finalize_create_video) {
+	        if (this.props.albums.frontend.finalize_progress) {
+	          var finalize_progress = this.props.albums.frontend.finalize_progress.toString() + '%';
+	        } else {
+	          var finalize_progress = '65%';
+	        }
+
+	        var popup_content = _react2.default.createElement(
+	          'div',
+	          { className: "modal-body" },
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            'Creating Your Video'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: "progress" },
+	            _react2.default.createElement('div', { className: "progress-bar progress-bar-striped active", role: "progressbar", style: { width: finalize_progress } })
+	          )
+	        );
+	        return popup_content;
+	      }
+	    }
+	  }, {
 	    key: 'creating_video_message',
 	    value: function creating_video_message() {
 	      var creating_video;
@@ -28927,20 +29146,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: "modal-content" },
-	                _react2.default.createElement(
-	                  'div',
-	                  { className: "modal-body" },
-	                  _react2.default.createElement(
-	                    'h3',
-	                    null,
-	                    'Processing'
-	                  ),
-	                  _react2.default.createElement(
-	                    'div',
-	                    { className: "progress" },
-	                    _react2.default.createElement('div', { className: "progress-bar progress-bar-striped active", role: "progressbar", style: { width: '100%' } })
-	                  )
-	                )
+	                this.display_popup_content()
 	              )
 	            )
 	          ),
@@ -29025,7 +29231,7 @@
 	                  _react2.default.createElement(
 	                    'button',
 	                    { type: "button", className: "btn btn-danger share-btn center-block", onClick: this.handleShare.bind(this, last_video_url) },
-	                    'SHARE'
+	                    'SHARE ON FACEBOOK'
 	                  )
 	                )
 	              )
@@ -29489,6 +29695,30 @@
 
 	    case types.FE_FB_VIDEO_SHARING_COMPLETE:
 	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { start_share_video: false }) });
+
+	    case types.FE_PREPARING_CREATE_VIDEO:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { preparing_create_video: true }) });
+
+	    case types.FE_COMPLETE_PREPARING_CREATE_VIDEO:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { preparing_create_video: false }) });
+
+	    case types.FE_UPLOAD_PHOTO:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { photo_count: action.photo_count, total_photo: action.total_photo, photo_percentage: action.photo_percentage }) });
+
+	    case types.FE_START_ADD_PHOTO:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { start_add_photo: true }) });
+
+	    case types.FE_COMPLETE_ADD_PHOTO:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { start_add_photo: false }) });
+
+	    case types.FE_FINALIZE_CREATING_VIDEO:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { finalize_create_video: true }) });
+
+	    case types.FE_FINALIZE_PROGRESS:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { finalize_progress: action.finalize_progress }) });
+
+	    case types.FE_COMPLETE_FINALIZE_CREATING_VIDEO:
+	      return Object.assign({}, state, { frontend: Object.assign({}, state.frontend, { finalize_create_video: false }) });
 
 	    case types.USER_INFO:
 	      return Object.assign({}, state, { user_info: action.response });

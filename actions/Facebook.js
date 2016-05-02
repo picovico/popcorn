@@ -128,6 +128,7 @@ export function add_photos(data){
     var pv_headers = getState().picovico.headers
     var start_time = 0
     var end_time = 5
+    var photo_count = 0
 
     var allPromises = new Array(limited_photo_data.length)
 
@@ -148,6 +149,12 @@ export function add_photos(data){
         }
         start_time += 5
         end_time += 5
+        photo_count += 1
+
+        var total_photo = limited_photo_data.length
+        var photo_percentage = ((photo_count / total_photo) * 100).toFixed()
+        dispatch({photo_count, total_photo, photo_percentage, type: types.FE_UPLOAD_PHOTO})
+
         return dispatch({photo_asset_data, type: types.ADD_PHOTO})
       })
     }
@@ -206,6 +213,7 @@ export function get_rendered_video(){
 }
 
 var wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+var finalize_progress = 65
 
 export function check_rendered_video(){
   return (dispatch, getState) => {
@@ -214,10 +222,22 @@ export function check_rendered_video(){
       if(response.status == 7102){
         return dispatch(list_video()).then(response => {
           dispatch(reset_vdd())
-          dispatch({last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO})
-          dispatch({type: types.FE_SHARE_VIDEO})
+          var finalize_progress = 100
+          dispatch({finalize_progress, type: types.FE_FINALIZE_PROGRESS})
+          setTimeout(function(){ 
+            dispatch({type: types.FE_COMPLETE_FINALIZE_CREATING_VIDEO})
+            dispatch({last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO})
+            dispatch({type: types.FE_SHARE_VIDEO})
+          }, 1500);
+          // dispatch({type: types.FE_COMPLETE_FINALIZE_CREATING_VIDEO})
+          // dispatch({last_video_created, type: types.FE_COMPLETE_CREATING_VIDEO})
+          // dispatch({type: types.FE_SHARE_VIDEO})
         })
       }else{
+        if(finalize_progress < 92){
+          finalize_progress += 7
+          dispatch({finalize_progress, type: types.FE_FINALIZE_PROGRESS})
+        }
         wait(7000).then(() => dispatch(check_rendered_video()))
       }
     })
@@ -242,11 +262,17 @@ export function create_video(id, router){
         var photo_data = album[0].photos.data.filter(photo => photo.source).map(album => album.source)
         var project_data = {'name': album[0].name, 'quality': presets.PRESETS['quality'] }
         dispatch({type: types.FE_CREATING_VIDEO})
+        dispatch({type: types.FE_PREPARING_CREATE_VIDEO})
         return dispatch(begin_project(project_data)
           ).then(function(response){
+
+            dispatch({type: types.FE_COMPLETE_PREPARING_CREATE_VIDEO})
+            dispatch({type: types.FE_START_ADD_PHOTO})
             return dispatch(add_photos(photo_data))
           }).then(function(response){
 
+            dispatch({type: types.FE_COMPLETE_ADD_PHOTO})
+            dispatch({type: types.FE_FINALIZE_CREATING_VIDEO})
             return dispatch(set_music())
           }).then(function(response){
           

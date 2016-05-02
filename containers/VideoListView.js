@@ -22,7 +22,7 @@ class VideoList extends Component {
     
     let facebook_helper = new FacebookHelper()
     facebook_helper.getLoginStatus(function(response){
-      if(response.status != "connected"){
+      if(response.status != "connected" || videos.isLoggedIn != true){
         history.pushState(null, URL_PREFIX+'login')
       }
     })
@@ -71,7 +71,7 @@ class VideoList extends Component {
                                   <div className={"share-msg"}>
                                   <h4>Like the video? Share it with your friends!</h4>
                                   </div>
-                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, video_detail)}>SHARE</button>
+                                  <button type={"button"} className={"btn btn-danger share-btn center-block"} onClick={this.handleShare.bind(this, video_detail)}>SHARE ON FACEBOOK</button>
                                 </div>
                               </div>
                             </div>
